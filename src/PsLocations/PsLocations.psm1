@@ -580,10 +580,6 @@ function Edit-Description {
 }
 
 function Show-Locations {
-    # param (
-    #     [switch]$showMachineNames
-    # )
-
     if (-not (Test-LocationsSystemOk)) {
         return
     }
@@ -616,7 +612,7 @@ function Show-Locations {
                 Write-Host " - $name" -NoNewline -ForegroundColor Cyan
                 Write-Host " - $description" -NoNewline -ForegroundColor Green
                 Write-Host " - $path" -NoNewline -ForegroundColor Cyan
-                Write-Host " - $machineNames" -ForegroundColor Cyan
+                Write-Host " - $machineNames" -ForegroundColor Yellow
             }    
         }
         
