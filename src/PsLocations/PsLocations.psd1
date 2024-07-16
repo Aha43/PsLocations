@@ -70,18 +70,6 @@ Copyright = '(c) arnehalvorsen. All rights reserved.'
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
-    'Add-Location', 
-    'Mount-Location', 
-    'Update-LocationPath', 
-    'Add-LocationNote', 
-    'Show-Notes',
-    'Rename-Location',
-    'Edit-Description',
-    'Show-Locations',
-    'Repair-Locations',
-    'Remove-Location',
-    'Remove-ThisLocation',
-    'Get-LocationWhereIAm',
     'Loc'
 )
 

@@ -634,7 +634,6 @@ function Repair-Locations {
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
         $path = Get-Content -Path $pathFile
         if (-not (Test-Path -Path $path)) {
-            #Remove-Item -Path $_.FullName -Recurse
             Remove-Location -name $_.Name
         }
     }
@@ -691,7 +690,6 @@ function Remove-ThisLocation {
 }
 
 function Get-LocationWhereIAm {
-
     if (-not (Test-LocationsSystemOk)) {
         return
     }
