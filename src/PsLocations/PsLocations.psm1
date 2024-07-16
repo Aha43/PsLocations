@@ -5,6 +5,8 @@
 
 # Utility functions
 
+$Debug = $true
+
 function Get-MachineName {
     return $env:COMPUTERNAME
 }
@@ -56,47 +58,12 @@ function Get-GitBranch {
     return ""
 }
 
-function Show-LocationStatus {
-    $errors = @()
-    $warnings = @()
-
-    if (-not $computerName) {
-        $errors += "Computer name not available"
-    }
-    else {
-        Write-Host "On computer: $computerName" -ForegroundColor Cyan
-    }
-
-    $branch = Get-GitBranch
-    if (-not $branch) {
-        $warnings += "Not tracked by git"
-    }
-    else {
-        Write-Host "Tracked by git" -ForegroundColor Cyan
-    }
-
-    # write warnings
-    if ($warnings.Length -gt 0) {
-        Write-Host "Warnings:" -ForegroundColor Yellow
-        $warnings | ForEach-Object {
-            Write-Host $_ -ForegroundColor Yellow
-        }
-    }
-
-    # write errors
-    if ($errors.Length -gt 0) {
-        Write-Host "Errors:" -ForegroundColor Red
-        $errors | ForEach-Object {
-            Write-Host $_ -ForegroundColor Red
-        }
-    }
-}
-
 function Get-LocationsDirectory {
     $retVal = Join-Path -Path $HOME -ChildPath ".locations"
     if (-not (Test-Path -Path $retVal)) {
-        New-Item -Path $retVal -ItemType Directory
+        [void](New-Item -Path $retVal -ItemType Directory)
     }
+
     return $retVal
 }
 
@@ -139,7 +106,23 @@ function Get-LocationDirectoryGivenNameOrPos {
         }
         return $null
     }
-}    
+}
+
+function Get-MachineNamesForLocation {
+    param (
+        [string]$name
+    )
+
+    $locationsDir = Get-LocationsDirectory
+    $locationDir = Join-Path -Path $locationsDir -ChildPath $name
+    $machineNames = @()
+    if (Test-Path -Path $locationDir) {
+        $machineNames = Get-ChildItem -Path $locationDir -Directory | ForEach-Object {
+            $_.Name
+        }
+    }
+    return $machineNames
+}
 
 function Test-ValidLocationName {
     param (
@@ -313,6 +296,13 @@ function Get-LocWhereHelp {
     Write-Host
 }
 
+function Get-StatusHelp {
+    Write-Host
+    Write-Host "Usage: loc status" -ForegroundColor Green
+    Write-Host "Show the status of the location system" -ForegroundColor Green
+    Write-Host
+}
+
 function Get-LocCliActions {
     $commands = @(
         "add",
@@ -326,7 +316,8 @@ function Get-LocCliActions {
         "remove-this",
         "repair",
         "goto",
-        "where"
+        "where",
+        "status"
     )
     return $commands
 }
@@ -345,6 +336,14 @@ function Get-LocCliHelp {
 
 # Exported functions
 
+function Get-Status {
+    if (-not (Test-LocationsSystemOk)) {
+        return
+    }
+    $computerName = Get-MachineName
+    Write-Host "On computer: $computerName" -ForegroundColor Cyan
+}
+
 function Add-Location {
     param(
         [string]$name,
@@ -360,24 +359,32 @@ function Add-Location {
         return
     }
 
-    $path = (get-location).Path 
     $locationDir = Get-LocationDirectory -name $name
     if (-not (Test-Path -Path $locationDir)) {
         [void](New-Item -Path $locationDir -ItemType Directory)
-
+    
         $machineName = Get-MachineName
         $pathDirectory = Join-Path -Path $locationDir -ChildPath $machineName
-        if (-not (Test-Path -Path $pathDirectory)) {
-            [void](New-Item -Path $pathDirectory -ItemType Directory)
+        
+        if ($Debug) {
+            Write-Host "Creates path directory '$pathDirectory'" -ForegroundColor Yellow
         }
+
+        [void](New-Item -Path $pathDirectory -ItemType Directory)
+
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
-        $path | Out-File -FilePath $pathFile
+        $location = (Get-Location).Path
+        $location | Out-File -FilePath $pathFile
 
         $descFile = Join-Path -Path $locationDir -ChildPath "description.txt"
-        $description | Out-File -FilePath $descFile   
+        $description | Out-File -FilePath $descFile
     }
     else {
+        if ($Debug) {
+            Write-Host "'$locationDir' do exists" -ForegroundColor Yellow
+        } 
         Write-Host "Location named '$name' already added" -ForegroundColor Red
+        Write-Host "Use 'loc update $name' to update the path or add for the machine you are on" -ForegroundColor Green
     }
 }
 
@@ -551,6 +558,9 @@ function Edit-Description {
 }
 
 function Show-Locations {
+    # param (
+    #     [switch]$showMachineNames
+    # )
 
     if (-not (Test-LocationsSystemOk)) {
         return
@@ -571,17 +581,20 @@ function Show-Locations {
         if (Test-Path -Path $pathDirectory) {
             $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
             $path = Get-Content -Path $pathFile
+            $machineNames = Get-MachineNamesForLocation -name $name
             if (-not $exist) {
                 Write-Host "$pos" -NoNewline -ForegroundColor Red
                 Write-Host " - $name" -NoNewline -ForegroundColor Red
                 Write-Host " - $description" -NoNewline -ForegroundColor Red
-                Write-Host " - $path" -ForegroundColor Red
+                Write-Host " - $path" -NoNewline -ForegroundColor Red
+                Write-Host " - $machineNames" -ForegroundColor Red
             }
             else {
                 Write-Host "$pos" -NoNewline -ForegroundColor Yellow
                 Write-Host " - $name" -NoNewline -ForegroundColor Cyan
                 Write-Host " - $description" -NoNewline -ForegroundColor Green
-                Write-Host " - $path" -ForegroundColor Cyan
+                Write-Host " - $path" -NoNewline -ForegroundColor Cyan
+                Write-Host " - $machineNames" -ForegroundColor Cyan
             }    
         }
         
@@ -599,10 +612,12 @@ function Repair-Locations {
     $locationsDir = Get-LocationsDirectory
     $locations = Get-ChildItem -Path $locationsDir
     $locations | ForEach-Object {
-        $pathFile = Join-Path -Path $_.FullName -ChildPath "path.txt"
+        $pathDirectory = Join-Path -Path $_.FullName -ChildPath (Get-MachineName)
+        $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
         $path = Get-Content -Path $pathFile
         if (-not (Test-Path -Path $path)) {
-            Remove-Item -Path $_.FullName -Recurse
+            #Remove-Item -Path $_.FullName -Recurse
+            Remove-Location -name $_.Name
         }
     }
 }
@@ -621,11 +636,20 @@ function Remove-Location {
         return
     }
 
-    if (Test-Path -Path $locationDir) {
-        Remove-Item -Path $locationDir -Recurse
+    $pathDirectory = Join-Path -Path $locationDir -ChildPath (Get-MachineName)
+    if (Test-Path -Path $pathDirectory) {
+        if ($Debug) {
+            Write-Host "Removing path directory '$pathDirectory'" -ForegroundColor Yellow
+        }
+        Remove-Item -Path $pathDirectory -Recurse
     }
-    else {
-        Write-Host "Location '$name' does not exist" -ForegroundColor Red
+
+    $subDirCount = (Get-ChildItem -Directory -Path $locationDir).Length
+    if ($subDirCount -eq 0) {
+        if ($Debug) {
+            Write-Host "Removing location directory '$locationDir'" -ForegroundColor Yellow
+        }
+        Remove-Item -Path $locationDir -Recurse
     }
 }
 
@@ -635,14 +659,15 @@ function Remove-ThisLocation {
         return
     }
 
-    $path = (get-location).Path
+    $path = (Get-Location).Path
     $locationsDir = Get-LocationsDirectory
     $locations = Get-ChildItem -Path $locationsDir
     $locations | ForEach-Object {
-        $pathFile = Join-Path -Path $_.FullName -ChildPath "path.txt"
+        $pathDirectory = Join-Path -Path $_.FullName -ChildPath (Get-MachineName)
+        $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
         $locPath = Get-Content -Path $pathFile
         if ($path -eq $locPath) {
-            Remove-Item -Path $_.FullName -Recurse
+            Remove-Location -name $_.Name
         }
     }
 }
@@ -703,6 +728,9 @@ function Loc {
         $name = $args[1]
         $description = $args[2]
         Add-Location -name $name -description $description
+    }
+    elseif ($action -eq "status") {
+        Get-Status
     }
     elseif ($action -eq "note") {
         if ($args.Length -lt 3) {
@@ -790,6 +818,9 @@ function Loc {
         $subAction = $args[1]
         if ($subAction -eq "add") {
             Get-LocAddHelp
+        }
+        elseif ($subAction -eq "status") {
+            Get-StatusHelp
         }
         elseif ($subAction -eq "note") {
             Get-LocNoteHelp
