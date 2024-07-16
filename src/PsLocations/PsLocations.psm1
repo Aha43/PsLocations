@@ -5,7 +5,24 @@
 
 # Utility functions
 
-$Debug = $true
+function Get-Debug {
+    if ($env:LocDebug -eq 'True') {
+        return $true
+    } else {
+        return $false
+    }
+}
+
+function Switch-Debug {
+    if ($env:LocDebug) {
+        $env:LocDebug = $false
+        Write-Host "Debug mode off" -ForegroundColor Green
+    }
+    else {
+        $env:LocDebug = $true
+        Write-Host "Debug mode on" -ForegroundColor Green
+    }
+}
 
 function Get-MachineName {
     $retVal = $env:COMPUTERNAME
@@ -47,19 +64,6 @@ function Convert-ToUnsignedInt {
 
 function Get-Timestamp {
     return (Get-Date).ToString("yyyyMMddHHmmss")
-}
-
-# Git functions
-
-function Get-GitBranch {
-    $locationsDir = Get-LocationsDirectory
-    Push-Location -Path $locationsDir 
-        $branch = & git rev-parse --abbrev-ref HEAD 2> $null
-    Pop-Location
-    if ($branch) {
-        return $branch
-    }
-    return ""
 }
 
 function Get-LocationsDirectory {
@@ -213,6 +217,13 @@ function Get-NotesDir {
     return $notesDir
 }
 
+function Get-DebugHelp {
+    Write-Host
+    Write-Host "Usage: loc debug" -ForegroundColor Green
+    Write-Host "Switch debug mode on or off" -ForegroundColor Green
+    Write-Host
+}
+
 function Get-LocAddHelp {
     Write-Host
     Write-Host "Usage: loc add <name> <description>" -ForegroundColor Green
@@ -321,7 +332,8 @@ function Get-LocCliActions {
         "repair",
         "goto",
         "where",
-        "status"
+        "status",
+        "debug"
     )
     return $commands
 }
@@ -345,7 +357,13 @@ function Get-Status {
         return
     }
     $computerName = Get-MachineName
+    Write-Host
     Write-Host "On computer: $computerName" -ForegroundColor Cyan
+    Write-Host "Locations directory: $(Get-LocationsDirectory)" -ForegroundColor Cyan
+    Write-Host "Location count: $(Get-LocationCount)" -ForegroundColor Cyan
+    $debug = Get-Debug
+    Write-Host "Debug mode: $debug" -ForegroundColor Cyan
+    Write-Host
 }
 
 function Add-Location {
@@ -370,7 +388,7 @@ function Add-Location {
         $machineName = Get-MachineName
         $pathDirectory = Join-Path -Path $locationDir -ChildPath $machineName
         
-        if ($Debug) {
+        if (Get-Debug) {
             Write-Host "Creates path directory '$pathDirectory'" -ForegroundColor Yellow
         }
 
@@ -384,7 +402,7 @@ function Add-Location {
         $description | Out-File -FilePath $descFile
     }
     else {
-        if ($Debug) {
+        if (Get-Debug) {
             Write-Host "'$locationDir' do exists" -ForegroundColor Yellow
         } 
         Write-Host "Location named '$name' already added" -ForegroundColor Red
@@ -642,7 +660,7 @@ function Remove-Location {
 
     $pathDirectory = Join-Path -Path $locationDir -ChildPath (Get-MachineName)
     if (Test-Path -Path $pathDirectory) {
-        if ($Debug) {
+        if (Get-Debug) {
             Write-Host "Removing path directory '$pathDirectory'" -ForegroundColor Yellow
         }
         Remove-Item -Path $pathDirectory -Recurse
@@ -650,7 +668,7 @@ function Remove-Location {
 
     $subDirCount = (Get-ChildItem -Directory -Path $locationDir).Length
     if ($subDirCount -eq 0) {
-        if ($Debug) {
+        if (Get-Debug) {
             Write-Host "Removing location directory '$locationDir'" -ForegroundColor Yellow
         }
         Remove-Item -Path $locationDir -Recurse
@@ -735,6 +753,9 @@ function Loc {
     }
     elseif ($action -eq "status") {
         Get-Status
+    }
+    elseif ($action -eq "debug") {
+        Switch-Debug
     }
     elseif ($action -eq "note") {
         if ($args.Length -lt 3) {
@@ -825,6 +846,9 @@ function Loc {
         }
         elseif ($subAction -eq "status") {
             Get-StatusHelp
+        }
+        elseif ($subAction -eq "debug") {
+            Get-DebugHelp
         }
         elseif ($subAction -eq "note") {
             Get-LocNoteHelp
