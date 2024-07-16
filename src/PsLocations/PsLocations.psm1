@@ -8,7 +8,11 @@
 $Debug = $true
 
 function Get-MachineName {
-    return $env:COMPUTERNAME
+    $retVal = $env:COMPUTERNAME
+    if (-not $retVal) {
+        $retVal = $(hostname)
+    }
+    return $retVal
 }
 
 function Test-LocationsSystemOk {
