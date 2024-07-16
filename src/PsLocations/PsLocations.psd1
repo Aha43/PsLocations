@@ -112,10 +112,10 @@ PrivateData = @{
         # Tags = @()
 
         # A URL to the license for this module.
-        # LicenseUri = ''
+        LicenseUri = 'https://opensource.org/license/mit'
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/Aha43/PsLocations.git'
 
         # A URL to an icon representing this module.
         # IconUri = ''
