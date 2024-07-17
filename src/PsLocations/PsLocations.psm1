@@ -44,7 +44,7 @@ function Get-MachineName {
         $retVal = $(hostname)
     }
     return $retVal
-}
+} 
 
 function Test-LocationsSystemOk {
     $computerName = Get-MachineName
