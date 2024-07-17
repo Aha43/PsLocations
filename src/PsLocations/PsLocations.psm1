@@ -5,6 +5,20 @@
 
 # Utility functions
 
+function Get-LocationsDirectory {
+    $retVal = Join-Path -Path $HOME -ChildPath ".locations"
+
+    if ($env:LocHome) {
+        $retVal = $env:LocHome
+    }
+    
+    if (-not (Test-Path -Path $retVal)) {
+        [void](New-Item -Path $retVal -ItemType Directory)
+    }
+
+    return $retVal
+}
+
 function Get-Debug {
     if ($env:LocDebug -eq 'True') {
         return $true
@@ -64,15 +78,6 @@ function Convert-ToUnsignedInt {
 
 function Get-Timestamp {
     return (Get-Date).ToString("yyyyMMddHHmmss")
-}
-
-function Get-LocationsDirectory {
-    $retVal = Join-Path -Path $HOME -ChildPath ".locations"
-    if (-not (Test-Path -Path $retVal)) {
-        [void](New-Item -Path $retVal -ItemType Directory)
-    }
-
-    return $retVal
 }
 
 function Get-LocationDirectory {
