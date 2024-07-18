@@ -35,3 +35,13 @@ function Test-LocationShouldExistAsExpected {
     $bookmarkPath = Get-Content -Path $bookmarkPathFile
     $bookmarkPath | Should -Be $locationPath
 }
+
+function Test-LocationShouldNotExist {
+    param(
+        [string]$locationsDir, # the directory where the locations are stored
+        [string]$name # the name of the location
+    )
+
+    $bookmarkDir = Join-Path -Path $locationsDir -ChildPath $name
+    $bookmarkDir | Should -Not -Exist
+}

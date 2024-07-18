@@ -53,29 +53,29 @@ Describe "PsLocations tests" {
 
         Test-LocationShouldExistAsExpected -locationsDir $testLocationsDir -name "Test" -locationPath $locPath
         
-        # act: navigate to the location
-        loc Test
+        # Test the navigation
+            # act: navigate to the location
+            loc Test
+            # assert: we should be in the location
+            $pwd.Path | Should -Be $locPath
+            Set-Location -Path $PSScriptRoot
 
-        # assert: we should be in the location
-        $pwd.Path | Should -Be $locPath
+            # act: navigate to the location using the go
+            loc go Test
+            # assert: we should be in the location
+            $pwd.Path | Should -Be $locPath
+            Set-Location -Path $PSScriptRoot
 
-        Set-Location -Path $PSScriptRoot
+            # act: navigate to the location using the goto
+            loc goto Test
+            # assert: we should be in the location
+            $pwd.Path | Should -Be $locPath
+            Set-Location -Path $PSScriptRoot
 
-        # act: navigate to the location using the go
-        loc go Test
-
-        # assert: we should be in the location
-        $pwd.Path | Should -Be $locPath
-
-        Set-Location -Path $PSScriptRoot
-
-        # act: navigate to the location using the goto
-        loc goto Test
-
-        # assert: we should be in the location
-        $pwd.Path | Should -Be $locPath
-
-        Set-Location -Path $PSScriptRoot
+        # act: remove the location
+            loc Remove "Test"
+            # assert the location should not exist
+            Test-LocationShouldNotExist -locationsDir $testLocationsDir -name "Test"
     }   
 
 }
