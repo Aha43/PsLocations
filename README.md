@@ -1,5 +1,5 @@
 # PsLocations
-Command line interface for powershell to bookmark locations on the file system
+Powershell command line interface (cli) for powershell to bookmark locations on the file system
 
 WORK IN PROGRESS, NOT YET READY FOR USE, BUT SOON HOPE :)
 
