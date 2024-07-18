@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="2" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2024-07-18" time="10:54:11">
-  <environment nunit-version="2.5.8.0" user="arnehalvorsen" user-domain="" platform="Darwin" cwd="/Users/arnehalvorsen/dev/repos/PsLocations" machine-name="Arnes-MBP.home" clr-version="8.0.4" os-version="23.5.0" />
+<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="2" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2024-07-18" time="13:25:16">
+  <environment os-version="23.5.0" cwd="/Users/arnehalvorsen/dev/repos/PsLocations" machine-name="Arnes-MBP.home" user-domain="" platform="Darwin" clr-version="8.0.4" nunit-version="2.5.8.0" user="arnehalvorsen" />
   <culture-info current-culture="en-NO" current-uiculture="en-NO" />
-  <test-suite type="TestFixture" name="Pester" executed="True" result="Success" success="True" time="0.8829" asserts="0" description="Pester">
+  <test-suite type="TestFixture" name="Pester" executed="True" result="Success" success="True" time="0.7578" asserts="0" description="Pester">
     <results>
-      <test-suite type="TestFixture" name="/Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests/PsLocations.tests.ps1" executed="True" result="Success" success="True" time="0.8829" asserts="0" description="/Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests/PsLocations.tests.ps1">
+      <test-suite type="TestFixture" name="/Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests/PsLocations.tests.ps1" executed="True" result="Success" success="True" time="0.7578" asserts="0" description="/Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests/PsLocations.tests.ps1">
         <results>
-          <test-suite type="TestFixture" name="PsLocations tests" executed="True" result="Success" success="True" time="0.4159" asserts="0" description="PsLocations tests">
+          <test-suite type="TestFixture" name="PsLocations tests" executed="True" result="Success" success="True" time="0.371" asserts="0" description="PsLocations tests">
             <results>
-              <test-case description="loc status should create the testLocDir" name="PsLocations tests.loc status should create the testLocDir" time="0.1911" asserts="0" success="True" result="Success" executed="True" />
-              <test-case description="loc add should create a new location" name="PsLocations tests.loc add should create a new location" time="0.1413" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="loc status should create the testLocDir" name="PsLocations tests.loc status should create the testLocDir" time="0.1645" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="loc add should create a new location" name="PsLocations tests.loc add should create a new location" time="0.1213" asserts="0" success="True" result="Success" executed="True" />
             </results>
           </test-suite>
         </results>

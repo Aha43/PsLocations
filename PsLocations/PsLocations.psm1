@@ -38,11 +38,47 @@ function Switch-Debug {
     }
 }
 
+function Test-ValidDirectoryName {
+    param (
+        [string]$DirectoryName
+    )
+
+    # Regex patterns for invalid characters
+    $invalidCharsWindows = '[<>:"/\\|?*\x00-\x1F]'
+    $invalidCharsMacLinux = '[:\x00]'
+
+    # Combined invalid characters for all platforms
+    $combinedInvalidChars = "$invalidCharsWindows|$invalidCharsMacLinux"
+
+    # Check for invalid characters
+    if ($DirectoryName -match $combinedInvalidChars) {
+        return $false
+    }
+
+    # Additional common checks
+    if ($DirectoryName.Trim() -eq "") {
+        return $false
+    }
+    if ($DirectoryName.Length -gt 255) {
+        return $false
+    }
+
+    return $true
+}
+
 function Get-MachineName {
     $retVal = $env:COMPUTERNAME
     if (-not $retVal) {
         $retVal = $(hostname)
     }
+
+    if (-not (Test-ValidDirectoryName -DirectoryName $retVal)) {
+        $errMsg = "Invalid computer name $retVal since can not be used as a directory name"
+        Write-Host $errMsg -ForegroundColor Red
+        Write-Host "Please set the COMPUTERNAME environment variable to a valid directory name" -ForegroundColor Red
+        throw $errMsg
+    }
+
     return $retVal
 } 
 

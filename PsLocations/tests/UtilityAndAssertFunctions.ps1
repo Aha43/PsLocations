@@ -1,3 +1,16 @@
+
+# Utility functions
+
+function Get-TheMachineName {
+    $retVal = $env:COMPUTERNAME
+    if (-not $retVal) {
+        $retVal = $(hostname)
+    }
+    return $retVal
+}
+
+# Asserts functions
+
 function Test-LocationShouldExistAsExpected {
     param(
         [string]$locationDir,

@@ -9,16 +9,7 @@
 Describe "PsLocations tests" {
 
     BeforeAll {
-        . $PSScriptRoot/AssertFunctions.ps1
-
-        function Get-TheMachineName {
-            Write-Host "ALLO"
-            $retVal = $env:COMPUTERNAME
-            if (-not $retVal) {
-                $retVal = $(hostname)
-            }
-            return $retVal
-        }   
+        . $PSScriptRoot/UtilityAndAssertFunctions.ps1   
 
         $here = $PSScriptRoot
         $testLocDir = Join-Path -Path $here -ChildPath "TestLocations"
