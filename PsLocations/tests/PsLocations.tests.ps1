@@ -1,11 +1,3 @@
-
-
-#. "./AssertFunctions.ps1"
-
-
-# utility functions
-
-
 Describe "PsLocations tests" {
 
     BeforeAll {
@@ -46,7 +38,7 @@ Describe "PsLocations tests" {
         $testLocationsDir | Should -Exist
     }
 
-    It "loc add should create a new location, make notes and navigate and remove it" {
+    It "loc should be able to create a new location, make notes and navigate and remove it" {
         # arrange
         $locName = "testLoc"
         $locPath = Join-Path -Path $testDir -ChildPath $locName
@@ -59,7 +51,31 @@ Describe "PsLocations tests" {
         # assert
         Pop-Location
 
-        Test-LocationShouldExistAsExpected -locationsDir $testLocationsDir -name "Test" -locationPath $locPath       
+        Test-LocationShouldExistAsExpected -locationsDir $testLocationsDir -name "Test" -locationPath $locPath
+        
+        # act: navigate to the location
+        loc Test
+
+        # assert: we should be in the location
+        $pwd.Path | Should -Be $locPath
+
+        Set-Location -Path $PSScriptRoot
+
+        # act: navigate to the location using the go
+        loc go Test
+
+        # assert: we should be in the location
+        $pwd.Path | Should -Be $locPath
+
+        Set-Location -Path $PSScriptRoot
+
+        # act: navigate to the location using the goto
+        loc goto Test
+
+        # assert: we should be in the location
+        $pwd.Path | Should -Be $locPath
+
+        Set-Location -Path $PSScriptRoot
     }   
 
 }
