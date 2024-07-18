@@ -20,5 +20,5 @@ jobs:
       - name: Run Pester tests
         shell: pwsh
         run: |
-          Invoke-Pester -Script tests/PsLocations.tests.ps1 -PassThru -CI
+          Invoke-Pester -Script PsLocations/tests/PsLocations.tests.ps1 -PassThru -CI
           
