@@ -8,6 +8,6 @@ WORK IN PROGRESS, NOT YET READY FOR USE, BUT SOON HOPE :)
 - **NEXT** Dogfooding and testing on my windows machine
 - **NEXT** Dogfooding and testing on my linux machine (wsl on my windows machine)
 - **NEXT** User documentation here in readme
-- **NEXT** Publish to the gallert
+- **NEXT** Publish to the gallery
 
 
