@@ -45,3 +45,17 @@ function Test-LocationShouldNotExist {
     $bookmarkDir = Join-Path -Path $locationsDir -ChildPath $name
     $bookmarkDir | Should -Not -Exist
 }
+
+function Test-NoteShouldExistForLocation {
+    param (
+        [string]$locationsDir, # the directory where the locations are stored
+        [string]$name, # the name of the location
+        [string]$note # the note to be checked
+    )
+    
+    $bookmarkDir = Join-Path -Path $locationsDir -ChildPath $name
+    $noteFile = Join-Path -Path $bookmarkDir -ChildPath "note.txt"
+    $noteFile | Should -Exist
+    $noteContent = Get-Content -Path $noteFile
+    $noteContent | Should -Be $note
+}

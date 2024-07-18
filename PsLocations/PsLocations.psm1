@@ -5,6 +5,8 @@
 
 # Utility functions
 
+# Compute directories
+
 function Get-LocationsDirectory {
     $retVal = Join-Path -Path $HOME -ChildPath ".locations"
 
@@ -19,6 +21,77 @@ function Get-LocationsDirectory {
     return $retVal
 }
 
+function Get-LocationDirectory {
+    param (
+        [string]$name
+    )
+
+    $locationsDir = Get-LocationsDirectory
+    $locationDir = Join-Path -Path $locationsDir -ChildPath $name
+    return $locationDir
+}
+
+function Get-LocationDirectoryGivenNameOrPos {
+    param (
+        [string]$nameOrPos,
+        [switch]$reportError
+    )
+
+    $pos = Convert-ToUnsignedInt -inputString $nameOrPos
+    if ($pos -gt -1) {
+        $count = Get-LocationCount
+        if ($pos -ge $count) {
+            if ($reportError) {
+                Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
+            }
+            return $null
+        }
+
+        $nameOrPos = Get-LocationNameAtPosition -position $pos    
+    }
+
+    $locationDir = Get-LocationDirectory -name $nameOrPos
+    if (Test-Path -Path $locationDir) {
+        return $locationDir
+    }
+    else {
+        if ($reportError) {
+            Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
+        }
+        return $null
+    }
+}
+
+function Get-PathDirectory {
+    param (
+        [string]$name
+    )
+        
+    $locationDir = Get-LocationDirectory -name $name
+    $machineName = Get-MachineName
+    $pathDirectory = Join-Path -Path $locationDir -ChildPath $machineName
+    return $pathDirectory
+}
+
+function Get-NotesDir {
+    param(
+        [string]$name
+    )
+
+    $locationDir = (Get-LocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    if (-not $locationDir) {
+        return $null
+    }
+
+    $notesDir = Join-Path -Path $locationDir -ChildPath "notes"
+    if (-not (Test-Path -Path $notesDir)) {
+        [void](New-Item -Path $notesDir -ItemType Directory)
+    }
+    return $notesDir
+}
+
+# Debug functions
+
 function Get-Debug {
     if ($env:LocDebug -eq 'True') {
         return $true
@@ -29,11 +102,17 @@ function Get-Debug {
 
 function Switch-Debug {
     if ($env:LocDebug) {
-        $env:LocDebug = $false
-        Write-Host "Debug mode off" -ForegroundColor Green
+        if ($env:LocDebug -eq 'True') {
+            $env:LocDebug = 'False'
+            Write-Host "Debug mode off" -ForegroundColor Green
+        }
+        else {
+            $env:LocDebug = 'True'
+            Write-Host "Debug mode on" -ForegroundColor Green
+        }
     }
     else {
-        $env:LocDebug = $true
+        $env:LocDebug = 'True'
         Write-Host "Debug mode on" -ForegroundColor Green
     }
 }
@@ -116,57 +195,19 @@ function Get-Timestamp {
     return (Get-Date).ToString("yyyyMMddHHmmss")
 }
 
-function Get-LocationDirectory {
-    param (
-        [string]$name
-    )
-
-    $locationsDir = Get-LocationsDirectory
-    $locationDir = Join-Path -Path $locationsDir -ChildPath $name
-    return $locationDir
-}
-
-function Get-LocationDirectoryGivenNameOrPos {
-    param (
-        [string]$nameOrPos,
-        [switch]$reportError
-    )
-
-    $pos = Convert-ToUnsignedInt -inputString $nameOrPos
-    if ($pos -gt -1) {
-        $count = Get-LocationCount
-        if ($pos -ge $count) {
-            if ($reportError) {
-                Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
-            }
-            return $null
-        }
-
-        $nameOrPos = Get-LocationNameAtPosition -position $pos    
-    }
-
-    $locationDir = Get-LocationDirectory -name $nameOrPos
-    if (Test-Path -Path $locationDir) {
-        return $locationDir
-    }
-    else {
-        if ($reportError) {
-            Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
-        }
-        return $null
-    }
-}
-
 function Get-MachineNamesForLocation {
     param (
         [string]$name
     )
 
-    $locationsDir = Get-LocationsDirectory
-    $locationDir = Join-Path -Path $locationsDir -ChildPath $name
+    $pathDirectory = Get-PathDirectory -name $name
+    if (Get-Debug) {
+        Write-Host "Get-MachineNamesForLocation: Checking path directory '$pathDirectory'" -ForegroundColor Yellow
+    }   
+
     $machineNames = @()
-    if (Test-Path -Path $locationDir) {
-        $machineNames = Get-ChildItem -Path $locationDir -Directory | ForEach-Object {
+    if (Test-Path -Path $pathDirectory) {
+        $machineNames = Get-ChildItem -Path $pathDirectory -Directory | ForEach-Object {
             $_.Name
         }
     }
@@ -214,10 +255,7 @@ function Get-LocationNameAtPosition {
 }
 
 function Test-Location([string]$name) {
-    $locationDir = Get-LocationDirectory -name $name
-
-    $machineName = Get-MachineName
-    $pathDirectory = Join-Path -Path $locationDir -ChildPath $machineName
+    $pathDirectory = Get-PathDirectory -name $name
     if (-not (Test-Path -Path $pathDirectory)) {
         return $false
     }
@@ -241,22 +279,7 @@ function Get-NextNoteFile {
     return $noteFile
 }
 
-function Get-NotesDir {
-    param(
-        [string]$name
-    )
 
-    $locationDir = (Get-LocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
-    if (-not $locationDir) {
-        return $null
-    }
-
-    $notesDir = Join-Path -Path $locationDir -ChildPath "notes"
-    if (-not (Test-Path -Path $notesDir)) {
-        [void](New-Item -Path $notesDir -ItemType Directory)
-    }
-    return $notesDir
-}
 
 function Get-DebugHelp {
     Write-Host
@@ -426,8 +449,7 @@ function Add-Location {
     if (-not (Test-Path -Path $locationDir)) {
         [void](New-Item -Path $locationDir -ItemType Directory)
     
-        $machineName = Get-MachineName
-        $pathDirectory = Join-Path -Path $locationDir -ChildPath $machineName
+        $pathDirectory = Get-PathDirectory -name $name
         
         if (Get-Debug) {
             Write-Host "Creates path directory '$pathDirectory'" -ForegroundColor Yellow
@@ -466,8 +488,7 @@ function Mount-Location {
     }
 
     if (Test-Path -Path $locationDir) {
-        $machineName = Get-MachineName
-        $pathDirectory = Join-Path -Path $locationDir -ChildPath $machineName
+        $pathDirectory = Get-PathDirectory -name $name
         if (-not (Test-Path -Path $pathDirectory)) {
             Write-Host "Location '$name' does not have a path for this machine" -ForegroundColor Red
             return
@@ -502,9 +523,7 @@ function Update-LocationPath {
     }
 
     if (Test-Path -Path $locationDir) {
-        
-        $machineName = Get-MachineName
-        $pathDirectory = Join-Path -Path $locationDir -ChildPath $machineName
+        $pathDirectory = Get-PathDirectory -name $name
         if (-not (Test-Path -Path $pathDirectory)) {
             [void](New-Item -Path $pathDirectory -ItemType Directory)
         }
@@ -601,7 +620,6 @@ function Edit-Description {
         [string]$name,
         [string]$description
     )
-
     if (-not (Test-LocationsSystemOk)) {
         return
     }
@@ -635,8 +653,11 @@ function Show-Locations {
         $descFile = Join-Path -Path $_.FullName -ChildPath "description.txt"
         $description = Get-Content -Path $descFile
 
-        $machineName = Get-MachineName
-        $pathDirectory = Join-Path -Path $_.FullName -ChildPath $machineName
+        $pathDirectory = Get-PathDirectory -name $name
+        if (Get-Debug) {
+            Write-Host "Show-Locations: Checking path directory '$pathDirectory'" -ForegroundColor Yellow
+        }
+
         if (Test-Path -Path $pathDirectory) {
             $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
             $path = Get-Content -Path $pathFile
@@ -671,11 +692,12 @@ function Repair-Locations {
     $locationsDir = Get-LocationsDirectory
     $locations = Get-ChildItem -Path $locationsDir
     $locations | ForEach-Object {
-        $pathDirectory = Join-Path -Path $_.FullName -ChildPath (Get-MachineName)
+        $name = $_.Name
+        $pathDirectory = Get-PathDirectory -name $name
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
         $path = Get-Content -Path $pathFile
         if (-not (Test-Path -Path $path)) {
-            Remove-Location -name $_.Name
+            Remove-Location -name $name
         }
     }
 }
@@ -721,11 +743,12 @@ function Remove-ThisLocation {
     $locationsDir = Get-LocationsDirectory
     $locations = Get-ChildItem -Path $locationsDir
     $locations | ForEach-Object {
-        $pathDirectory = Join-Path -Path $_.FullName -ChildPath (Get-MachineName)
+        $name = $_.Name
+        $pathDirectory = Get-PathDirectory -name $name
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
         $locPath = Get-Content -Path $pathFile
         if ($path -eq $locPath) {
-            Remove-Location -name $_.Name
+            Remove-Location -name $name
         }
     }
 }
@@ -742,7 +765,8 @@ function Get-LocationWhereIAm {
     if ($locations.Length -gt 0) {
         $locations | ForEach-Object {
             $name = $_.Name
-            $pathFile = Join-Path -Path $_.FullName -ChildPath "path.txt"
+            $pathDirectory = Get-PathDirectory -name $name
+            $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
             $locPath = Get-Content -Path $pathFile
             if ($path -eq $locPath) {
                 $descFile = Join-Path -Path $_.FullName -ChildPath "description.txt"
