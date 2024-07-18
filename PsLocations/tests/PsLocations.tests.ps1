@@ -46,14 +46,14 @@ Describe "PsLocations tests" {
         $testLocationsDir | Should -Exist
     }
 
-    It "loc add should create a new location" {
+    It "loc add should create a new location, make notes and navigate and remove it" {
         # arrange
         $locName = "testLoc"
         $locPath = Join-Path -Path $testDir -ChildPath $locName
         New-Item -ItemType Directory -Path $locPath
         Push-Location -Path $locPath
 
-        # act
+        # act: add the location
         loc Add "Test" "Test location"
 
         # assert
