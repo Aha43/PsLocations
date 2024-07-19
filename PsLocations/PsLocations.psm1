@@ -48,10 +48,52 @@ function Get-LocationDirectoryGivenNameOrPos {
         }
 
         $nameOrPos = Get-LocationNameAtPosition -position $pos    
+        if (Get-Debug) {
+            Write-Host "Get-LocationDirectoryGivenNameOrPos: Position $pos is location '$nameOrPos'" -ForegroundColor Yellow
+        }
     }
 
     $locationDir = Get-LocationDirectory -name $nameOrPos
     if (Test-Path -Path $locationDir) {
+        if (Get-Debug) {
+            Write-Host "Get-LocationDirectoryGivenNameOrPos: Location directory '$locationDir' exists" -ForegroundColor Yellow
+        }
+        return $locationDir
+    }
+    else {
+        if ($reportError) {
+            Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
+        }
+        return $null
+    }
+}
+function Get-LocationDirectoryGivenNameOrPos {
+    param (
+        [string]$nameOrPos,
+        [switch]$reportError
+    )
+
+    $pos = Convert-ToUnsignedInt -inputString $nameOrPos
+    if ($pos -gt -1) {
+        $count = Get-LocationCount
+        if ($pos -ge $count) {
+            if ($reportError) {
+                Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
+            }
+            return $null
+        }
+
+        $nameOrPos = Get-LocationNameAtPosition -position $pos    
+        if (Get-Debug) {
+            Write-Host "Get-LocationDirectoryGivenNameOrPos: Position $pos is location '$nameOrPos'" -ForegroundColor Yellow
+        }
+    }
+
+    $locationDir = Get-LocationDirectory -name $nameOrPos
+    if (Test-Path -Path $locationDir) {
+        if (Get-Debug) {
+            Write-Host "Get-LocationDirectoryGivenNameOrPos: Location directory '$locationDir' exists" -ForegroundColor Yellow
+        }
         return $locationDir
     }
     else {
@@ -62,14 +104,24 @@ function Get-LocationDirectoryGivenNameOrPos {
     }
 }
 
+function Get-MachinesDirectory {
+    param (
+        [string]$name
+    )
+
+    $locationDir = Get-LocationDirectory -name $name
+    $machinesDirectory = Join-Path -Path $locationDir -ChildPath "machines"
+    return $machinesDirectory
+}
+
 function Get-PathDirectory {
     param (
         [string]$name
     )
         
-    $locationDir = Get-LocationDirectory -name $name
+    $machinesDirectory = Get-MachinesDirectory -name $name
     $machineName = Get-MachineName
-    $pathDirectory = Join-Path -Path $locationDir -ChildPath $machineName
+    $pathDirectory = Join-Path -Path $machinesDirectory -ChildPath $machineName
     return $pathDirectory
 }
 
@@ -200,14 +252,14 @@ function Get-MachineNamesForLocation {
         [string]$name
     )
 
-    $pathDirectory = Get-PathDirectory -name $name
+    $machinesDirectory = Get-MachinesDirectory -name $name
     if (Get-Debug) {
-        Write-Host "Get-MachineNamesForLocation: Checking path directory '$pathDirectory'" -ForegroundColor Yellow
+        Write-Host "Get-MachineNamesForLocation: Checking path directory '$machinesDirectory'" -ForegroundColor Yellow
     }   
 
     $machineNames = @()
-    if (Test-Path -Path $pathDirectory) {
-        $machineNames = Get-ChildItem -Path $pathDirectory -Directory | ForEach-Object {
+    if (Test-Path -Path $machinesDirectory) {
+        $machineNames = Get-ChildItem -Path $machinesDirectory -Directory | ForEach-Object {
             $_.Name
         }
     }
@@ -447,14 +499,21 @@ function Add-Location {
 
     $locationDir = Get-LocationDirectory -name $name
     if (-not (Test-Path -Path $locationDir)) {
+        if (Get-Debug) {
+            Write-Host "Creates location directory '$locationDir'" -ForegroundColor Yellow
+        }
         [void](New-Item -Path $locationDir -ItemType Directory)
-    
+
+        $machinesDirectory = Get-MachinesDirectory -name $name
+        if (Get-Debug) {
+            Write-Host "Creates machines directory '$machinesDirectory'" -ForegroundColor Yellow
+        }
+        [void](New-Item -Path $machinesDirectory -ItemType Directory)
+
         $pathDirectory = Get-PathDirectory -name $name
-        
         if (Get-Debug) {
             Write-Host "Creates path directory '$pathDirectory'" -ForegroundColor Yellow
         }
-
         [void](New-Item -Path $pathDirectory -ItemType Directory)
 
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
@@ -481,14 +540,35 @@ function Mount-Location {
     if (-not (Test-LocationsSystemOk)) {
         return
     }
+
+    $pos = Convert-ToUnsignedInt -inputString $name
+    if ($pos -gt -1) {
+        $count = Get-LocationCount
+        if ($pos -ge $count) {
+            Write-Host "Location at position $pos does not exist" -ForegroundColor Red
+            return
+        }
+
+        $name = Get-LocationNameAtPosition -position $pos
+        if (Get-Debug) {
+            Write-Host "Mount-Location: Position $pos is location '$name'" -ForegroundColor Yellow
+        }
+    }
     
-    $locationDir = (Get-LocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    $locationDir = Get-LocationDirectory -name $name
+    #$locationDir = (Get-LocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
     if (-not $locationDir) {
+        if (Get-Debug) {
+            Write-Host "Mount-Location: Location '$name' not found by Get-LocationDirectoryGivenNameOrPos" -ForegroundColor Yellow
+        }
         return
     }
 
     if (Test-Path -Path $locationDir) {
         $pathDirectory = Get-PathDirectory -name $name
+        if (Get-Debug) {
+            Write-Host "Mount-Location: Checking path directory '$pathDirectory'" -ForegroundColor Yellow
+        }
         if (-not (Test-Path -Path $pathDirectory)) {
             Write-Host "Location '$name' does not have a path for this machine" -ForegroundColor Red
             return
