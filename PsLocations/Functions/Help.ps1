@@ -130,3 +130,58 @@ function Get-LocCliHelp {
     Write-Host "Use 'loc help <action>' for more information on a specific action" -ForegroundColor Green
     Write-Host
 }
+
+function Get-SubActionHelp(
+    [string]$action
+) {
+    switch ($action) {
+        "debug" {
+            Get-DebugHelp
+        }
+        "add" {
+            Get-LocAddHelp
+        }
+        "note" {
+            Get-LocNoteHelp
+        }
+        "notes" {
+            Get-LocNotesHelp
+        }
+        "update" {
+            Get-LocUpdateHelp
+        }
+        "rename" {
+            Get-LocRenameHelp
+        }
+        "edit" {
+            Get-LocEditHelp
+        }
+        "list" {
+            Get-LocListHelp
+        }
+        "remove" {
+            Get-LocRemoveHelp
+        }
+        "remove-this" {
+            Get-LocRemoveThisHelp
+        }
+        "repair" {
+            Get-LocRepairHelp
+        }
+        "goto" {
+            Get-LocGotoHelp
+        }
+        "where" {
+            Get-LocWhereHelp
+        }
+        "status" {
+            Get-StatusHelp
+        }
+        default {
+            Write-Host
+            Write-Host "Invalid sub-action '$subAction'" -ForegroundColor Red
+            Write-Host "For more help: loc help" -ForegroundColor Red
+            Write-Host
+        }
+    }
+}

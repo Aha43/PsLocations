@@ -842,54 +842,7 @@ function Loc {
         }
 
         $subAction = $args[1]
-        if ($subAction -eq "add") {
-            Get-LocAddHelp
-        }
-        elseif ($subAction -eq "status") {
-            Get-StatusHelp
-        }
-        elseif ($subAction -eq "debug") {
-            Get-DebugHelp
-        }
-        elseif ($subAction -eq "note") {
-            Get-LocNoteHelp
-        }
-        elseif ($subAction -eq "notes") {
-            Get-LocNotesHelp
-        }
-        elseif ($subAction -eq "update") {
-            Get-LocUpdateHelp
-        }
-        elseif ($subAction -eq "rename") {
-            Get-LocRenameHelp
-        }
-        elseif ($subAction -eq "edit") {
-            Get-LocEditHelp
-        }
-        elseif ($subAction -eq "list") {
-            Get-LocListHelp
-        }
-        elseif ($subAction -eq "remove") {
-            Get-LocRemoveHelp
-        }
-        elseif ($subAction -eq "remove-this") {
-            Get-LocRemoveThisHelp
-        }
-        elseif ($subAction -eq "repair") {
-            Get-LocRepairHelp
-        }
-        elseif ($subAction -eq "goto") {
-            Get-LocGotoHelp
-        }
-        elseif ($subAction -eq "where") {
-            Get-LocWhereHelp
-        }
-        else {
-            Write-Host
-            Write-Host "Invalid sub-action '$subAction'" -ForegroundColor Red
-            Write-Host "For more help: loc help" -ForegroundColor Red
-            Write-Host
-        }
+        Get-SubActionHelp -action $subAction
     }
     else {
         loc go $action
