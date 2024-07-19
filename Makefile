@@ -3,4 +3,9 @@ test:
 
 clean:
 	rm testResults.xml
+
+help:
+	@echo "test - Run the tests"
+	@echo "clean - Remove test results"
+	@echo "help - Display this help message"
 	
