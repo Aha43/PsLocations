@@ -795,7 +795,6 @@ function Remove-Location {
         return
     }
 
-    #$pathDirectory = Join-Path -Path $locationDir -ChildPath (Get-MachineName)
     $pathDirectory = Get-PathDirectory -name $name
     if (Get-Debug) {
         Write-Host "Removing path directory '$pathDirectory' if exists" -ForegroundColor Yellow
@@ -807,7 +806,8 @@ function Remove-Location {
         Remove-Item -Path $pathDirectory -Recurse
     }
 
-    $subDirCount = (Get-ChildItem -Directory -Path $locationDir).Length
+    $machinesDirectory = Get-MachinesDirectory -name $name
+    $subDirCount = (Get-ChildItem -Directory -Path $machinesDirectory).Length
     if ($subDirCount -eq 0) {
         if (Get-Debug) {
             Write-Host "Removing location directory '$locationDir'" -ForegroundColor Yellow

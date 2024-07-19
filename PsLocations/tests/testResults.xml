@@ -1,22 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="2" errors="0" failures="1" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2024-07-19" time="13:03:53">
-  <environment cwd="/Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests" nunit-version="2.5.8.0" platform="Darwin" user-domain="" user="arnehalvorsen" os-version="23.5.0" machine-name="Arnes-MBP.home" clr-version="8.0.4" />
+<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="2" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2024-07-19" time="13:15:57">
+  <environment clr-version="8.0.4" nunit-version="2.5.8.0" cwd="/Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests" os-version="23.5.0" user="arnehalvorsen" user-domain="" machine-name="Arnes-MBP.home" platform="Darwin" />
   <culture-info current-culture="en-NO" current-uiculture="en-NO" />
-  <test-suite type="TestFixture" name="Pester" executed="True" result="Failure" success="False" time="1.1287" asserts="0" description="Pester">
+  <test-suite type="TestFixture" name="Pester" executed="True" result="Success" success="True" time="1.0475" asserts="0" description="Pester">
     <results>
-      <test-suite type="TestFixture" name="/Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests/PsLocations.tests.ps1" executed="True" result="Failure" success="False" time="1.1287" asserts="0" description="/Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests/PsLocations.tests.ps1">
+      <test-suite type="TestFixture" name="/Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests/PsLocations.tests.ps1" executed="True" result="Success" success="True" time="1.0475" asserts="0" description="/Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests/PsLocations.tests.ps1">
         <results>
-          <test-suite type="TestFixture" name="PsLocations tests" executed="True" result="Failure" success="False" time="0.6963" asserts="0" description="PsLocations tests">
+          <test-suite type="TestFixture" name="PsLocations tests" executed="True" result="Success" success="True" time="0.6206" asserts="0" description="PsLocations tests">
             <results>
-              <test-case description="loc status should create the testLocDir" name="PsLocations tests.loc status should create the testLocDir" time="0.1772" asserts="0" success="True" result="Success" executed="True" />
-              <test-case description="loc should be able to create a new location, make notes and navigate and remove it" name="PsLocations tests.loc should be able to create a new location, make notes and navigate and remove it" time="0.4466" asserts="0" success="False" result="Failure" executed="True">
-                <failure>
-                  <message>Expected path '/Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests/TestLocations/Test' to not exist, but it did exist.</message>
-                  <stack-trace>at $bookmarkDir | Should -Not -Exist, /Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests/UtilityAndAssertFunctions.ps1:47
-at Test-LocationShouldNotExist, /Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests/UtilityAndAssertFunctions.ps1:47
-at &lt;ScriptBlock&gt;, /Users/arnehalvorsen/dev/repos/PsLocations/PsLocations/tests/PsLocations.tests.ps1:78</stack-trace>
-                </failure>
-              </test-case>
+              <test-case description="loc status should create the testLocDir" name="PsLocations tests.loc status should create the testLocDir" time="0.1839" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="loc should be able to create a new location, make notes and navigate and remove it" name="PsLocations tests.loc should be able to create a new location, make notes and navigate and remove it" time="0.3629" asserts="0" success="True" result="Success" executed="True" />
             </results>
           </test-suite>
         </results>
