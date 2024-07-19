@@ -4,8 +4,6 @@
 . $PSScriptRoot/Functions/Diagnostic.ps1
 . $PSScriptRoot/Functions/Help.ps1
 
-
-
 function Get-MachineNamesForLocation {
     param (
         [string]$name
