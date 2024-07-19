@@ -3,6 +3,8 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+testResults.xml
+
 # dotenv files
 .env
 
