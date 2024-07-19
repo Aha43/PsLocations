@@ -45,17 +45,26 @@ Describe "PsLocations tests" {
         New-Item -ItemType Directory -Path $locPath
         Push-Location -Path $locPath
 
-        # act: add the location
-        loc Add "Test" "Test location"
+        # Test adding location
+            # act: add the location
+            loc Add "Test" "Test location"
 
-        # assert
-        Pop-Location
-
-        Test-LocationShouldExistAsExpected -locationsDir $testLocationsDir -name "Test" -locationPath $locPath
+            # assert
+            Pop-Location
+            Test-LocationShouldExistAsExpected -locationsDir $testLocationsDir -name "Test" -locationPath $locPath
         
+
+        # Test adding note
+            # act: add a note to the location
+            loc Note "Test" "Test note"
+
+            # assert
+            Test-NoteShouldExistForLocation -locationsDir $testLocationsDir -name "Test" -note "Test note"
+            
         # Test the navigation
             # act: navigate to the location
             loc Test
+
             # assert: we should be in the location
             $pwd.Path | Should -Be $locPath
             Set-Location -Path $PSScriptRoot

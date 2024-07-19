@@ -176,6 +176,8 @@ function Add-LocationNote {
     }
 
     $note | Out-File -FilePath $noteFile
+
+    $env:LocLastNoteFile = $noteFile
 }
 
 function Show-Notes {
