@@ -556,7 +556,6 @@ function Mount-Location {
     }
     
     $locationDir = Get-LocationDirectory -name $name
-    #$locationDir = (Get-LocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
     if (-not $locationDir) {
         if (Get-Debug) {
             Write-Host "Mount-Location: Location '$name' not found by Get-LocationDirectoryGivenNameOrPos" -ForegroundColor Yellow
@@ -796,7 +795,11 @@ function Remove-Location {
         return
     }
 
-    $pathDirectory = Join-Path -Path $locationDir -ChildPath (Get-MachineName)
+    #$pathDirectory = Join-Path -Path $locationDir -ChildPath (Get-MachineName)
+    $pathDirectory = Get-PathDirectory -name $name
+    if (Get-Debug) {
+        Write-Host "Removing path directory '$pathDirectory' if exists" -ForegroundColor Yellow
+    }
     if (Test-Path -Path $pathDirectory) {
         if (Get-Debug) {
             Write-Host "Removing path directory '$pathDirectory'" -ForegroundColor Yellow

@@ -27,7 +27,8 @@ function Test-LocationShouldExistAsExpected {
     $description | Should -Be "Test location"
 
     $machineName = Get-TheMachineName
-    $bookmarkPathDir = Join-Path -Path $bookmarkDir -ChildPath $machineName
+    $bookmarkMachinesDir = Join-Path -Path $bookmarkDir -ChildPath "machines"
+    $bookmarkPathDir = Join-Path -Path $bookmarkMachinesDir -ChildPath $machineName
     $bookmarkPathDir | Should -Exist
 
     $bookmarkPathFile = Join-Path -Path $bookmarkPathDir -ChildPath "path.txt"
