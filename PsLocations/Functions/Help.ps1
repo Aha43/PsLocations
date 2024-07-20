@@ -55,6 +55,13 @@ function Get-LocListHelp {
     Write-Host
 }
 
+function Get-LocShowHelp {
+    Write-Host
+    Write-Host "Usage: loc show" -ForegroundColor Green
+    Write-Host "Show all locations by returning an array of objects representing locations" -ForegroundColor Green
+    Write-Host
+}
+
 function Get-LocRemoveHelp {
     Write-Host
     Write-Host "Usage: loc remove <name | pos>" -ForegroundColor Green
@@ -108,6 +115,7 @@ function Get-LocCliActions {
         "rename",
         "edit",
         "list",
+        "show",
         "remove",
         "remove-this",
         "repair",
@@ -158,6 +166,9 @@ function Get-SubActionHelp(
         }
         "list" {
             Get-LocListHelp
+        }
+        "show" {
+            Get-LocShowHelp
         }
         "remove" {
             Get-LocRemoveHelp
