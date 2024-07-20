@@ -13,12 +13,11 @@ function Get-Status {
     if (-not (Test-LocationsSystemOk)) {
         return
     }
-    $computerName = Get-MachineName
-    Write-Host
-    Write-Host "On computer: $computerName" -ForegroundColor Cyan
-    Write-Host "Locations directory: $(Get-LocationsDirectory)" -ForegroundColor Cyan
-    Write-Host "Location count: $(Get-LocationCount)" -ForegroundColor Cyan
-    $debug = Get-Debug
-    Write-Host "Debug mode: $debug" -ForegroundColor Cyan
-    Write-Host
+
+    return [PSCustomObject]@{
+        ComputerName = Get-MachineName
+        LocationsDirectory = Get-LocationsDirectory
+        LocationCount = Get-LocationCount
+        Debug = Get-Debug
+    }
 }
