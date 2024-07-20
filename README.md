@@ -19,7 +19,11 @@ Bookmarks are called locations in this context and allow terminal command line u
 ```
 loc add . 'Repository root of my amazing project'
 ```
-The . says use directory name as name for location and last parameter is a mandatory description.
+The . says use directory name as name for location and last parameter is a mandatory description. If you want to use another name for the location than the directory name:
+
+```
+loc add DaAmazingProject 'Repository root of my amazing project'
+```
 
 ## Usage
 
