@@ -12,11 +12,20 @@ function Show-Notes {
         return
     }
 
+    $retVal = @()
+
     $notes = Get-ChildItem -Path $notesDir
     $notes | ForEach-Object {
         $fullName = $_.FullName
-        $note = Get-Content -Path $fullName
+        $noteContent = Get-Content -Path $fullName
         $noteTimestamp = [System.IO.Path]::GetFileNameWithoutExtension($fullName)
-        Write-Host ($noteTimestamp + " - " + $note) -ForegroundColor Cyan
+        $note = [PSCustomObject]@{
+            Timestamp = $noteTimestamp
+            Content = $noteContent
+        }
+
+        $retVal += $note
     }
+
+    return $retVal
 }
