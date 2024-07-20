@@ -25,6 +25,24 @@ The . says use directory name as name for location and last parameter is a manda
 loc add DaAmazingProject 'Repository root of my amazing project'
 ```
 
+To list locations:
+
+```
+loc l
+```
+
+To move to a location
+
+```
+loc DaAmazingProject
+```
+
+If you remember the position of the location as listed by ```loc l```, say 0 you can move to location:
+
+```
+loc 0
+```
+
 ## Usage
 
 ```shell
