@@ -78,3 +78,19 @@ function Test-NoteShouldExistForLocation {
     $noteContent = Get-Content -Path $noteFile
     $noteContent | Should -Be $note
 }
+
+function Test-LastNoteShouldListAsExpected {
+    param(
+        [string]$note # the note to be checked
+    )
+
+    $noteFile = $env:LocLastNoteFile
+    $timeStamp = [System.IO.Path]::GetFileNameWithoutExtension($noteFile)
+
+    $list = (loc notes)
+    $list | Should -Not -Be $null
+    $list
+    $lastNote = $list | Where-Object { $_.Timestamp -eq $timeStamp }
+    $lastNote | Should -Not -Be $null
+    $lastNote.Content | Should -Be $note
+}

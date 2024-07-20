@@ -6,6 +6,7 @@
 
 . $PSScriptRoot/Functions/CliImplementation/Add.ps1
 . $PSScriptRoot/Functions/CliImplementation/Show.ps1
+. $PSScriptRoot/Functions/CliImplementation/AddNote.ps1
 . $PSScriptRoot/Functions/CliImplementation/Notes.ps1
 
 function Get-MachineNamesForLocation {
@@ -160,26 +161,6 @@ function Update-LocationPath {
     else {
         Write-Host "Location '$name' does not exist" -ForegroundColor Red
     }
-}
-
-function Add-LocationNote {
-    param(
-        [string]$name,
-        [string]$note
-    )
-
-    if (-not (Test-LocationsSystemOk)) {
-        return
-    }
-
-    $noteFile = Get-NextNoteFile -name $name
-    if (-not $noteFile) {
-        return
-    }
-
-    $note | Out-File -FilePath $noteFile
-
-    $env:LocLastNoteFile = $noteFile
 }
 
 function Rename-Location {
