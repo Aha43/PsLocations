@@ -18,6 +18,10 @@ Describe "PsLocations tests" {
     }
 
     AfterAll {
+        $here = $PSScriptRoot
+        $testLocationsDir = Join-Path -Path $here -ChildPath "TestLocations"
+        $testDir = Join-Path -Path $here -ChildPath "TestDir"
+
         if (Test-Path -Path $testDir) {
             Remove-Item -Path $testDir -Recurse -Force
         }
@@ -29,7 +33,9 @@ Describe "PsLocations tests" {
         Remove-Module -Name "PsLocations"
 
         # Remove the environment variable
-        Remove-Item -Path "env:LocHome"
+        if ($env:LocHome) {
+            Remove-Item -Path "env:LocHome"
+        }
     }
 
     It "loc status should create the testLocDir" {
@@ -49,7 +55,9 @@ Describe "PsLocations tests" {
             # act: add the location
             loc Add "Test" "Test location"
 
-            # assert
+            Test-LocationShouldListAsExpected -name "Test" -locationPath $locPath
+
+            # assert file structure reflects the new location
             Pop-Location
             Test-LocationShouldExistAsExpected -locationsDir $testLocationsDir -name "Test" -locationPath $locPath
         
@@ -60,7 +68,7 @@ Describe "PsLocations tests" {
 
             # assert
             Test-NoteShouldExistForLocation -locationsDir $testLocationsDir -name "Test" -note "Test note"
-            
+
         # Test the navigation
             # act: navigate to the location
             loc Test

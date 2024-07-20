@@ -1,11 +1,21 @@
 function Show-Locations {
+    param (
+        [switch]$PassThru
+    )
+    
     if (-not (Test-LocationsSystemOk)) {
         return
     }
 
+    $retVal = @()
+
     $locationsDir = Get-LocationsDirectory
     $locations = Get-ChildItem -Path $locationsDir
     [int]$pos = 0
+
+    if (-not $PassThru) {
+        Write-Host
+    }
     Write-Host
     $locations | ForEach-Object {
         $name = $_.Name
@@ -22,23 +32,43 @@ function Show-Locations {
             $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
             $path = Get-Content -Path $pathFile
             $machineNames = Get-MachineNamesForLocation -name $name
-            if (-not $exist) {
-                Write-Host "$pos" -NoNewline -ForegroundColor Red
-                Write-Host " - $name" -NoNewline -ForegroundColor Red
-                Write-Host " - $description" -NoNewline -ForegroundColor Red
-                Write-Host " - $path" -NoNewline -ForegroundColor Red
-                Write-Host " - $machineNames" -ForegroundColor Red
+
+            $location = [PSCustomObject]@{
+                Pos = $pos
+                Name = $name
+                Description = $description
+                Path = $path
+                MachineNames = $machineNames
+                Exist = $exist
             }
-            else {
-                Write-Host "$pos" -NoNewline -ForegroundColor Yellow
-                Write-Host " - $name" -NoNewline -ForegroundColor Cyan
-                Write-Host " - $description" -NoNewline -ForegroundColor Green
-                Write-Host " - $path" -NoNewline -ForegroundColor Cyan
-                Write-Host " - $machineNames" -ForegroundColor Yellow
-            }    
+
+            $retVal += $location
+
+            if (-not $PassThru) {
+                if (-not $exist) {
+                    Write-Host "$pos" -NoNewline -ForegroundColor Red
+                    Write-Host " - $name" -NoNewline -ForegroundColor Red
+                    Write-Host " - $description" -NoNewline -ForegroundColor Red
+                    Write-Host " - $path" -NoNewline -ForegroundColor Red
+                    Write-Host " - $machineNames" -ForegroundColor Red
+                }
+                else {
+                    Write-Host "$pos" -NoNewline -ForegroundColor Yellow
+                    Write-Host " - $name" -NoNewline -ForegroundColor Cyan
+                    Write-Host " - $description" -NoNewline -ForegroundColor Green
+                    Write-Host " - $path" -NoNewline -ForegroundColor Cyan
+                    Write-Host " - $machineNames" -ForegroundColor Yellow
+                }
+            }
         }
         
         $pos++
     }
-    Write-Host
+    if (-not $PassThru) {
+        Write-Host
+    }
+
+    if ($PassThru) {
+        return $retVal
+    }
 }

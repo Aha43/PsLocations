@@ -451,6 +451,10 @@ function Loc {
     elseif ($action -eq "list" -or $action -eq "ls" -or $action -eq "l") {
         Show-Locations
     }
+    elseif ($action -eq "show") {
+        $l = (Show-Locations -PassThru)
+        return $l
+    }
     elseif ($action -eq "remove") {
         if ($args.Length -lt 2) {
             Write-Host "Usage: loc remove <name>" -ForegroundColor Red
