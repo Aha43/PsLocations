@@ -14,6 +14,7 @@ function Test-LocationShouldExistAsExpected {
     param(
         [string]$locationsDir, # the directory where the locations are stored
         [string]$name, # the name of the location
+        [string]$description, # the description of the location
         [string]$locationPath # the path of the location beeing bookmarked
     )
 
@@ -23,7 +24,7 @@ function Test-LocationShouldExistAsExpected {
     $descriptionFile = Join-Path -Path $bookmarkDir -ChildPath "description.txt"
     $descriptionFile | Should -Exist
     $description = Get-Content -Path $descriptionFile
-    $description | Should -Be "Test location"
+    $description | Should -Be $description
 
     $machineName = Get-TheMachineName
     $bookmarkMachinesDir = Join-Path -Path $bookmarkDir -ChildPath "machines"

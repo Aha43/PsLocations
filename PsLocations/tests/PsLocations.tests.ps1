@@ -59,9 +59,8 @@ Describe "PsLocations tests" {
 
             # assert file structure reflects the new location
             Pop-Location
-            Test-LocationShouldExistAsExpected -locationsDir $testLocationsDir -name "Test" -locationPath $locPath
+            Test-LocationShouldExistAsExpected -locationsDir $testLocationsDir -name "Test" -description "Test location" -locationPath $locPath
         
-
         # Test adding note
             # act: add a note to the location
             loc Note "Test" "Test note"
