@@ -63,10 +63,10 @@ Describe "PsLocations tests" {
         
         # Test adding note
             # act: add a note to the location
-            loc Note "Test" "Test note"
+            $note = (loc Note "Test" "Test note")
 
             # assert
-            Test-NoteShouldExistForLocation -locationsDir $testLocationsDir -name "Test" -note "Test note"
+            Test-NoteShouldExistForLocation -locationsDir $testLocationsDir -name "Test" -note "Test note" -noteFile $note.File
 
         # Test the navigation
             # act: navigate to the location

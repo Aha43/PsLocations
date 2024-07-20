@@ -66,14 +66,14 @@ function Test-NoteShouldExistForLocation {
     param (
         [string]$locationsDir, # the directory where the locations are stored
         [string]$name, # the name of the location
-        [string]$note # the note to be checked
+        [string]$note, # the note to be checked
+        [string]$noteFile # the note file to be checked
     )
     
     $bookmarkDir = Join-Path -Path $locationsDir -ChildPath $name
     $notesDir = Join-Path -Path $bookmarkDir -ChildPath "notes"
     $notesDir | Should -Exist
 
-    $noteFile = $env:LocLastNoteFile
     $noteFile | Should -Exist
     $noteContent = Get-Content -Path $noteFile
     $noteContent | Should -Be $note
@@ -81,13 +81,12 @@ function Test-NoteShouldExistForLocation {
 
 function Test-LastNoteShouldListAsExpected {
     param(
-        [string]$note # the note to be checked
+        [string]$name, # the name of the location
+        [string]$note, # the note to be checked
+        [string]$timeStamp # the timestamp of the note
     )
 
-    $noteFile = $env:LocLastNoteFile
-    $timeStamp = [System.IO.Path]::GetFileNameWithoutExtension($noteFile)
-
-    $list = (loc notes)
+    $list = (loc notes $name)
     $list | Should -Not -Be $null
     $list
     $lastNote = $list | Where-Object { $_.Timestamp -eq $timeStamp }

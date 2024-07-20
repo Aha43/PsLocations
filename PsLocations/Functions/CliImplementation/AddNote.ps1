@@ -15,8 +15,6 @@ function Add-LocationNote {
 
     $note | Out-File -FilePath $noteFile
 
-    $env:LocLastNoteFile = $noteFile
-
     return [PSCustomObject]@{
         Timestamp = [System.IO.Path]::GetFileNameWithoutExtension($noteFile)
         Location = $name
