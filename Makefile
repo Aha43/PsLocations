@@ -18,6 +18,9 @@ analyze: install-analyzer
 test: analyze
 	pwsh -Command "Invoke-Pester -Script PsLocations/tests/PsLocations.tests.ps1 -PassThru -CI"
 
+rawtest:
+	pwsh -Command "Invoke-Pester -Script PsLocations/tests/PsLocations.tests.ps1 -PassThru -CI"
+
 clean:
 	pwsh -Command "./tools/CleanTest.ps1"
 
