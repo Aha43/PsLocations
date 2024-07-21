@@ -14,6 +14,35 @@ WORK IN PROGRESS, NOT YET READY FOR USE, BUT SOON HOPE :)
 
 The `Loc` command line interface (CLI) is a tool for managing and navigating folder bookmarks with ease. This guide provides detailed usage instructions for each action available in the `Loc` CLI.
 
+Bookmarks are called locations in this context and allow terminal command line users to move to much used working directories with out a series of cd or tedious path completions. To add current working directory as a location:
+
+```
+loc add . 'Repository root of my amazing project'
+```
+The . says use directory name as name for location and last parameter is a mandatory description. If you want to use another name for the location than the directory name:
+
+```
+loc add DaAmazingProject 'Repository root of my amazing project'
+```
+
+To list locations:
+
+```
+loc l
+```
+
+To move to a location
+
+```
+loc DaAmazingProject
+```
+
+If you remember the position of the location as listed by ```loc l```, say 0 you can move to location:
+
+```
+loc 0
+```
+
 ## Usage
 
 ```shell
