@@ -18,11 +18,10 @@ function AnalyzeScripts {
         $results | Format-Table -AutoSize | Out-String
         $global:LASTEXITCODE = 1
         exit 1
-    } else {
-        Write-Output "No issues found by Script Analyzer."
-        $global:LASTEXITCODE = 1
-        return 0
     }
+    Write-Output "No issues found by Script Analyzer."
+    $global:LASTEXITCODE = 0
+    exit 0
 }
 
 # Call the function with the default path

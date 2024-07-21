@@ -1,11 +1,30 @@
-$testResultFile = "./testResults.xml"
-if (Test-Path -Path $testResultFile) {
-    Write-Host "Removing test result file: $testResultFile"
-    Remove-Item -Path $testResultFile -Force
+# Function to delete all testResults.xml files in the given directory and subdirectories
+function Delete-TestResultsFiles {
+    param (
+        [string]$Path = "."
+    )
+
+    try {
+        # Get all testResults.xml files in the specified directory and subdirectories
+        $files = Get-ChildItem -Path $Path -Recurse -Filter "testResults.xml"
+
+        # Check if any files were found
+        if ($files.Count -eq 0) {
+            Write-Host "No testResults.xml files found in $Path" -ForegroundColor Yellow
+        } else {
+            # Delete each found file
+            foreach ($file in $files) {
+                Remove-Item -Path $file.FullName -Force
+                Write-Host "Deleted: $($file.FullName)" -ForegroundColor Green
+            }
+        }
+    } catch {
+        Write-Host "An error occurred: $_" -ForegroundColor Red
+    }
 }
-else {
-    Write-Host "Test result file not found: $testResultFile"
-}
+
+# Call the function with the current directory as the default path
+Delete-TestResultsFiles -Path "."
 
 $testDirPath = "./PsLocations/tests/TestDir"
 if (Test-Path -Path $testDirPath) {
