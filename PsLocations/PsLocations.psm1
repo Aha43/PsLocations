@@ -247,6 +247,8 @@ function Remove-Location {
         [string]$name
     )
 
+    [bool]$debug = Get-Debug
+
     if (-not (Test-LocationsSystemOk)) {
         return
     }
@@ -257,14 +259,15 @@ function Remove-Location {
     }
 
     $pathDirectory = Get-PathDirectory -name $name
-    if (Get-Debug) {
+    if ($debug) {
         Write-Host "Removing path directory '$pathDirectory' if exists" -ForegroundColor Yellow
     }
     if (Test-Path -Path $pathDirectory) {
-        if (Get-Debug) {
+        if ($debug) {
             Write-Host "Removing path directory '$pathDirectory'" -ForegroundColor Yellow
         }
-        Remove-Item -Path $pathDirectory -Recurse
+
+        Remove-DirSafely -debug $debug -function "Remove-Location" -dir $pathDirectory
     }
 
     $machinesDirectory = Get-MachinesDirectory -name $name
@@ -273,7 +276,8 @@ function Remove-Location {
         if (Get-Debug) {
             Write-Host "Removing location directory '$locationDir'" -ForegroundColor Yellow
         }
-        Remove-Item -Path $locationDir -Recurse
+        
+        Remove-DirSafely -debug $debug -function "Remove-Location" -dir $locationDir
     }
 }
 

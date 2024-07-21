@@ -66,7 +66,13 @@ Describe "PsLocations tests" {
             $note = (loc Note "Test" "Test note")
 
             # assert
+            $note.Timestamp | Should -Not -BeNullOrEmpty
+            $note.Location | Should -Be "Test"
+            $note.Content | Should -Be "Test note"
+            $note.File | Should -Exist
+
             Test-NoteShouldExistForLocation -locationsDir $testLocationsDir -name "Test" -note "Test note" -noteFile $note.File
+            Test-LastNoteShouldListAsExpected -name "Test" -note "Test note" -timeStamp $note.Timestamp
 
         # Test the navigation
             # act: navigate to the location

@@ -78,3 +78,65 @@ function Test-ValidLocationName {
         return $false
     }
 }
+
+function Get-LocationName {
+    param (
+        [string]$name
+    )
+
+    if ($name -eq ".") {
+        $name = (Get-Location).Path | Split-Path -Leaf
+    }
+
+    if (-not (Test-ValidLocationName -identifier $name)) {
+        $errMsg = "Invalid location name $name"
+        Write-Host $errMsg -ForegroundColor Red
+        throw $errMsg
+    }
+
+    return $name
+}
+
+function Get-LocationsDirectory2 {
+    $retVal = Join-Path -Path $HOME -ChildPath ".locations"
+
+    if ($env:LocHome) {
+        $retVal = $env:LocHome
+    }
+    
+    if (-not (Test-Path -Path $retVal)) {
+        [void](New-Item -Path $retVal -ItemType Directory)
+    }
+
+    return $retVal
+}
+
+function Remove-DirSafely {
+    param (
+        [bool]$debug,
+        [string]$function,
+        [string]$dir
+    )
+
+    if ($debug) {
+        Write-Host "Function $function : Remove-DirSafely: $dir" -ForegroundColor Yellow
+    }
+
+    $locationsDir = Get-LocationsDirectory2
+    if ($dir -eq $locationsDir) {
+        $errMsg = "Can not remove the locations directory"
+        Write-Host $errMsg -ForegroundColor Red
+        throw $errMsg
+    }
+
+    # if not descendant of locations dir
+    if (-not $dir.StartsWith($locationsDir)) {
+        $errMsg = "Can not remove directory $dir since it is not a descendant of the locations directory"
+        Write-Host $errMsg -ForegroundColor Red
+        throw $errMsg
+    }
+
+    if (Test-Path -Path $dir) {
+        Remove-Item -Path $dir -Recurse -Force
+    }
+}

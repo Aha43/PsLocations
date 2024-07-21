@@ -8,10 +8,7 @@ function Add-Location {
         return
     }   
 
-    if (-not (Test-ValidLocationName -identifier $name)) {
-        Write-Host "Invalid location name. Must start with a letter or underscore and contain only letters, numbers, and underscores" -ForegroundColor Red
-        return
-    }
+    $name = Get-LocationName -name $name
 
     $locationDir = Get-LocationDirectory -name $name
     if (-not (Test-Path -Path $locationDir)) {
