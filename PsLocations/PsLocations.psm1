@@ -41,7 +41,6 @@ function Get-LocationNameAtPosition {
 
     $locationsDir = Get-LocationsDirectory
     $locations = Get-ChildItem -Path $locationsDir
-    #$retVal = $null
     if ($locations.Length -gt 0) {
         $index = 0
         foreach ($location in $locations) {
@@ -50,15 +49,6 @@ function Get-LocationNameAtPosition {
             }
             $index++
         }
-
-        # $locations | ForEach-Object {
-        #     if ($index -eq $position) {
-        #         #$retVal = $_.Name
-        #         return $_.Name
-        #         exit 0
-        #     }
-        #     $index++
-        # }
     }
     return $null
 }

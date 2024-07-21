@@ -1,5 +1,5 @@
 # Function to delete all testResults.xml files in the given directory and subdirectories
-function Delete-TestResultsFiles {
+function DeleteTestResultsFiles {
     param (
         [string]$Path = "."
     )
@@ -24,7 +24,7 @@ function Delete-TestResultsFiles {
 }
 
 # Call the function with the current directory as the default path
-Delete-TestResultsFiles -Path "."
+DeleteTestResultsFiles -Path "."
 
 $testDirPath = "./PsLocations/tests/TestDir"
 if (Test-Path -Path $testDirPath) {
