@@ -6,7 +6,7 @@ function Add-Location {
 
     if (-not (Test-LocationsSystemOk)) {
         return
-    }   
+    }
 
     $name = Get-LocationName -name $name
 
@@ -39,7 +39,7 @@ function Add-Location {
     else {
         if (Get-Debug) {
             Write-Host "'$locationDir' do exists" -ForegroundColor Yellow
-        } 
+        }
         Write-Host "Location named '$name' already added" -ForegroundColor Red
         Write-Host "Use 'loc update $name' to update the path or add for the machine you are on" -ForegroundColor Green
     }

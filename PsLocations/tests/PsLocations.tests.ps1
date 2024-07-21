@@ -1,7 +1,7 @@
 Describe "PsLocations tests" {
 
     BeforeAll {
-        . $PSScriptRoot/UtilityAndAssertFunctions.ps1   
+        . $PSScriptRoot/UtilityAndAssertFunctions.ps1
 
         $here = $PSScriptRoot
         $testLocationsDir = Join-Path -Path $here -ChildPath "TestLocations"
@@ -60,7 +60,7 @@ Describe "PsLocations tests" {
             # assert file structure reflects the new location
             Pop-Location
             Test-LocationShouldExistAsExpected -locationsDir $testLocationsDir -name "Test" -description "Test location" -locationPath $locPath
-        
+
         # Test adding note
             # act: add a note to the location
             $note = (loc Note "Test" "Test note")
@@ -98,6 +98,6 @@ Describe "PsLocations tests" {
             loc Remove "Test"
             # assert the location should not exist
             Test-LocationShouldNotExist -locationsDir $testLocationsDir -name "Test"
-    }   
+    }
 
 }

@@ -17,7 +17,7 @@ function Get-MachineNamesForLocation {
     $machinesDirectory = Get-MachinesDirectory -name $name
     if (Get-Debug) {
         Write-Host "Get-MachineNamesForLocation: Checking path directory '$machinesDirectory'" -ForegroundColor Yellow
-    }   
+    }
 
     $machineNames = @()
     if (Test-Path -Path $machinesDirectory) {
@@ -60,7 +60,7 @@ function Test-Location([string]$name) {
         return $false
     }
     $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
-    
+
     $path = Get-Content -Path $pathFile
     return (Test-Path -Path $path)
 }
@@ -101,7 +101,7 @@ function Mount-Location {
             Write-Host "Mount-Location: Position $pos is location '$name'" -ForegroundColor Yellow
         }
     }
-    
+
     $locationDir = Get-LocationDirectory -name $name
     if (-not $locationDir) {
         if (Get-Debug) {
@@ -120,7 +120,7 @@ function Mount-Location {
             return
         }
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
-        
+
         $path = Get-Content -Path $pathFile
         if (-not (Test-Path -Path $path)) {
             Write-Host "Location '$name' does not physical exist ('$path' probably deleted)" -ForegroundColor Red
@@ -154,7 +154,7 @@ function Update-LocationPath {
             [void](New-Item -Path $pathDirectory -ItemType Directory)
         }
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
-        
+
         $path = (get-location).Path
         $path | Out-File -FilePath $pathFile
     }
@@ -276,7 +276,7 @@ function Remove-Location {
         if (Get-Debug) {
             Write-Host "Removing location directory '$locationDir'" -ForegroundColor Yellow
         }
-        
+
         Remove-DirSafely -debug $debug -function "Remove-Location" -dir $locationDir
     }
 }
@@ -327,7 +327,7 @@ function Get-LocationWhereIAm {
             }
         }
     }
-    
+
     if (-not $found) {
         Write-Host
         Write-Host "You are not at any registered location" -ForegroundColor Red
@@ -347,7 +347,7 @@ function Loc {
     }
 
     $action = $args[0]
-    
+
     if ($action -eq "add") {
         if ($args.Length -lt 3) {
             Write-Host "Usage: loc add <name> <description>" -ForegroundColor Red

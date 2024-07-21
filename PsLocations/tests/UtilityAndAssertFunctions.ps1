@@ -69,7 +69,7 @@ function Test-NoteShouldExistForLocation {
         [string]$note, # the note to be checked
         [string]$noteFile # the note file to be checked
     )
-    
+
     $bookmarkDir = Join-Path -Path $locationsDir -ChildPath $name
     $notesDir = Join-Path -Path $bookmarkDir -ChildPath "notes"
     $notesDir | Should -Exist

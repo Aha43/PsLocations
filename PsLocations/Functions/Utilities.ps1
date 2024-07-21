@@ -71,7 +71,7 @@ function Test-ValidLocationName {
     )
 
     $regex = '^[a-zA-Z_][a-zA-Z0-9_]*$'
-    
+
     if ($identifier -match $regex) {
         return $true
     } else {
@@ -103,7 +103,7 @@ function Get-LocationsDirectory2 {
     if ($env:LocHome) {
         $retVal = $env:LocHome
     }
-    
+
     if (-not (Test-Path -Path $retVal)) {
         [void](New-Item -Path $retVal -ItemType Directory)
     }

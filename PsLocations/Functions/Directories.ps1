@@ -4,7 +4,7 @@ function Get-LocationsDirectory {
     if ($env:LocHome) {
         $retVal = $env:LocHome
     }
-    
+
     if (-not (Test-Path -Path $retVal)) {
         [void](New-Item -Path $retVal -ItemType Directory)
     }
@@ -38,7 +38,7 @@ function Get-LocationDirectoryGivenNameOrPos {
             return $null
         }
 
-        $nameOrPos = Get-LocationNameAtPosition -position $pos    
+        $nameOrPos = Get-LocationNameAtPosition -position $pos
         if (Get-Debug) {
             Write-Host "Get-LocationDirectoryGivenNameOrPos: Position $pos is location '$nameOrPos'" -ForegroundColor Yellow
         }
@@ -75,7 +75,7 @@ function Get-LocationDirectoryGivenNameOrPos {
             return $null
         }
 
-        $nameOrPos = Get-LocationNameAtPosition -position $pos    
+        $nameOrPos = Get-LocationNameAtPosition -position $pos
         if (Get-Debug) {
             Write-Host "Get-LocationDirectoryGivenNameOrPos: Position $pos is location '$nameOrPos'" -ForegroundColor Yellow
         }
@@ -110,7 +110,7 @@ function Get-PathDirectory {
     param (
         [string]$name
     )
-        
+
     $machinesDirectory = Get-MachinesDirectory -name $name
     $machineName = Get-MachineName
     $pathDirectory = Join-Path -Path $machinesDirectory -ChildPath $machineName

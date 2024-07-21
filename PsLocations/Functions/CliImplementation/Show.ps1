@@ -2,7 +2,7 @@ function Show-Locations {
     param (
         [switch]$PassThru
     )
-    
+
     if (-not (Test-LocationsSystemOk)) {
         return
     }
@@ -61,7 +61,7 @@ function Show-Locations {
                 }
             }
         }
-        
+
         $pos++
     }
     if (-not $PassThru) {

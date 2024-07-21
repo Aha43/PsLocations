@@ -1,4 +1,4 @@
-function Analyze-Scripts {
+function AnalyzeScripts {
     param (
         [string]$Path = "."
     )
@@ -9,7 +9,7 @@ function Analyze-Scripts {
     }
 
     # Run PSScriptAnalyzer
-    
+
     $results = Invoke-ScriptAnalyzer -Path $Path -Recurse -ExcludeRule PSAvoidUsingWriteHost
 
     # Output results and handle warnings/errors
@@ -26,4 +26,4 @@ function Analyze-Scripts {
 }
 
 # Call the function with the default path
-Analyze-Scripts
+AnalyzeScripts

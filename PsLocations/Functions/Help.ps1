@@ -131,7 +131,7 @@ function Get-LocCliHelp {
     $actions = (Get-LocCliActions) -join ", "
     Write-Host
     Write-Host "loc - A location management and navigation command line interface" -ForegroundColor Green
-    Write-Host 
+    Write-Host
     Write-Host "Usage: loc <action> ..." -ForegroundColor Green
     Write-Host "Actions: $actions" -ForegroundColor Green
     Write-Host
