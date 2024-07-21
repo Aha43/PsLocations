@@ -1,7 +1,7 @@
 .PHONY: all analyze
 
 # Default target
-all: analyze
+all: test
 
 # Target to install PSScriptAnalyzer if not already installed
 install-analyzer:
@@ -11,7 +11,7 @@ install-analyzer:
 analyze: install-analyzer
 	@pwsh -NoProfile -ExecutionPolicy Bypass -File ./tools/analyze.ps1; \
 	if [ $$? -ne 0 ]; then \
-		echo "Analyze script failed"; \
+		echo "Failed to pass script analyze"; \
 		exit 1; \
 	fi
 
