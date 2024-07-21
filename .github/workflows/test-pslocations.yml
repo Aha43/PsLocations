@@ -17,14 +17,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Pester
+      - name: Install script analyzer
         shell: pwsh
         run: |
           Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
           Import-Module PSScriptAnalyzer
-          displayName: 'Install PSScriptAnalyzer'
     
-      - name: |
+      - name: Analyze scripts |
         shell: pwsh
         run: |
           $results = Invoke-ScriptAnalyzer -Path . -Recurse
@@ -33,11 +32,9 @@ jobs:
             $results | Format-Table
             exit 1
           }
-          displayName: 'Run PSScriptAnalyzer'
       
       - name: Run Pester tests
         shell: pwsh
         run: |
           Invoke-Pester -Script PsLocations/tests/PsLocations.tests.ps1 -PassThru -CI
           displayName: 'Run Pester tests'
-          
