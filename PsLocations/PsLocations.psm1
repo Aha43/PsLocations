@@ -41,17 +41,26 @@ function Get-LocationNameAtPosition {
 
     $locationsDir = Get-LocationsDirectory
     $locations = Get-ChildItem -Path $locationsDir
-    $retVal = $null
+    #$retVal = $null
     if ($locations.Length -gt 0) {
         $index = 0
-        $locations | ForEach-Object {
+        foreach ($location in $locations) {
             if ($index -eq $position) {
-                $retVal = $_.Name
+                return $location.Name
             }
             $index++
         }
+
+        # $locations | ForEach-Object {
+        #     if ($index -eq $position) {
+        #         #$retVal = $_.Name
+        #         return $_.Name
+        #         exit 0
+        #     }
+        #     $index++
+        # }
     }
-    return $retVal
+    return $null
 }
 
 function Test-Location([string]$name) {
