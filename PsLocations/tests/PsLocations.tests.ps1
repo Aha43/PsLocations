@@ -116,6 +116,12 @@ Describe "PsLocations tests" {
             # assert: the description should be changed
             Test-LocationShouldListAsExpected -name "Test" -description "New description" -locationPath $locPath
 
+        # act: Rename the location
+            # act: rename the location
+            loc Rename "Test" "NewTest"
+            # assert: the location should be renamed
+            Test-LocationShouldListAsExpected -name "NewTest" -description "New description" -locationPath $locPath
+
         # act: remove the location
             loc Remove "Test"
             # assert the location should not exist
