@@ -1,4 +1,4 @@
-function Add-Location {
+function AddLocation {
     param(
         [string]$name,
         [string]$description

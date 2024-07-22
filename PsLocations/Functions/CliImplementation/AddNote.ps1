@@ -1,4 +1,4 @@
-function Add-LocationNote {
+function AddLocationNote {
     param(
         [string]$name,
         [string]$note
