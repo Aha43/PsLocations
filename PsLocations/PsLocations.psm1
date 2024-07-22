@@ -10,6 +10,7 @@
 . $PSScriptRoot/Functions/CliImplementation/AddNote.ps1
 . $PSScriptRoot/Functions/CliImplementation/Notes.ps1
 . $PSScriptRoot/Functions/CliImplementation/WhereIAm.ps1
+. $PSScriptRoot/Functions/CliImplementation/Edit.ps1
 
 function Get-MachineNamesForLocation {
     param (
@@ -375,7 +376,7 @@ function Loc {
 
         $name = $args[1]
         $description = $args[2]
-        edit-description -name $name -description $description
+        EditDescription -name $name -description $description
     }
     elseif ($action -eq "list" -or $action -eq "ls" -or $action -eq "l") {
         ShowLocations
