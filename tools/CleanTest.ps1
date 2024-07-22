@@ -26,7 +26,7 @@ function DeleteTestResultsFiles {
 # Call the function with the current directory as the default path
 DeleteTestResultsFiles -Path "."
 
-$testDirPath = "./PsLocations/tests/TestDir"
+$testDirPath = "./PsLocations/tests/TestAreas"
 if (Test-Path -Path $testDirPath) {
     Write-Host "Removing test directory: $testDirPath"
     Remove-Item -Path $testDirPath -Recurse -Force

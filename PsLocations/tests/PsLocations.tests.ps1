@@ -6,16 +6,18 @@ Describe "PsLocations tests" {
         $here = $PSScriptRoot
         Set-Location -Path $here
 
-        $testLocationsDir = Join-Path -Path $here -ChildPath "TestLocations"
-        $testDir = Join-Path -Path $here -ChildPath "TestDir"
+        $testAreasDir = Join-Path -Path $here -ChildPath "TestAreas"
+        $testLocationsDir = Join-Path -Path $testAreasDir -ChildPath "TestLocations"
+
+        $testDir = Join-Path -Path $testAreasDir -ChildPath "TestDir"
         New-Item -ItemType Directory -Path $testDir
 
         # Import the module once before all tests
         Import-Module -Name "$here/../PsLocations.psm1"
         $env:LocHome = $testLocationsDir
 
-        if (Test-Path -Path $testLocationsDir) {
-            Remove-Item -Path $testLocationsDir -Recurse -Force
+        if (Test-Path -Path $testAreasDir) {
+            Remove-Item -Path $testAreasDir -Recurse -Force
         }
     }
 
@@ -23,14 +25,10 @@ Describe "PsLocations tests" {
         $here = $PSScriptRoot
         Set-Location -Path $here
 
-        $testLocationsDir = Join-Path -Path $here -ChildPath "TestLocations"
-        $testDir = Join-Path -Path $here -ChildPath "TestDir"
+        $testAreasDir = Join-Path -Path $here -ChildPath "TestAreas"
 
-        if (Test-Path -Path $testDir) {
-            Remove-Item -Path $testDir -Recurse -Force
-        }
-        if (Test-Path -Path $testLocationsDir) {
-            Remove-Item -Path $testLocationsDir -Recurse -Force
+        if (Test-Path -Path $testAreasDir) {
+            Remove-Item -Path $testAreasDir -Recurse -Force
         }
 
         # Remove the module after all tests
