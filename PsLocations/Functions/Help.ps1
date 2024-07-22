@@ -106,7 +106,7 @@ function Get-StatusHelp {
     Write-Host
 }
 
-function Get-LocCliActions {
+function GetLocCliActions {
     $commands = @(
         "add",
         "note",
@@ -128,7 +128,7 @@ function Get-LocCliActions {
 }
 
 function Get-LocCliHelp {
-    $actions = (Get-LocCliActions) -join ", "
+    $actions = (GetLocCliActions) -join ", "
     Write-Host
     Write-Host "loc - A location management and navigation command line interface" -ForegroundColor Green
     Write-Host

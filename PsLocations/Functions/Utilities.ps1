@@ -97,7 +97,7 @@ function Get-LocationName {
     return $name
 }
 
-function Get-LocationsDirectory2 {
+function GetLocationsDirectory2 {
     $retVal = Join-Path -Path $HOME -ChildPath ".locations"
 
     if ($env:LocHome) {
@@ -111,7 +111,7 @@ function Get-LocationsDirectory2 {
     return $retVal
 }
 
-function Remove-DirSafely {
+function RemoveDirSafely {
     param (
         [bool]$debug,
         [string]$function,
@@ -122,7 +122,7 @@ function Remove-DirSafely {
         Write-Host "Function $function : Remove-DirSafely: $dir" -ForegroundColor Yellow
     }
 
-    $locationsDir = Get-LocationsDirectory2
+    $locationsDir = GetLocationsDirectory2
     if ($dir -eq $locationsDir) {
         $errMsg = "Can not remove the locations directory"
         Write-Host $errMsg -ForegroundColor Red

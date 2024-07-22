@@ -22,44 +22,7 @@ function Get-LocationDirectory {
     return $locationDir
 }
 
-function Get-LocationDirectoryGivenNameOrPos {
-    param (
-        [string]$nameOrPos,
-        [switch]$reportError
-    )
-
-    $pos = Convert-ToUnsignedInt -inputString $nameOrPos
-    if ($pos -gt -1) {
-        $count = Get-LocationCount
-        if ($pos -ge $count) {
-            if ($reportError) {
-                Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
-            }
-            return $null
-        }
-
-        $nameOrPos = Get-LocationNameAtPosition -position $pos
-        if (Get-Debug) {
-            Write-Host "Get-LocationDirectoryGivenNameOrPos: Position $pos is location '$nameOrPos'" -ForegroundColor Yellow
-        }
-    }
-
-    $locationDir = Get-LocationDirectory -name $nameOrPos
-    if (Test-Path -Path $locationDir) {
-        if (Get-Debug) {
-            Write-Host "Get-LocationDirectoryGivenNameOrPos: Location directory '$locationDir' exists" -ForegroundColor Yellow
-        }
-        return $locationDir
-    }
-    else {
-        if ($reportError) {
-            Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
-        }
-        return $null
-    }
-}
-
-function Get-LocationDirectoryGivenNameOrPos {
+function GetLocationDirectoryGivenNameOrPos {
     param (
         [string]$nameOrPos,
         [switch]$reportError
@@ -122,7 +85,7 @@ function Get-NotesDir {
         [string]$name
     )
 
-    $locationDir = (Get-LocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    $locationDir = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
     if (-not $locationDir) {
         return $null
     }

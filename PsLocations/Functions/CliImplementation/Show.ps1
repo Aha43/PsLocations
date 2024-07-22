@@ -1,4 +1,4 @@
-function Show-Locations {
+function ShowLocations {
     param (
         [switch]$PassThru
     )

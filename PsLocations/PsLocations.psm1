@@ -133,7 +133,7 @@ function Mount-Location {
     }
 }
 
-function Update-LocationPath {
+function UpdateLocationPath {
     param(
         [string]$name
     )
@@ -142,7 +142,7 @@ function Update-LocationPath {
         return
     }
 
-    $locationDir = (Get-LocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    $locationDir = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
     if (-not $locationDir) {
         return
     }
@@ -177,7 +177,7 @@ function Rename-Location {
         return
     }
 
-    $locationDir = (Get-LocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    $locationDir = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
     if (-not $locationDir) {
         return
     }
@@ -208,7 +208,7 @@ function Edit-Description {
         return
     }
 
-    $locationDir = (Get-LocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    $locationDir = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
     if (-not $locationDir) {
         return
     }
@@ -222,7 +222,7 @@ function Edit-Description {
     }
 }
 
-function Repair-Locations {
+function RepairLocations {
 
     if (-not (Test-LocationsSystemOk)) {
         return
@@ -236,12 +236,12 @@ function Repair-Locations {
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
         $path = Get-Content -Path $pathFile
         if (-not (Test-Path -Path $path)) {
-            Remove-Location -name $name
+            RemoveLocation -name $name
         }
     }
 }
 
-function Remove-Location {
+function RemoveLocation {
     param(
         [string]$name
     )
@@ -252,7 +252,7 @@ function Remove-Location {
         return
     }
 
-    $locationDir = (Get-LocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    $locationDir = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
     if (-not $locationDir) {
         return
     }
@@ -266,7 +266,7 @@ function Remove-Location {
             Write-Host "Removing path directory '$pathDirectory'" -ForegroundColor Yellow
         }
 
-        Remove-DirSafely -debug $debug -function "Remove-Location" -dir $pathDirectory
+        RemoveDirSafely -debug $debug -function "Remove-Location" -dir $pathDirectory
     }
 
     $machinesDirectory = Get-MachinesDirectory -name $name
@@ -276,11 +276,11 @@ function Remove-Location {
             Write-Host "Removing location directory '$locationDir'" -ForegroundColor Yellow
         }
 
-        Remove-DirSafely -debug $debug -function "Remove-Location" -dir $locationDir
+        RemoveDirSafely -debug $debug -function "Remove-Location" -dir $locationDir
     }
 }
 
-function Remove-ThisLocation {
+function RemoveThisLocation {
 
     if (-not (Test-LocationsSystemOk)) {
         return
@@ -295,7 +295,7 @@ function Remove-ThisLocation {
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
         $locPath = Get-Content -Path $pathFile
         if ($path -eq $locPath) {
-            Remove-Location -name $name
+            RemoveLocation -name $name
         }
     }
 }
@@ -379,7 +379,7 @@ function Loc {
         }
 
         $name = $args[1]
-        Show-Notes -name $name
+        ShowNotes -name $name
     }
     elseif ($action -eq "update") {
         if ($args.Length -lt 2) {
@@ -388,7 +388,7 @@ function Loc {
         }
 
         $name = $args[1]
-        Update-LocationPath -name $name
+        UpdateLocationPath -name $name
     }
     elseif ($action -eq "rename") {
         if ($args.Length -lt 3) {
@@ -411,10 +411,10 @@ function Loc {
         edit-description -name $name -description $description
     }
     elseif ($action -eq "list" -or $action -eq "ls" -or $action -eq "l") {
-        Show-Locations
+        ShowLocations
     }
     elseif ($action -eq "show") {
-        $l = (Show-Locations -PassThru)
+        $l = (ShowLocations -PassThru)
         return $l
     }
     elseif ($action -eq "remove") {
@@ -424,13 +424,13 @@ function Loc {
         }
 
         $name = $args[1]
-        Remove-Location -name $name
+        RemoveLocation -name $name
     }
     elseif ($action -eq "remove-this") {
-        Remove-ThisLocation
+        RemoveThisLocation
     }
     elseif ($action -eq "repair") {
-        Repair-Locations
+        RepairLocations
     }
     elseif ($action -eq "goto" -or $action -eq "go") {
         if ($args.Length -lt 2) {

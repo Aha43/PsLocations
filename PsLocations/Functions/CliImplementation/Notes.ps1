@@ -1,4 +1,4 @@
-function Show-Notes {
+function ShowNotes {
     param(
         [string]$name
     )
