@@ -16,11 +16,13 @@ function GetLocationWhereIAm {
         if ($path -eq $locPath) {
             $descFile = Join-Path -Path $location.FullName -ChildPath "description.txt"
             $description = Get-Content -Path $descFile
-            Write-Host
-            Write-Host "Where: You are at location '$name'" -ForegroundColor Green
-            Write-Host "What: $description" -ForegroundColor Cyan
-            Write-Host
             $found = $true
+
+            [PSCustomObject]@{
+                Location = $name
+                Description = $description
+            }
+
             break;
         }
     }

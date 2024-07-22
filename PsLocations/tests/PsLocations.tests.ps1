@@ -92,7 +92,19 @@ Describe "PsLocations tests" {
             loc goto Test
             # assert: we should be in the location
             $pwd.Path | Should -Be $locPath
+
+            # act: get where we are in a location
+            $whereIAm = loc where
+            # assert: we should get the location
+            $whereIAm | Should -Not -BeNullOrEmpty
+            $whereIAm.Location | Should -Be "Test"
+            $whereIAm.Description | Should -Be "Test location"
+
+        # act: get where we are not in a location
             Set-Location -Path $PSScriptRoot
+            $whereIAm = loc where
+            # assert: we should not get any location
+            $whereIAm | Should -BeNullOrEmpty
 
         # act: remove the location
             loc Remove "Test"
