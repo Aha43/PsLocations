@@ -39,14 +39,14 @@ function GetLocationDirectoryGivenNameOrPos {
         }
 
         $nameOrPos = Get-LocationNameAtPosition -position $pos
-        if (Get-Debug) {
+        if (GetDebug) {
             Write-Host "Get-LocationDirectoryGivenNameOrPos: Position $pos is location '$nameOrPos'" -ForegroundColor Yellow
         }
     }
 
     $locationDir = Get-LocationDirectory -name $nameOrPos
     if (Test-Path -Path $locationDir) {
-        if (Get-Debug) {
+        if (GetDebug) {
             Write-Host "Get-LocationDirectoryGivenNameOrPos: Location directory '$locationDir' exists" -ForegroundColor Yellow
         }
         return $locationDir

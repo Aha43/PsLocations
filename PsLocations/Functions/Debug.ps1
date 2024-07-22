@@ -1,4 +1,4 @@
-function Get-Debug {
+function GetDebug {
     if ($env:LocDebug -eq 'True') {
         return $true
     } else {
@@ -6,7 +6,7 @@ function Get-Debug {
     }
 }
 
-function Switch-Debug {
+function SwitchDebug {
     if ($env:LocDebug) {
         if ($env:LocDebug -eq 'True') {
             $env:LocDebug = 'False'

@@ -24,7 +24,7 @@ function ShowLocations {
         $description = Get-Content -Path $descFile
 
         $pathDirectory = Get-PathDirectory -name $name
-        if (Get-Debug) {
+        if (GetDebug) {
             Write-Host "Show-Locations: Checking path directory '$pathDirectory'" -ForegroundColor Yellow
         }
 

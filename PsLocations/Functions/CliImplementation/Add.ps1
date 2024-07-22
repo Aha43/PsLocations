@@ -12,19 +12,19 @@ function AddLocation {
 
     $locationDir = Get-LocationDirectory -name $name
     if (-not (Test-Path -Path $locationDir)) {
-        if (Get-Debug) {
+        if (GetDebug) {
             Write-Host "Creates location directory '$locationDir'" -ForegroundColor Yellow
         }
         [void](New-Item -Path $locationDir -ItemType Directory)
 
         $machinesDirectory = Get-MachinesDirectory -name $name
-        if (Get-Debug) {
+        if (GetDebug) {
             Write-Host "Creates machines directory '$machinesDirectory'" -ForegroundColor Yellow
         }
         [void](New-Item -Path $machinesDirectory -ItemType Directory)
 
         $pathDirectory = Get-PathDirectory -name $name
-        if (Get-Debug) {
+        if (GetDebug) {
             Write-Host "Creates path directory '$pathDirectory'" -ForegroundColor Yellow
         }
         [void](New-Item -Path $pathDirectory -ItemType Directory)
@@ -37,7 +37,7 @@ function AddLocation {
         $description | Out-File -FilePath $descFile
     }
     else {
-        if (Get-Debug) {
+        if (GetDebug) {
             Write-Host "'$locationDir' do exists" -ForegroundColor Yellow
         }
         Write-Host "Location named '$name' already added" -ForegroundColor Red

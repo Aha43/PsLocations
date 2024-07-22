@@ -18,6 +18,6 @@ function Get-Status {
         ComputerName = Get-MachineName
         LocationsDirectory = Get-LocationsDirectory
         LocationCount = Get-LocationCount
-        Debug = Get-Debug
+        Debug = GetDebug
     }
 }

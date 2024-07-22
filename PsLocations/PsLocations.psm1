@@ -15,7 +15,7 @@ function Get-MachineNamesForLocation {
     )
 
     $machinesDirectory = Get-MachinesDirectory -name $name
-    if (Get-Debug) {
+    if (GetDebug) {
         Write-Host "Get-MachineNamesForLocation: Checking path directory '$machinesDirectory'" -ForegroundColor Yellow
     }
 
@@ -96,14 +96,14 @@ function Mount-Location {
         }
 
         $name = Get-LocationNameAtPosition -position $pos
-        if (Get-Debug) {
+        if (GetDebug) {
             Write-Host "Mount-Location: Position $pos is location '$name'" -ForegroundColor Yellow
         }
     }
 
     $locationDir = Get-LocationDirectory -name $name
     if (-not $locationDir) {
-        if (Get-Debug) {
+        if (GetDebug) {
             Write-Host "Mount-Location: Location '$name' not found by Get-LocationDirectoryGivenNameOrPos" -ForegroundColor Yellow
         }
         return
@@ -111,7 +111,7 @@ function Mount-Location {
 
     if (Test-Path -Path $locationDir) {
         $pathDirectory = Get-PathDirectory -name $name
-        if (Get-Debug) {
+        if (GetDebug) {
             Write-Host "Mount-Location: Checking path directory '$pathDirectory'" -ForegroundColor Yellow
         }
         if (-not (Test-Path -Path $pathDirectory)) {
@@ -246,7 +246,7 @@ function RemoveLocation {
         [string]$name
     )
 
-    [bool]$debug = Get-Debug
+    [bool]$debug = GetDebug
 
     if (-not (Test-LocationsSystemOk)) {
         return
@@ -272,7 +272,7 @@ function RemoveLocation {
     $machinesDirectory = Get-MachinesDirectory -name $name
     $subDirCount = (Get-ChildItem -Directory -Path $machinesDirectory).Length
     if ($subDirCount -eq 0) {
-        if (Get-Debug) {
+        if (GetDebug) {
             Write-Host "Removing location directory '$locationDir'" -ForegroundColor Yellow
         }
 
@@ -361,7 +361,7 @@ function Loc {
         Get-Status
     }
     elseif ($action -eq "debug") {
-        Switch-Debug
+        SwitchDebug
     }
     elseif ($action -eq "note") {
         if ($args.Length -lt 3) {
