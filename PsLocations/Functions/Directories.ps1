@@ -28,32 +28,39 @@ function GetLocationDirectoryGivenNameOrPos {
         [switch]$reportError
     )
 
+    $debug = GetDebug
+    $writeUser = GetWriteUser
+
     $pos = Convert-ToUnsignedInt -inputString $nameOrPos
     if ($pos -gt -1) {
         $count = GetLocationCount
         if ($pos -ge $count) {
             if ($reportError) {
-                Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
+                if ($writeUser) {
+                    Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
+                }
             }
             return $null
         }
 
         $nameOrPos = GetLocationNameAtPosition -position $pos
-        if (GetDebug) {
+        if ($debug) {
             Write-Host "Get-LocationDirectoryGivenNameOrPos: Position $pos is location '$nameOrPos'" -ForegroundColor Yellow
         }
     }
 
     $locationDir = GetLocationDirectory -name $nameOrPos
     if (Test-Path -Path $locationDir) {
-        if (GetDebug) {
+        if ($debug) {
             Write-Host "Get-LocationDirectoryGivenNameOrPos: Location directory '$locationDir' exists" -ForegroundColor Yellow
         }
         return $locationDir
     }
     else {
         if ($reportError) {
-            Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
+            if ($writeUser) {
+                Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
+            }
         }
         return $null
     }

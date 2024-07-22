@@ -3,6 +3,8 @@ function GetLocationWhereIAm {
         return
     }
 
+    $writeHost = GetWriteUser
+
     $locationsDir = GetLocationsDirectory
     $locations = Get-ChildItem -Path $locationsDir
     $path = (get-location).Path
@@ -28,9 +30,11 @@ function GetLocationWhereIAm {
     }
 
     if (-not $found) {
-        Write-Host
-        Write-Host "You are not at any registered location" -ForegroundColor Red
-        Write-Host "Use 'loc add <name> <description>' to add current working direction as a location" -ForegroundColor Green
-        Write-Host
+        if ($writeHost) {
+            Write-Host
+            Write-Host "You are not at any registered location" -ForegroundColor Red
+            Write-Host "Use 'loc add <name> <description>' to add current working direction as a location" -ForegroundColor Green
+            Write-Host
+        }
     }
 }

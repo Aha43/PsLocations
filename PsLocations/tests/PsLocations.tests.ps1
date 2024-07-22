@@ -16,6 +16,8 @@ Describe "PsLocations tests" {
         Import-Module -Name "$here/../PsLocations.psm1"
         $env:LocHome = $testLocationsDir
 
+        $env:LocWriteUser = 'False'
+
         if (Test-Path -Path $testAreasDir) {
             Remove-Item -Path $testAreasDir -Recurse -Force
         }
@@ -34,9 +36,12 @@ Describe "PsLocations tests" {
         # Remove the module after all tests
         Remove-Module -Name "PsLocations"
 
-        # Remove the environment variable
+        # Remove the environment variables
         if ($env:LocHome) {
             Remove-Item -Path "env:LocHome"
+        }
+        if ($env:LocWriteUser) {
+            Remove-Item -Path "env:LocWriteUser"
         }
     }
 
