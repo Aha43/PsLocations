@@ -358,7 +358,7 @@ function Loc {
         AddLocation -name $name -description $description
     }
     elseif ($action -eq "status") {
-        Get-Status
+        GetStatus
     }
     elseif ($action -eq "debug") {
         SwitchDebug

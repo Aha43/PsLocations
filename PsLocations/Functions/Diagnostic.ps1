@@ -9,7 +9,7 @@ function TestLocationsSystemOk {
     return $true
 }
 
-function Get-Status {
+function GetStatus {
     if (-not (TestLocationsSystemOk)) {
         return
     }
