@@ -1,4 +1,4 @@
-function Get-LocationsDirectory {
+function GetLocationsDirectory {
     $retVal = Join-Path -Path $HOME -ChildPath ".locations"
 
     if ($env:LocHome) {
@@ -12,12 +12,12 @@ function Get-LocationsDirectory {
     return $retVal
 }
 
-function Get-LocationDirectory {
+function GetLocationDirectory {
     param (
         [string]$name
     )
 
-    $locationsDir = Get-LocationsDirectory
+    $locationsDir = GetLocationsDirectory
     $locationDir = Join-Path -Path $locationsDir -ChildPath $name
     return $locationDir
 }
@@ -44,7 +44,7 @@ function GetLocationDirectoryGivenNameOrPos {
         }
     }
 
-    $locationDir = Get-LocationDirectory -name $nameOrPos
+    $locationDir = GetLocationDirectory -name $nameOrPos
     if (Test-Path -Path $locationDir) {
         if (GetDebug) {
             Write-Host "Get-LocationDirectoryGivenNameOrPos: Location directory '$locationDir' exists" -ForegroundColor Yellow
@@ -59,22 +59,22 @@ function GetLocationDirectoryGivenNameOrPos {
     }
 }
 
-function Get-MachinesDirectory {
+function GetMachinesDirectory {
     param (
         [string]$name
     )
 
-    $locationDir = Get-LocationDirectory -name $name
+    $locationDir = GetLocationDirectory -name $name
     $machinesDirectory = Join-Path -Path $locationDir -ChildPath "machines"
     return $machinesDirectory
 }
 
-function Get-PathDirectory {
+function GetPathDirectory {
     param (
         [string]$name
     )
 
-    $machinesDirectory = Get-MachinesDirectory -name $name
+    $machinesDirectory = GetMachinesDirectory -name $name
     $machineName = Get-MachineName
     $pathDirectory = Join-Path -Path $machinesDirectory -ChildPath $machineName
     return $pathDirectory

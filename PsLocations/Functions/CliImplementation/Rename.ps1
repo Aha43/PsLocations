@@ -22,7 +22,7 @@ function RenameLocation {
         return
     }
 
-    $locationsDir = Get-LocationsDirectory
+    $locationsDir = GetLocationsDirectory
 
     $newLocationDir = Join-Path -Path $locationsDir -ChildPath $newName
 

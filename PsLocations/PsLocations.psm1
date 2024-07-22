@@ -4,6 +4,7 @@
 . $PSScriptRoot/Functions/Diagnostic.ps1
 . $PSScriptRoot/Functions/Help.ps1
 
+. $PSScriptRoot/Functions/CliImplementation/Common.ps1
 . $PSScriptRoot/Functions/CliImplementation/Add.ps1
 . $PSScriptRoot/Functions/CliImplementation/Mount.ps1
 . $PSScriptRoot/Functions/CliImplementation/Show.ps1
@@ -15,31 +16,6 @@
 . $PSScriptRoot/Functions/CliImplementation/Rename.ps1
 . $PSScriptRoot/Functions/CliImplementation/Remove.ps1
 . $PSScriptRoot/Functions/CliImplementation/Repair.ps1
-
-function GetLocationCount {
-    $locationsDir = Get-LocationsDirectory
-    $locations = Get-ChildItem -Path $locationsDir
-    return $locations.Length
-}
-
-function GetLocationNameAtPosition {
-    param (
-        [int]$position
-    )
-
-    $locationsDir = Get-LocationsDirectory
-    $locations = Get-ChildItem -Path $locationsDir
-    if ($locations.Length -gt 0) {
-        $index = 0
-        foreach ($location in $locations) {
-            if ($index -eq $position) {
-                return $location.Name
-            }
-            $index++
-        }
-    }
-    return $null
-}
 
 # cli
 function Loc {

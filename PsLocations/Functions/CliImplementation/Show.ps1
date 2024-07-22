@@ -1,5 +1,5 @@
 function TestLocation([string]$name) {
-    $pathDirectory = Get-PathDirectory -name $name
+    $pathDirectory = GetPathDirectory -name $name
     if (-not (Test-Path -Path $pathDirectory)) {
         return $false
     }
@@ -23,7 +23,7 @@ function ShowLocations {
 
     $retVal = @()
 
-    $locationsDir = Get-LocationsDirectory
+    $locationsDir = GetLocationsDirectory
     $locations = Get-ChildItem -Path $locationsDir
     [int]$pos = 0
 
@@ -39,7 +39,7 @@ function ShowLocations {
         $descFile = Join-Path -Path $_.FullName -ChildPath "description.txt"
         $description = Get-Content -Path $descFile
 
-        $pathDirectory = Get-PathDirectory -name $name
+        $pathDirectory = GetPathDirectory -name $name
         if ($debug) {
             Write-Host "Show-Locations: Checking path directory '$pathDirectory'" -ForegroundColor Yellow
         }

@@ -26,7 +26,7 @@ function MountLocation {
         }
     }
 
-    $locationDir = Get-LocationDirectory -name $name
+    $locationDir = GetLocationDirectory -name $name
     if (-not $locationDir) {
         if ($debug) {
             Write-Host "Mount-Location: Location '$name' not found by Get-LocationDirectoryGivenNameOrPos" -ForegroundColor Yellow
@@ -35,7 +35,7 @@ function MountLocation {
     }
 
     if (Test-Path -Path $locationDir) {
-        $pathDirectory = Get-PathDirectory -name $name
+        $pathDirectory = GetPathDirectory -name $name
         if ($debug) {
             Write-Host "Mount-Location: Checking path directory '$pathDirectory'" -ForegroundColor Yellow
         }

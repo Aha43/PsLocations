@@ -3,14 +3,14 @@ function GetLocationWhereIAm {
         return
     }
 
-    $locationsDir = Get-LocationsDirectory
+    $locationsDir = GetLocationsDirectory
     $locations = Get-ChildItem -Path $locationsDir
     $path = (get-location).Path
     [bool]$found = $false
 
     foreach ($location in $locations) {
         $name = $location.Name
-        $pathDirectory = Get-PathDirectory -name $name
+        $pathDirectory = GetPathDirectory -name $name
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
         $locPath = Get-Content -Path $pathFile
         if ($path -eq $locPath) {

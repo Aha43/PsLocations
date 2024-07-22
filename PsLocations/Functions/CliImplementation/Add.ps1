@@ -13,20 +13,20 @@ function AddLocation {
 
     $name = Get-LocationName -name $name
 
-    $locationDir = Get-LocationDirectory -name $name
+    $locationDir = GetLocationDirectory -name $name
     if (-not (Test-Path -Path $locationDir)) {
         if ($debug) {
             Write-Host "Creates location directory '$locationDir'" -ForegroundColor Yellow
         }
         [void](New-Item -Path $locationDir -ItemType Directory)
 
-        $machinesDirectory = Get-MachinesDirectory -name $name
+        $machinesDirectory = GetMachinesDirectory -name $name
         if ($debug) {
             Write-Host "Creates machines directory '$machinesDirectory'" -ForegroundColor Yellow
         }
         [void](New-Item -Path $machinesDirectory -ItemType Directory)
 
-        $pathDirectory = Get-PathDirectory -name $name
+        $pathDirectory = GetPathDirectory -name $name
         if ($debug) {
             Write-Host "Creates path directory '$pathDirectory'" -ForegroundColor Yellow
         }

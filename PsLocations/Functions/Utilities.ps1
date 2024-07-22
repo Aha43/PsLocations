@@ -148,7 +148,7 @@ function GetMachineNamesForLocation {
 
     $debug = GetDebug
 
-    $machinesDirectory = Get-MachinesDirectory -name $name
+    $machinesDirectory = GetMachinesDirectory -name $name
     if ($debug) {
         Write-Host "Get-MachineNamesForLocation: Checking path directory '$machinesDirectory'" -ForegroundColor Yellow
     }
@@ -160,4 +160,29 @@ function GetMachineNamesForLocation {
         }
     }
     return $machineNames
+}
+
+function GetLocationNameAtPosition {
+    param (
+        [int]$position
+    )
+
+    $locationsDir = GetLocationsDirectory
+    $locations = Get-ChildItem -Path $locationsDir
+    if ($locations.Length -gt 0) {
+        $index = 0
+        foreach ($location in $locations) {
+            if ($index -eq $position) {
+                return $location.Name
+            }
+            $index++
+        }
+    }
+    return $null
+}
+
+function GetLocationCount {
+    $locationsDir = GetLocationsDirectory
+    $locations = Get-ChildItem -Path $locationsDir
+    return $locations.Length
 }

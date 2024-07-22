@@ -15,7 +15,7 @@ function UpdateLocationPath {
     }
 
     if (Test-Path -Path $locationDir) {
-        $pathDirectory = Get-PathDirectory -name $name
+        $pathDirectory = GetPathDirectory -name $name
         if (-not (Test-Path -Path $pathDirectory)) {
             [void](New-Item -Path $pathDirectory -ItemType Directory)
         }
