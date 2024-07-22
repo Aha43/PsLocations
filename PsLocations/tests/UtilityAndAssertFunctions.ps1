@@ -40,6 +40,7 @@ function Test-LocationShouldExistAsExpected {
 function Test-LocationShouldListAsExpected {
     param(
         [string]$name, # the name of the location
+        [string]$description, # the path of the location beeing bookmarked
         [string]$locationPath # the path of the location beeing bookmarked
     )
 
@@ -49,6 +50,7 @@ function Test-LocationShouldListAsExpected {
     $location = $list | Where-Object { $_.Name -eq $name }
     $location | Should -Not -Be $null
     $location.Name | Should -Be $name
+    $location.Description | Should -Be $description
     $location.Path | Should -Be $locationPath
 }
 

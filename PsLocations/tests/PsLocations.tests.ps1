@@ -4,6 +4,8 @@ Describe "PsLocations tests" {
         . $PSScriptRoot/UtilityAndAssertFunctions.ps1
 
         $here = $PSScriptRoot
+        Set-Location -Path $here
+
         $testLocationsDir = Join-Path -Path $here -ChildPath "TestLocations"
         $testDir = Join-Path -Path $here -ChildPath "TestDir"
         New-Item -ItemType Directory -Path $testDir
@@ -19,6 +21,8 @@ Describe "PsLocations tests" {
 
     AfterAll {
         $here = $PSScriptRoot
+        Set-Location -Path $here
+
         $testLocationsDir = Join-Path -Path $here -ChildPath "TestLocations"
         $testDir = Join-Path -Path $here -ChildPath "TestDir"
 
@@ -55,7 +59,7 @@ Describe "PsLocations tests" {
             # act: add the location
             loc Add "Test" "Test location"
 
-            Test-LocationShouldListAsExpected -name "Test" -locationPath $locPath
+            Test-LocationShouldListAsExpected -name "Test" -description "Test location" -locationPath $locPath
 
             # assert file structure reflects the new location
             Pop-Location
@@ -105,6 +109,12 @@ Describe "PsLocations tests" {
             $whereIAm = loc where
             # assert: we should not get any location
             $whereIAm | Should -BeNullOrEmpty
+
+        # act: Change the description
+            # act: change the description
+            loc Edit "Test" "New description"
+            # assert: the description should be changed
+            Test-LocationShouldListAsExpected -name "Test" -description "New description" -locationPath $locPath
 
         # act: remove the location
             loc Remove "Test"
