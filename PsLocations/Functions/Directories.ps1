@@ -30,7 +30,7 @@ function GetLocationDirectoryGivenNameOrPos {
 
     $pos = Convert-ToUnsignedInt -inputString $nameOrPos
     if ($pos -gt -1) {
-        $count = Get-LocationCount
+        $count = GetLocationCount
         if ($pos -ge $count) {
             if ($reportError) {
                 Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
@@ -38,7 +38,7 @@ function GetLocationDirectoryGivenNameOrPos {
             return $null
         }
 
-        $nameOrPos = Get-LocationNameAtPosition -position $pos
+        $nameOrPos = GetLocationNameAtPosition -position $pos
         if (GetDebug) {
             Write-Host "Get-LocationDirectoryGivenNameOrPos: Position $pos is location '$nameOrPos'" -ForegroundColor Yellow
         }
@@ -80,7 +80,7 @@ function Get-PathDirectory {
     return $pathDirectory
 }
 
-function Get-NotesDir {
+function GetNotesDir {
     param(
         [string]$name
     )

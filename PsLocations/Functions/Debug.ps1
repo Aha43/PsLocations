@@ -6,6 +6,14 @@ function GetDebug {
     }
 }
 
+function GetWriteUser {
+    if ($env:LocWriteUser -eq 'False') {
+        return $false
+    } else {
+        return $true
+    }
+}
+
 function SwitchDebug {
     if ($env:LocDebug) {
         if ($env:LocDebug -eq 'True') {

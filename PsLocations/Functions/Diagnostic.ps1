@@ -17,7 +17,8 @@ function GetStatus {
     return [PSCustomObject]@{
         ComputerName = Get-MachineName
         LocationsDirectory = Get-LocationsDirectory
-        LocationCount = Get-LocationCount
+        LocationCount = GetLocationCount
         Debug = GetDebug
+        WriteUser = GetWriteUser
     }
 }

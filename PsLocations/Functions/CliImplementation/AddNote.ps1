@@ -1,3 +1,17 @@
+function GetNextNoteFile {
+    param(
+        [string]$name
+    )
+    $notesDir = GetNotesDir -name $name
+    if (-not $notesDir) {
+        return $null
+    }
+
+    $timeStamp = Get-Timestamp
+    $noteFile = Join-Path -Path $notesDir -ChildPath "$timeStamp.txt"
+    return $noteFile
+}
+
 function AddLocationNote {
     param(
         [string]$name,
@@ -8,7 +22,7 @@ function AddLocationNote {
         return
     }
 
-    $noteFile = Get-NextNoteFile -name $name
+    $noteFile = GetNextNoteFile -name $name
     if (-not $noteFile) {
         return
     }

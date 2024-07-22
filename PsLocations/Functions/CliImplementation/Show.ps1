@@ -1,7 +1,21 @@
+function TestLocation([string]$name) {
+    $pathDirectory = Get-PathDirectory -name $name
+    if (-not (Test-Path -Path $pathDirectory)) {
+        return $false
+    }
+    $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
+
+    $path = Get-Content -Path $pathFile
+    return (Test-Path -Path $path)
+}
+
 function ShowLocations {
     param (
         [switch]$PassThru
     )
+
+    $debug = GetDebug
+    $writeUser = GetWriteUser
 
     if (-not (TestLocationsSystemOk)) {
         return
@@ -14,24 +28,26 @@ function ShowLocations {
     [int]$pos = 0
 
     if (-not $PassThru) {
-        Write-Host
+        if ($writeUser) {
+            Write-Host
+        }
     }
-    Write-Host
+
     $locations | ForEach-Object {
         $name = $_.Name
-        [bool]$exist = Test-location -name $name
+        [bool]$exist = Testlocation -name $name
         $descFile = Join-Path -Path $_.FullName -ChildPath "description.txt"
         $description = Get-Content -Path $descFile
 
         $pathDirectory = Get-PathDirectory -name $name
-        if (GetDebug) {
+        if ($debug) {
             Write-Host "Show-Locations: Checking path directory '$pathDirectory'" -ForegroundColor Yellow
         }
 
         if (Test-Path -Path $pathDirectory) {
             $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
             $path = Get-Content -Path $pathFile
-            $machineNames = Get-MachineNamesForLocation -name $name
+            $machineNames = GetMachineNamesForLocation -name $name
 
             $location = [PSCustomObject]@{
                 Pos = $pos
@@ -45,19 +61,21 @@ function ShowLocations {
             $retVal += $location
 
             if (-not $PassThru) {
-                if (-not $exist) {
-                    Write-Host "$pos" -NoNewline -ForegroundColor Red
-                    Write-Host " - $name" -NoNewline -ForegroundColor Red
-                    Write-Host " - $description" -NoNewline -ForegroundColor Red
-                    Write-Host " - $path" -NoNewline -ForegroundColor Red
-                    Write-Host " - $machineNames" -ForegroundColor Red
-                }
-                else {
-                    Write-Host "$pos" -NoNewline -ForegroundColor Yellow
-                    Write-Host " - $name" -NoNewline -ForegroundColor Cyan
-                    Write-Host " - $description" -NoNewline -ForegroundColor Green
-                    Write-Host " - $path" -NoNewline -ForegroundColor Cyan
-                    Write-Host " - $machineNames" -ForegroundColor Yellow
+                if ($writeUser) {
+                    if (-not $exist) {
+                        Write-Host "$pos" -NoNewline -ForegroundColor Red
+                        Write-Host " - $name" -NoNewline -ForegroundColor Red
+                        Write-Host " - $description" -NoNewline -ForegroundColor Red
+                        Write-Host " - $path" -NoNewline -ForegroundColor Red
+                        Write-Host " - $machineNames" -ForegroundColor Red
+                    }
+                    else {
+                        Write-Host "$pos" -NoNewline -ForegroundColor Yellow
+                        Write-Host " - $name" -NoNewline -ForegroundColor Cyan
+                        Write-Host " - $description" -NoNewline -ForegroundColor Green
+                        Write-Host " - $path" -NoNewline -ForegroundColor Cyan
+                        Write-Host " - $machineNames" -ForegroundColor Yellow
+                    }
                 }
             }
         }
@@ -65,7 +83,9 @@ function ShowLocations {
         $pos++
     }
     if (-not $PassThru) {
-        Write-Host
+        if ($writeUser) {
+            Write-Host
+        }
     }
 
     if ($PassThru) {

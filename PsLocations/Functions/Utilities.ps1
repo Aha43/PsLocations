@@ -140,3 +140,24 @@ function RemoveDirSafely {
         Remove-Item -Path $dir -Recurse -Force
     }
 }
+
+function GetMachineNamesForLocation {
+    param (
+        [string]$name
+    )
+
+    $debug = GetDebug
+
+    $machinesDirectory = Get-MachinesDirectory -name $name
+    if ($debug) {
+        Write-Host "Get-MachineNamesForLocation: Checking path directory '$machinesDirectory'" -ForegroundColor Yellow
+    }
+
+    $machineNames = @()
+    if (Test-Path -Path $machinesDirectory) {
+        $machineNames = Get-ChildItem -Path $machinesDirectory -Directory | ForEach-Object {
+            $_.Name
+        }
+    }
+    return $machineNames
+}

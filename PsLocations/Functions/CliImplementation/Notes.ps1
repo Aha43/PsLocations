@@ -7,7 +7,7 @@ function ShowNotes {
         return
     }
 
-    $notesDir = Get-NotesDir -name $name
+    $notesDir = GetNotesDir -name $name
     if (-not $notesDir) {
         return
     }

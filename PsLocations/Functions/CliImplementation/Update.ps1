@@ -1,7 +1,6 @@
-function EditDescription {
+function UpdateLocationPath {
     param(
-        [string]$name,
-        [string]$description
+        [string]$name
     )
 
     $writeUser = GetWriteUser
@@ -16,8 +15,14 @@ function EditDescription {
     }
 
     if (Test-Path -Path $locationDir) {
-        $descFile = Join-Path -Path $locationDir -ChildPath "description.txt"
-        $description | Out-File -FilePath $descFile
+        $pathDirectory = Get-PathDirectory -name $name
+        if (-not (Test-Path -Path $pathDirectory)) {
+            [void](New-Item -Path $pathDirectory -ItemType Directory)
+        }
+        $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
+
+        $path = (get-location).Path
+        $path | Out-File -FilePath $pathFile
     }
     else {
         if ($writeUser) {
