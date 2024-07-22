@@ -446,12 +446,12 @@ function Loc {
     }
     elseif ($action -eq "help") {
         if ($args.Length -lt 2) {
-            Get-LocCliHelp
+            GetLocCliHelp
             return
         }
 
         $subAction = $args[1]
-        Get-SubActionHelp -action $subAction
+        GetSubActionHelp -action $subAction
     }
     else {
         loc go $action

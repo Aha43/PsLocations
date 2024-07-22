@@ -1,53 +1,53 @@
-function Get-DebugHelp {
+function GetDebugHelp {
     Write-Host
     Write-Host "Usage: loc debug" -ForegroundColor Green
     Write-Host "Switch debug mode on or off" -ForegroundColor Green
     Write-Host
 }
 
-function Get-LocAddHelp {
+function GetLocAddHelp {
     Write-Host
     Write-Host "Usage: loc add <name> <description>" -ForegroundColor Green
     Write-Host "Add the current working directory as a location with the given name and description" -ForegroundColor Green
     Write-Host
 }
 
-function Get-LocNoteHelp {
+function GetLocNoteHelp {
     Write-Host
     Write-Host "Usage: loc note <name | pos> <note>" -ForegroundColor Green
     Write-Host "Add a note to the location with the given name (or position in location list)" -ForegroundColor Green
     Write-Host
 }
 
-function Get-LocNotesHelp {
+function GetLocNotesHelp {
     Write-Host
     Write-Host "Usage: loc notes <name | pos>" -ForegroundColor Green
     Write-Host "Show notes for the location with the given name (or position in location list)" -ForegroundColor Green
     Write-Host
 }
 
-function Get-LocUpdateHelp {
+function GetLocUpdateHelp {
     Write-Host
     Write-Host "Usage: loc update <name | pos>" -ForegroundColor Green
     Write-Host "Update the path of a location with the given name (or position in location list) to the current working directory" -ForegroundColor Green
     Write-Host
 }
 
-function Get-LocRenameHelp {
+function GetLocRenameHelp {
     Write-Host
     Write-Host "Usage: loc rename <name | pos> <new-name>" -ForegroundColor Green
     Write-Host "Rename a location with the given name or pos (or position in location list) to the new name" -ForegroundColor Green
     Write-Host
 }
 
-function Get-LocEditHelp {
+function GetLocEditHelp {
     Write-Host
     Write-Host "Usage: loc edit <name | pos> <description>" -ForegroundColor Green
     Write-Host "Edit the description of a location with the given name (or position in location list)" -ForegroundColor Green
     Write-Host
 }
 
-function Get-LocListHelp {
+function GetLocListHelp {
     Write-Host
     Write-Host "Usage: loc list" -ForegroundColor Green
     Write-Host "List all locations" -ForegroundColor Green
@@ -55,35 +55,35 @@ function Get-LocListHelp {
     Write-Host
 }
 
-function Get-LocShowHelp {
+function GetLocShowHelp {
     Write-Host
     Write-Host "Usage: loc show" -ForegroundColor Green
     Write-Host "Show all locations by returning an array of objects representing locations" -ForegroundColor Green
     Write-Host
 }
 
-function Get-LocRemoveHelp {
+function GetLocRemoveHelp {
     Write-Host
     Write-Host "Usage: loc remove <name | pos>" -ForegroundColor Green
     Write-Host "Remove a location with the given name (or position in location list)" -ForegroundColor Green
     Write-Host
 }
 
-function Get-LocRemoveThisHelp {
+function GetLocRemoveThisHelp {
     Write-Host
     Write-Host "Usage: loc remove-this" -ForegroundColor Green
     Write-Host "Remove the location you are currently at (do not worry the physical directory not deleted)" -ForegroundColor Green
     Write-Host
 }
 
-function Get-LocRepairHelp {
+function GetLocRepairHelp {
     Write-Host
     Write-Host "Usage: loc repair" -ForegroundColor Green
     Write-Host "Remove locations that do not physically exist" -ForegroundColor Green
     Write-Host
 }
 
-function Get-LocGotoHelp {
+function GetLocGotoHelp {
     Write-Host
     Write-Host "Usage: loc goto <name | pos>" -ForegroundColor Green
     Write-Host "Go to the location with the given name (or position in location list)" -ForegroundColor Green
@@ -92,14 +92,14 @@ function Get-LocGotoHelp {
     Write-Host
 }
 
-function Get-LocWhereHelp {
+function GetLocWhereHelp {
     Write-Host
     Write-Host "Usage: loc where" -ForegroundColor Green
     Write-Host "Show the location you are currently at" -ForegroundColor Green
     Write-Host
 }
 
-function Get-StatusHelp {
+function GetStatusHelp {
     Write-Host
     Write-Host "Usage: loc status" -ForegroundColor Green
     Write-Host "Show the status of the location system" -ForegroundColor Green
@@ -127,7 +127,7 @@ function GetLocCliActions {
     return $commands
 }
 
-function Get-LocCliHelp {
+function GetLocCliHelp {
     $actions = (GetLocCliActions) -join ", "
     Write-Host
     Write-Host "loc - A location management and navigation command line interface" -ForegroundColor Green
@@ -139,54 +139,54 @@ function Get-LocCliHelp {
     Write-Host
 }
 
-function Get-SubActionHelp(
+function GetSubActionHelp(
     [string]$action
 ) {
     switch ($action) {
         "debug" {
-            Get-DebugHelp
+            GetDebugHelp
         }
         "add" {
-            Get-LocAddHelp
+            GetLocAddHelp
         }
         "note" {
-            Get-LocNoteHelp
+            GetLocNoteHelp
         }
         "notes" {
-            Get-LocNotesHelp
+            GetLocNotesHelp
         }
         "update" {
-            Get-LocUpdateHelp
+            GetLocUpdateHelp
         }
         "rename" {
-            Get-LocRenameHelp
+            GetLocRenameHelp
         }
         "edit" {
-            Get-LocEditHelp
+            GetLocEditHelp
         }
         "list" {
-            Get-LocListHelp
+            GetLocListHelp
         }
         "show" {
-            Get-LocShowHelp
+            GetLocShowHelp
         }
         "remove" {
-            Get-LocRemoveHelp
+            GetLocRemoveHelp
         }
         "remove-this" {
-            Get-LocRemoveThisHelp
+            GetLocRemoveThisHelp
         }
         "repair" {
-            Get-LocRepairHelp
+            GetLocRepairHelp
         }
         "goto" {
-            Get-LocGotoHelp
+            GetLocGotoHelp
         }
         "where" {
-            Get-LocWhereHelp
+            GetLocWhereHelp
         }
         "status" {
-            Get-StatusHelp
+            GetStatusHelp
         }
         default {
             Write-Host
