@@ -4,7 +4,7 @@ function AddLocation {
         [string]$description
     )
 
-    if (-not (Test-LocationsSystemOk)) {
+    if (-not (TestLocationsSystemOk)) {
         return
     }
 

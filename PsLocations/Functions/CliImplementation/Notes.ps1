@@ -3,7 +3,7 @@ function ShowNotes {
         [string]$name
     )
 
-    if (-not (Test-LocationsSystemOk)) {
+    if (-not (TestLocationsSystemOk)) {
         return
     }
 

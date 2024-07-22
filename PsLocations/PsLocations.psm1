@@ -83,7 +83,7 @@ function Mount-Location {
         [string]$name
     )
 
-    if (-not (Test-LocationsSystemOk)) {
+    if (-not (TestLocationsSystemOk)) {
         return
     }
 
@@ -138,7 +138,7 @@ function UpdateLocationPath {
         [string]$name
     )
 
-    if (-not (Test-LocationsSystemOk)) {
+    if (-not (TestLocationsSystemOk)) {
         return
     }
 
@@ -168,7 +168,7 @@ function Rename-Location {
         [string]$newName
     )
 
-    if (-not (Test-LocationsSystemOk)) {
+    if (-not (TestLocationsSystemOk)) {
         return
     }
 
@@ -204,7 +204,7 @@ function Edit-Description {
         [string]$name,
         [string]$description
     )
-    if (-not (Test-LocationsSystemOk)) {
+    if (-not (TestLocationsSystemOk)) {
         return
     }
 
@@ -224,7 +224,7 @@ function Edit-Description {
 
 function RepairLocations {
 
-    if (-not (Test-LocationsSystemOk)) {
+    if (-not (TestLocationsSystemOk)) {
         return
     }
 
@@ -248,7 +248,7 @@ function RemoveLocation {
 
     [bool]$debug = GetDebug
 
-    if (-not (Test-LocationsSystemOk)) {
+    if (-not (TestLocationsSystemOk)) {
         return
     }
 
@@ -282,7 +282,7 @@ function RemoveLocation {
 
 function RemoveThisLocation {
 
-    if (-not (Test-LocationsSystemOk)) {
+    if (-not (TestLocationsSystemOk)) {
         return
     }
 
@@ -301,7 +301,7 @@ function RemoveThisLocation {
 }
 
 function Get-LocationWhereIAm {
-    if (-not (Test-LocationsSystemOk)) {
+    if (-not (TestLocationsSystemOk)) {
         return
     }
 

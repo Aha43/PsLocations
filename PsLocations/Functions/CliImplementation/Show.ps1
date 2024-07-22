@@ -3,7 +3,7 @@ function ShowLocations {
         [switch]$PassThru
     )
 
-    if (-not (Test-LocationsSystemOk)) {
+    if (-not (TestLocationsSystemOk)) {
         return
     }
 

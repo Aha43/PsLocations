@@ -4,7 +4,7 @@ function AddLocationNote {
         [string]$note
     )
 
-    if (-not (Test-LocationsSystemOk)) {
+    if (-not (TestLocationsSystemOk)) {
         return
     }
 

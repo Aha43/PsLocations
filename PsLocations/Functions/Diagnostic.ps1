@@ -1,4 +1,4 @@
-function Test-LocationsSystemOk {
+function TestLocationsSystemOk {
     $computerName = Get-MachineName
     if (-not $computerName) {
         Write-Host "Locations system not available:" -ForegroundColor Red
@@ -10,7 +10,7 @@ function Test-LocationsSystemOk {
 }
 
 function Get-Status {
-    if (-not (Test-LocationsSystemOk)) {
+    if (-not (TestLocationsSystemOk)) {
         return
     }
 
