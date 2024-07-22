@@ -5,6 +5,7 @@
 . $PSScriptRoot/Functions/Help.ps1
 
 . $PSScriptRoot/Functions/CliImplementation/Add.ps1
+. $PSScriptRoot/Functions/CliImplementation/Mount.ps1
 . $PSScriptRoot/Functions/CliImplementation/Show.ps1
 . $PSScriptRoot/Functions/CliImplementation/AddNote.ps1
 . $PSScriptRoot/Functions/CliImplementation/Notes.ps1
@@ -439,7 +440,7 @@ function Loc {
         }
 
         $name = $args[1]
-        Mount-Location -name $name
+        MountLocation -name $name
     }
     elseif ($action -eq "where") {
         Get-LocationWhereIAm
