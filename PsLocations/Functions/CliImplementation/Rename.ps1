@@ -6,10 +6,6 @@ function RenameLocation {
 
     $writeUser = GetWriteUser
 
-    if (-not (TestLocationsSystemOk)) {
-        return
-    }
-
     if (-not (Test-ValidLocationName -identifier $newName)) {
         if ($writeUser) {
             Write-Host "Invalid new location name. Must start with a letter or underscore and contain only letters, numbers, and underscores" -ForegroundColor Red

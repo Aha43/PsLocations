@@ -6,10 +6,6 @@ function MountLocation {
     $debug = GetDebug
     $writeUser = GetWriteUser
 
-    if (-not (TestLocationsSystemOk)) {
-        return
-    }
-
     $pos = Convert-ToUnsignedInt -inputString $name
     if ($pos -gt -1) {
         $count = GetLocationCount

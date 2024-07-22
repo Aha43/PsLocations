@@ -10,10 +10,6 @@ function TestLocationsSystemOk {
 }
 
 function GetStatus {
-    if (-not (TestLocationsSystemOk)) {
-        return
-    }
-
     return [PSCustomObject]@{
         ComputerName = Get-MachineName
         LocationsDirectory = GetLocationsDirectory

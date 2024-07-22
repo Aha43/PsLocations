@@ -17,10 +17,6 @@ function ShowLocations {
     $debug = GetDebug
     $writeUser = GetWriteUser
 
-    if (-not (TestLocationsSystemOk)) {
-        return
-    }
-
     $retVal = @()
 
     $locationsDir = GetLocationsDirectory

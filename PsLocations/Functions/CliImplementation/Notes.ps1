@@ -3,10 +3,6 @@ function ShowNotes {
         [string]$name
     )
 
-    if (-not (TestLocationsSystemOk)) {
-        return
-    }
-
     $notesDir = GetNotesDir -name $name
     if (-not $notesDir) {
         return

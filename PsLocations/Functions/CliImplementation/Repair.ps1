@@ -1,8 +1,4 @@
 function RepairLocations {
-    if (-not (TestLocationsSystemOk)) {
-        return
-    }
-
     $locationsDir = GetLocationsDirectory
     $locations = Get-ChildItem -Path $locationsDir
     $locations | ForEach-Object {

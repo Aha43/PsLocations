@@ -18,10 +18,6 @@ function AddLocationNote {
         [string]$note
     )
 
-    if (-not (TestLocationsSystemOk)) {
-        return
-    }
-
     $noteFile = GetNextNoteFile -name $name
     if (-not $noteFile) {
         return

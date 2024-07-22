@@ -1,8 +1,4 @@
 function GetLocationWhereIAm {
-    if (-not (TestLocationsSystemOk)) {
-        return
-    }
-
     $writeHost = GetWriteUser
 
     $locationsDir = GetLocationsDirectory

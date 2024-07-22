@@ -5,10 +5,6 @@ function UpdateLocationPath {
 
     $writeUser = GetWriteUser
 
-    if (-not (TestLocationsSystemOk)) {
-        return
-    }
-
     $locationDir = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
     if (-not $locationDir) {
         return

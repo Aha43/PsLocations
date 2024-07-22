@@ -19,6 +19,10 @@
 
 # cli
 function Loc {
+    if (-not (TestLocationsSystemOk)) {
+        exit 1
+    }
+
     if ($args.Length -lt 1) {
         Write-Host
         Write-Host "Usage: loc <action> ..." -ForegroundColor Red

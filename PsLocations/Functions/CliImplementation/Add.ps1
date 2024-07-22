@@ -4,10 +4,6 @@ function AddLocation {
         [string]$description
     )
 
-    if (-not (TestLocationsSystemOk)) {
-        return
-    }
-
     $debug = GetDebug
     $writeUser = GetWriteUser
 

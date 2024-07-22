@@ -5,10 +5,6 @@ function RemoveLocation {
 
     $debug = GetDebug
 
-    if (-not (TestLocationsSystemOk)) {
-        return
-    }
-
     $locationDir = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
     if (-not $locationDir) {
         return
@@ -38,11 +34,6 @@ function RemoveLocation {
 }
 
 function RemoveThisLocation {
-
-    if (-not (TestLocationsSystemOk)) {
-        return
-    }
-
     $path = (Get-Location).Path
     $locationsDir = GetLocationsDirectory
     $locations = Get-ChildItem -Path $locationsDir
