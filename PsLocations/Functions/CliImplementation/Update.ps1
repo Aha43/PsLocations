@@ -5,13 +5,13 @@ function UpdateLocationPath {
 
     $writeUser = GetWriteUser
 
-    $locationDir = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
-    if (-not $locationDir) {
+    $location = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    if (-not $location) {
         return
     }
 
-    if (Test-Path -Path $locationDir) {
-        $pathDirectory = GetPathDirectory -name $name
+    if (Test-Path -Path $location.LocationDir) {
+        $pathDirectory = GetPathDirectory -name $location.Name
         if (-not (Test-Path -Path $pathDirectory)) {
             [void](New-Item -Path $pathDirectory -ItemType Directory)
         }

@@ -54,7 +54,10 @@ function GetLocationDirectoryGivenNameOrPos {
         if ($debug) {
             Write-Host "Get-LocationDirectoryGivenNameOrPos: Location directory '$locationDir' exists" -ForegroundColor Yellow
         }
-        return $locationDir
+        return [PSCustomObject]@{
+            LocationDir = $locationDir
+            Name = $nameOrPos
+        }
     }
     else {
         if ($reportError) {
@@ -92,12 +95,12 @@ function GetNotesDir {
         [string]$name
     )
 
-    $locationDir = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
-    if (-not $locationDir) {
+    $location = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    if (-not $location) {
         return $null
     }
 
-    $notesDir = Join-Path -Path $locationDir -ChildPath "notes"
+    $notesDir = Join-Path -Path $location.LocationDir -ChildPath "notes"
     if (-not (Test-Path -Path $notesDir)) {
         [void](New-Item -Path $notesDir -ItemType Directory)
     }

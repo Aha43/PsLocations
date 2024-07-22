@@ -13,8 +13,8 @@ function RenameLocation {
         return
     }
 
-    $locationDir = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
-    if (-not $locationDir) {
+    $location = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    if (-not $location) {
         return
     }
 
@@ -29,8 +29,8 @@ function RenameLocation {
         return
     }
 
-    if (Test-Path -Path $locationDir) {
-        Move-Item -Path $locationDir -Destination $newLocationDir
+    if (Test-Path -Path $location.LocationDir) {
+        Move-Item -Path $location.LocationDir -Destination $newLocationDir
     }
     else {
         if ($writeUser) {

@@ -126,8 +126,10 @@ Describe "PsLocations tests" {
             Test-LocationShouldListAsExpected -name "NewTest" -description "New description" -locationPath $locPath
 
         # act: remove the location
-            loc Remove "Test"
-            # assert the location should not exist
+            $removed = loc Remove "NewTest"
+            # assert: the location should be removed
+            $removed | Should -Be $true
+            # assert: the location should not exist
             Test-LocationShouldNotExist -locationsDir $testLocationsDir -name "Test"
     }
 

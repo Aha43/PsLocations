@@ -6,13 +6,13 @@ function EditDescription {
 
     $writeUser = GetWriteUser
 
-    $locationDir = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
-    if (-not $locationDir) {
+    $location = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    if (-not $location) {
         return
     }
 
-    if (Test-Path -Path $locationDir) {
-        $descFile = Join-Path -Path $locationDir -ChildPath "description.txt"
+    if (Test-Path -Path $location.LocationDir) {
+        $descFile = Join-Path -Path $location.LocationDir -ChildPath "description.txt"
         $description | Out-File -FilePath $descFile
     }
     else {

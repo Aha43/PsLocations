@@ -4,7 +4,6 @@
 . $PSScriptRoot/Functions/Diagnostic.ps1
 . $PSScriptRoot/Functions/Help.ps1
 
-. $PSScriptRoot/Functions/CliImplementation/Common.ps1
 . $PSScriptRoot/Functions/CliImplementation/Add.ps1
 . $PSScriptRoot/Functions/CliImplementation/Mount.ps1
 . $PSScriptRoot/Functions/CliImplementation/Show.ps1
