@@ -371,7 +371,7 @@ function Loc {
 
         $name = $args[1]
         $note = $args[2]
-        Add-LocationNote -name $name -note $note
+        AddLocationNote -name $name -note $note
     }
     elseif ($action -eq "notes") {
         if ($args.Length -lt 2) {
