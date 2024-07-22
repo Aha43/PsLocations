@@ -309,21 +309,21 @@ function Get-LocationWhereIAm {
     $locations = Get-ChildItem -Path $locationsDir
     $path = (get-location).Path
     [bool]$found = $false
-    if ($locations.Length -gt 0) {
-        $locations | ForEach-Object {
-            $name = $_.Name
-            $pathDirectory = Get-PathDirectory -name $name
-            $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
-            $locPath = Get-Content -Path $pathFile
-            if ($path -eq $locPath) {
-                $descFile = Join-Path -Path $_.FullName -ChildPath "description.txt"
-                $description = Get-Content -Path $descFile
-                Write-Host
-                Write-Host "Where: You are at location '$name'" -ForegroundColor Green
-                Write-Host "What: $description" -ForegroundColor Cyan
-                Write-Host
-                $found = $true
-            }
+
+    foreach ($location in $locations) {
+        $name = $location.Name
+        $pathDirectory = Get-PathDirectory -name $name
+        $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
+        $locPath = Get-Content -Path $pathFile
+        if ($path -eq $locPath) {
+            $descFile = Join-Path -Path $location.FullName -ChildPath "description.txt"
+            $description = Get-Content -Path $descFile
+            Write-Host
+            Write-Host "Where: You are at location '$name'" -ForegroundColor Green
+            Write-Host "What: $description" -ForegroundColor Cyan
+            Write-Host
+            $found = $true
+            break;
         }
     }
 
