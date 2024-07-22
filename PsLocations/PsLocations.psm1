@@ -355,7 +355,7 @@ function Loc {
 
         $name = $args[1]
         $description = $args[2]
-        Add-Location -name $name -description $description
+        AddLocation -name $name -description $description
     }
     elseif ($action -eq "status") {
         Get-Status
