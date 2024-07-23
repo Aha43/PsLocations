@@ -10,13 +10,23 @@ WORK IN PROGRESS, NOT YET READY FOR USE, BUT SOON HOPE :)
 - **DOING** User documentation here in readme
 - **NEXT** Publish to the gallery
 
-# Loc Command Line Interface -- Work in progress
+# Loc -- Work in progress
 
 The `Loc` command line interface (CLI) is a tool for managing and navigating folder bookmarks with ease. This guide provides detailed usage instructions for each action available in the `Loc` CLI.
 
+## Installation
+
+### Downloading this repository
+
+TODO
+
+### From Powershell Gallery
+
+TODO
+
 ## Basic commands to manage and use locations (aka bookmarks)
 
-Bookmarks are called locations in this context and allow terminal command line users to move to much used working directories with out a series of cd or tedious path completions. To add current working directory as a location
+Bookmarks are called locations in this context and allow terminal command line users to move to much used working directories with out a series of ```cd```commands or tedious path completions. To add current working directory as a location
 
 ```
 loc add . 'Repository root of my amazing project'
