@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 ifeq ($(OS), Windows_NT)
     AnalyzerPath = .\tools\analyze.ps1
 else
