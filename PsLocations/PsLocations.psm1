@@ -7,7 +7,6 @@
 . $PSScriptRoot/Functions/CliImplementation/Add.ps1
 . $PSScriptRoot/Functions/CliImplementation/Mount.ps1
 . $PSScriptRoot/Functions/CliImplementation/Show.ps1
-. $PSScriptRoot/Functions/CliImplementation/AddNote.ps1
 . $PSScriptRoot/Functions/CliImplementation/Notes.ps1
 . $PSScriptRoot/Functions/CliImplementation/WhereIAm.ps1
 . $PSScriptRoot/Functions/CliImplementation/Edit.ps1
