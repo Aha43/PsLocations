@@ -39,7 +39,7 @@ loc add . 'Repository root of my amazing project'
 ```
 The . says use directory name as name for location and last parameter is a mandatory description. 
 
-*Note: In the following commands that accepts `.` for meaning current working directory' location will have `.` listed as an alternative in the command's second argument.*
+*Note: In the following commands that accepts `.` for meaning current working directory's location will have `.` listed as an alternative in the command's second argument.*
 
 If you want to use another name for the location than the directory name:
 
