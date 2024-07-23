@@ -61,7 +61,9 @@ If you remember the position of the location as listed by ```loc l```, say 0 you
 loc 0
 ```
 
-Also ```loc go <name | position>``` and ```loc goto <name | position>``` will work
+Note: In the following `pos` will refer to the location's position in the list provided by `loc l`. Be aware that a location's position may change as locations are added or removed.
+
+Also ```loc go <name | pos>``` and ```loc goto <name | pos>``` will work
 
 To remove a location (the bookmark, not the actual bookmarked directory!)
 
@@ -72,7 +74,7 @@ loc remove <location-name>
 or 
 
 ```
-loc remove <location-pos>
+loc remove <pos>
 ```
 
 If current working directory is the directory you need to remove the bookmark for
@@ -90,17 +92,17 @@ loc rename <current-name> <new-name>
 To change the description of a location
 
 ```
-loc edit <location-name | location-pos> <new-description>
+loc edit <location-name | pos> <new-description>
 ```
 
 You can add notes to locations, adding a note
 
 ```
-loc note <location-name | location-pos> <note>
+loc note <location-name | pos> <note>
 ```
 
 List notes for a location
 
 ```
-loc notes <location-name | location-pos>
+loc notes <location-name | pos>
 ```
