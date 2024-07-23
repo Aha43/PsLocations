@@ -1,11 +1,5 @@
 SHELL := /bin/bash
 
-ifeq ($(OS), Windows_NT)
-    AnalyzerPath = .\tools\analyze.ps1
-else
-    AnalyzerPath := ./tools/analyze.ps1
-endif
-
 .PHONY: all analyze
 
 # Default target
@@ -17,7 +11,7 @@ install-analyzer:
 
 # Target to run PSScriptAnalyzer
 analyze: install-analyzer
-	@pwsh -NoProfile -ExecutionPolicy Bypass -File $(AnalyzerPath) \
+	@pwsh -NoProfile -ExecutionPolicy Bypass -File ./tools/analyze.ps1 ; \
 	if [ $$? -ne 0 ]; then \
 		echo "Failed to pass script analyze"; \
 		exit 1; \
