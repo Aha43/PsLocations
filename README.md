@@ -16,14 +16,15 @@ The `Loc` command line interface (CLI) is a tool for managing and navigating fol
 
 ## Installation
 
-### Downloading this repository
+### By cloning this repository
 
 In a powershell terminal session:
-´´´
+
+```
 clone https://github.com/Aha43/PsLocations.git
 cd PsLocations
 ./tools/import.ps1
-´´´
+```
 
 ### From Powershell Gallery
 
