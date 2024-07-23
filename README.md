@@ -65,7 +65,7 @@ If you remember the position of the location as listed by ```loc l```, say 0 you
 loc 0
 ```
 
-*Note: In the following `pos` will refer to the location's position in the list provided by `loc l`. Be aware that a location's position may change as locations are added or removed.*
+*Note: In the following `pos` will refer to the location's position in the list provided by `loc l`. Be aware that a location's position most likely change as locations are added or removed.*
 
 Also ```loc go <name | pos>``` and ```loc goto <name | pos>``` will work
 
