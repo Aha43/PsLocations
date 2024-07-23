@@ -28,7 +28,7 @@ rawtest:
 	pwsh -Command "Invoke-Pester -Script PsLocations/tests/PsLocations.tests.ps1 -PassThru -CI"
 
 clean:
-	pwsh -Command "./tools/CleanTest.ps1"
+	pwsh -Command "./tools/clean-testdata.ps1"
 
 help:
 	@echo "install-analyzer - Install PSScriptAnalyzer if not already installed"
