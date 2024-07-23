@@ -37,13 +37,17 @@ Bookmarks are called locations in this context and allow terminal command line u
 ```
 loc add . 'Repository root of my amazing project'
 ```
-The . says use directory name as name for location and last parameter is a mandatory description. If you want to use another name for the location than the directory name
+The . says use directory name as name for location and last parameter is a mandatory description. 
+
+*Note: In the following commands that accepts `.` for meaning current working directory' location will have `.` listed as an alternative in the command's second argument.*
+
+If you want to use another name for the location than the directory name:
 
 ```
 loc add DaAmazingProject 'Repository root of my amazing project'
 ```
 
-To list locations
+To list locations:
 
 ```
 loc l
@@ -52,7 +56,7 @@ loc l
 To move to a location
 
 ```
-loc DaAmazingProject
+loc DaAmazingProjec
 ```
 
 If you remember the position of the location as listed by ```loc l```, say 0 you can move to location
@@ -61,48 +65,36 @@ If you remember the position of the location as listed by ```loc l```, say 0 you
 loc 0
 ```
 
-Note: In the following `pos` will refer to the location's position in the list provided by `loc l`. Be aware that a location's position may change as locations are added or removed.
+*Note: In the following `pos` will refer to the location's position in the list provided by `loc l`. Be aware that a location's position may change as locations are added or removed.*
 
 Also ```loc go <name | pos>``` and ```loc goto <name | pos>``` will work
 
 To remove a location (the bookmark, not the actual bookmarked directory!)
 
 ```
-loc remove <location-name>
-```
-
-or 
-
-```
-loc remove <pos>
-```
-
-If current working directory is the directory you need to remove the bookmark for
-
-```
-loc remove .
+loc remove <location-name | . | pos>
 ```
 
 If you need to rename a location
 
 ```
-loc rename <current-name> <new-name>
+loc rename <location-name | . | pos> <new-name>
 ```
 
 To change the description of a location
 
 ```
-loc edit <location-name | pos> <new-description>
+loc edit <location-name | . | pos> <new-description>
 ```
 
 You can add notes to locations, adding a note
 
 ```
-loc note <location-name | pos> <note>
+loc note <location-name | . | pos> <note>
 ```
 
 List notes for a location
 
 ```
-loc notes <location-name | pos>
+loc notes <location-name | . | pos>
 ```
