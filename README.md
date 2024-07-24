@@ -30,6 +30,10 @@ cd PsLocations
 
 TODO when published to the gallery
 
+### Configurations
+
+By its own devices the system will store 
+
 ## Basic commands to manage and use locations (aka bookmarks)
 
 Bookmarks are called locations in this context and allow terminal command line users to move to much used working directories with out a series of ```cd```commands or tedious path completions. To add current working directory as a location
