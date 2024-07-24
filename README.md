@@ -78,8 +78,10 @@ loc remove <location-name | . | pos>
 If you need to rename a location
 
 ```
-loc rename <location-name | . | pos> <new-name>
+loc rename <location-name | . | pos> <new-name | .>
 ```
+
+Note that ```loc . .``` will rename location (if it have one) for current working directory to the name of the directory.
 
 To change the description of a location
 
