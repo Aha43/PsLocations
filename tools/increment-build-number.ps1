@@ -16,4 +16,7 @@ if (Test-Path $BuildNumberFile) {
 Set-Content -Path $BuildNumberFile -Value $buildNumber
 
 # Output the new build number
-Write-Output $buildNumber
+[PSCustomObject]@{
+    Module = "PsLocations"
+    Build = $buildNumber
+}
