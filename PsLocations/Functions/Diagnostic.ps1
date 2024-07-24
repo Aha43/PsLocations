@@ -11,6 +11,7 @@ function TestLocationsSystemOk {
 
 function GetStatus {
     $manifest = Import-PowerShellDataFile -Path $PSScriptRoot/../PsLocations.psd1
+    $build = Get-Content -Path $PSScriptRoot/../build.txt
 
     return [PSCustomObject]@{
         ComputerName = Get-MachineName
@@ -19,5 +20,6 @@ function GetStatus {
         Debug = GetDebug
         WriteUser = GetWriteUser
         Version = $manifest.ModuleVersion
+        Build = $build
     }
 }

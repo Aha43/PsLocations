@@ -3,7 +3,7 @@ SHELL := /bin/bash
 .PHONY: all analyze
 
 # Default target
-all: test
+all: build
 
 # Target to install PSScriptAnalyzer if not already installed
 install-analyzer:
@@ -19,6 +19,9 @@ analyze: install-analyzer
 
 test: analyze
 	pwsh -Command "Invoke-Pester -Script PsLocations/tests/PsLocations.tests.ps1 -PassThru -CI"
+
+build: test 
+	@pwsh -Command "./tools/increment-build-number.ps1"
 
 rawtest:
 	pwsh -Command "Invoke-Pester -Script PsLocations/tests/PsLocations.tests.ps1 -PassThru -CI"
