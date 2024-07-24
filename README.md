@@ -100,3 +100,6 @@ List notes for a location
 ```
 loc notes <location-name | . | pos>
 ```
+
+## Sharing locations (aka bookmarks) across machines
+
