@@ -10,11 +10,14 @@ function TestLocationsSystemOk {
 }
 
 function GetStatus {
+    $manifest = Import-PowerShellDataFile -Path $PSScriptRoot/../PsLocations.psd1
+
     return [PSCustomObject]@{
         ComputerName = Get-MachineName
         LocationsDirectory = GetLocationsDirectory
         LocationCount = GetLocationCount
         Debug = GetDebug
         WriteUser = GetWriteUser
+        Version = $manifest.ModuleVersion
     }
 }
