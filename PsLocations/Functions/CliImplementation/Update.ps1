@@ -5,9 +5,16 @@ function UpdateLocationPath {
 
     $writeUser = GetWriteUser
 
-    $location = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    if ($name -eq ".") {
+        if ($writeUser) {
+            Write-Host ". syntax not supported" -ForegroundColor Red
+        }
+        return $false
+    }
+
+    $location = (LookupLocationDir -nameOrPos $name -reportError:$true)
     if (-not $location) {
-        return
+        return $false
     }
 
     if (Test-Path -Path $location.LocationDir) {
@@ -19,10 +26,13 @@ function UpdateLocationPath {
 
         $path = (get-location).Path
         $path | Out-File -FilePath $pathFile
+
+        return $true
     }
     else {
         if ($writeUser) {
             Write-Host "Location '$name' does not exist" -ForegroundColor Red
         }
+        return $false
     }
 }

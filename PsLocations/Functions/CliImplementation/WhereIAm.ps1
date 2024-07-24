@@ -1,4 +1,5 @@
 function GetLocationWhereIAm {
+    $debug = GetDebug
     $writeHost = GetWriteUser
 
     $locationsDir = GetLocationsDirectory
@@ -16,7 +17,10 @@ function GetLocationWhereIAm {
             $description = Get-Content -Path $descFile
             $found = $true
 
-            [PSCustomObject]@{
+            if ($debug) {
+                Write-Host "GetLocationWhereIAm: Location where I am is '$name'" -ForegroundColor Yellow
+            }
+            return [PSCustomObject]@{
                 Location = $name
                 Description = $description
             }
@@ -32,5 +36,7 @@ function GetLocationWhereIAm {
             Write-Host "Use 'loc add <name> <description>' to add current working direction as a location" -ForegroundColor Green
             Write-Host
         }
+
+        return $null
     }
 }

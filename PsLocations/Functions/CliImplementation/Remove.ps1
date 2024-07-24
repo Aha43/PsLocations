@@ -5,7 +5,7 @@ function RemoveTheLocation {
 
     $debug = GetDebug
 
-    $location = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    $location = (LookupLocationDir -nameOrPos $name -reportError:$true)
     if (-not $location) {
         return $false
     }

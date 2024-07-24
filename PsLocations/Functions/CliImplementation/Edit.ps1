@@ -4,11 +4,17 @@ function EditDescription {
         [string]$description
     )
 
+    $debug = GetDebug
     $writeUser = GetWriteUser
 
-    $location = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    $location = (LookupLocationDir -nameOrPos $name -reportError:$true)
     if (-not $location) {
         return
+    }
+
+    if ($debug) {
+        Write-Host "Editing description for location '$name'" -ForegroundColor Yellow
+        Write-Host "Location directory: $($location.LocationDir)" -ForegroundColor Yellow
     }
 
     if (Test-Path -Path $location.LocationDir) {

@@ -22,7 +22,7 @@ function GetLocationDirectory {
     return $locationDir
 }
 
-function GetLocationDirectoryGivenNameOrPos {
+function LookupLocationDir {
     param (
         [string]$nameOrPos,
         [switch]$reportError
@@ -30,6 +30,24 @@ function GetLocationDirectoryGivenNameOrPos {
 
     $debug = GetDebug
     $writeUser = GetWriteUser
+
+    if ($nameOrPos -eq ".") {
+        $loc = GetLocationWhereIAm
+        if ($loc) {
+            $nameOrPos = $loc.Location
+            if ($debug) {
+                Write-Host "GetLocationDirectoryGivenNameOrPos: Location where I am is '$nameOrPos'" -ForegroundColor Yellow
+            }
+        }
+        else {
+            if ($reportError) {
+                if ($writeUser) {
+                    Write-Host "You are not at any registered location" -ForegroundColor Red
+                }
+            }
+            return $null
+        }
+    }
 
     $pos = Convert-ToUnsignedInt -inputString $nameOrPos
     if ($pos -gt -1) {
@@ -95,7 +113,7 @@ function GetNotesDir {
         [string]$name
     )
 
-    $location = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    $location = (LookupLocationDir -nameOrPos $name -reportError:$true)
     if (-not $location) {
         return $null
     }

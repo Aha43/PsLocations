@@ -6,6 +6,10 @@ function RenameLocation {
 
     $writeUser = GetWriteUser
 
+    if ($newName -eq ".") {
+        $newName = (Get-Location).Path | Split-Path -Leaf
+    }
+
     if (-not (Test-ValidLocationName -identifier $newName)) {
         if ($writeUser) {
             Write-Host "Invalid new location name. Must start with a letter or underscore and contain only letters, numbers, and underscores" -ForegroundColor Red
@@ -13,7 +17,7 @@ function RenameLocation {
         return
     }
 
-    $location = (GetLocationDirectoryGivenNameOrPos -nameOrPos $name -reportError:$true)
+    $location = (LookupLocationDir -nameOrPos $name -reportError:$true)
     if (-not $location) {
         return
     }
