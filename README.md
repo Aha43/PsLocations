@@ -32,7 +32,7 @@ TODO when published to the gallery
 
 ### Configurations
 
-By its own devices the system will store 
+Left to its own devices the system will store location data in a directory names ´.locations´ in user´s home directory. This can be overwritten by setting the value of the environment variable ``LocHome``. Since locations can be shared over machines 
 
 ## Basic commands to manage and use locations (aka bookmarks)
 
