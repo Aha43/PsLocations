@@ -56,7 +56,7 @@ function ShowLocations {
             Name = $name
             Description = $description
             Path = $path
-            MachineNames = $machineNames
+            MachineNames = $machineNames.Split(" ")
             Exist = $exist
         }
 
