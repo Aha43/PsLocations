@@ -18,13 +18,13 @@ analyze: install-analyzer
 	fi
 
 test: analyze
-	pwsh -Command "Invoke-Pester -Script PsLocations/tests/PsLocations.tests.ps1 -PassThru -CI"
+	pwsh -Command "Invoke-Pester -Script PsLocations/tests/End2end.tests.ps1 -PassThru -CI"
 
 build: test 
 	@pwsh -Command "./tools/increment-build-number.ps1"
 
 rawtest:
-	pwsh -Command "Invoke-Pester -Script PsLocations/tests/PsLocations.tests.ps1 -PassThru -CI"
+	pwsh -Command "Invoke-Pester -Script PsLocations/tests/End2end.tests.ps1 -PassThru -CI"
 
 clean:
 	pwsh -Command "./tools/clean-testdata.ps1"
@@ -33,6 +33,8 @@ help:
 	@echo "install-analyzer - Install PSScriptAnalyzer if not already installed"
 	@echo "analyze - Run PSScriptAnalyzer"
 	@echo "test - Run the tests"
+	@echo "build - Run the tests and increment the build number"
+	@echo "rawtest - Run the tests without running the PSScriptAnalyzer"
 	@echo "clean - Remove test results and any test data not removed by tests"
 	@echo "help - Display this help message"
 	
