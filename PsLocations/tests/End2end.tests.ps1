@@ -164,7 +164,10 @@ Describe "PsLocations end to end tests" {
         $locationList[0].Exist | Should -Be $true
 
         #act:
-        loc note . 'Loc 1 Note 1'
+        $retVal = loc note . 'Loc 1 Note 1'
+        #assert:
+        $retVal.Error | Should -Be $null
+        $retVal.Ok | Should -Be $true
 
     }
 }

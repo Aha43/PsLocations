@@ -2,17 +2,17 @@ function GetNextNoteFile {
     param(
         [string]$name
     )
-    $notesDir = GetNotesDir -name $name
-    if (-not $notesDir.Ok) {
+    $notesDirData = GetNotesDir -name $name
+    if (-not $notesDirData.Ok) {
         return [PSCustomObject]@{
             Ok = $false
-            Error = $notesDir.Error
+            Error = $notesDirData.Error
             File = $null
         }
     }
 
     $timeStamp = Get-Timestamp
-    $noteFile = Join-Path -Path $notesDir -ChildPath "$timeStamp.txt"
+    $noteFile = Join-Path -Path $notesDirData.NotesDir -ChildPath "$timeStamp.txt"
     return [PSCustomObject]@{
         Ok = $true
         Error = $null
@@ -27,7 +27,8 @@ function AddLocationNote {
     )
 
     $noteFileData = GetNextNoteFile -name $name
-    if (-not $noteFile.Ok) {
+    if (-not $noteFileData.Ok) {
+        Write-Host GRR
         return [PSCustomObject]@{
             Ok = $false
             Error = $noteFileData.Error
@@ -55,7 +56,7 @@ function ListNotes {
         [string]$name
     )
 
-    $data = ShowNotes -name $name
+    $data = GetNotes -name $name
     if ($data.Ok) {
         return $data.Notes
     }
@@ -83,7 +84,7 @@ function GetNotes {
         Write-Host $err -ForegroundColor Red
     }
 
-    $notes = Get-ChildItem -Path $notesDir
+    $notes = Get-ChildItem -Path $notesDir.NotesDir
     $notes | ForEach-Object {
         $fullName = $_.FullName
         $noteContent = Get-Content -Path $fullName
