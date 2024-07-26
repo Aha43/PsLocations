@@ -1,5 +1,7 @@
 ## wip on making end to end test list
 
+Written with manual end to end testing in mind but the pester tests should cover all cases. The diference being here I will write 'cd ...' but in the pester test Set-Location probably will be used.
+
 - [x] 1 create test area directory TestArea 
 - [x] 2 create in test area a locations directory named TestLocations, set $env:LocHome to point to it 
 - [ ] 3 make a directory under TestAres called Loc1 and make it the current dir
@@ -10,15 +12,16 @@
 - [ ] 5 **create location: *loc add . 'Location 1'***
 - [ ] 6 **loc l**
   - [ ] 6.1 One location should be listed
-    - [ ] 6.1.1 Position should be '0'
-    - [ ] 6.1.2 Name should be 'Loc1'
-    - [ ] 6.1.3 Path should end with 'TestArea/Loc1'
-    - [ ] 6.1.4 Description should be 'Location 1'
-    - [ ] 6.1.5 Only one machine should be listed 
-    - [ ] 6.1.6 The machine listed should be the one test are running
-- [ ] 7 cd .. (move to TestArea)
-- [ ] 8 **loc '0'**
-  - [ ] 8.1 Working directory should now be 'Loc1'
+    - [x] 6.1.1 Position should be '0'
+    - [x] 6.1.2 Name should be 'Loc1'
+    - [x] 6.1.3 Path should end with 'TestArea/Loc1'
+    - [x] 6.1.4 Description should be 'Location 1'
+    - [x] 6.1.5 Only one machine should be listed 
+    - [x] 6.1.6 The machine listed should be the one test are running
+    - [x] 6.1.7 Exist should be true
+- [x] 7 cd .. (move to TestArea)
+- [x] 8 **loc '0'**
+  - [x] 8.1 Working directory should now be 'Loc1'
 - [ ] 9 cd .. (move to TestArea)
 - [ ] 10 **loc 'Loc1'**
   - [ ] 10.1 Working directory should now be 'Loc1'

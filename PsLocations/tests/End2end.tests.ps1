@@ -68,16 +68,38 @@ Describe "PsLocations end to end tests" {
         $Loc1Dir = Join-Path -Path $e2eTestDir -ChildPath "Loc1"
         $testLoc1Fsi = New-Item -ItemType Directory -Path $Loc1Dir
         Set-Location -Path $Loc1Dir
-
         #act:
         loc add . 'Location 1'
         $locationList = loc show
-
         #assert:
         $locationList | Should -Not -BeNullOrEmpty
         $locationList.Count | Should -Be 1
         $locationList[0].Name | Should -Be $testLoc1Fsi.Name
         $locationList[0].Path | Should -Be $testLoc1Fsi.FullName
         $locationList[0].Description | Should -Be 'Location 1'
+        $locationList[0].MachineNames.Count | Should -Be 1
+        $locationList[0].MachineNames[0] | Should -Be $computer
+        $locationList[0].Exist | Should -Be $true
+
+        #arrange:
+        Set-Location -Path $e2eTestDir
+        $wd = Get-Location
+        $wd.Path | Should -Not -Be $testLoc1Fsi.FullName
+        #act:
+        loc 0
+        #assert:
+        $wd = Get-Location
+        $wd.Path | Should -Be $testLoc1Fsi.FullName
+
+        #arrange:
+        Set-Location -Path $e2eTestDir
+        $wd = Get-Location
+        $wd.Path | Should -Not -Be $testLoc1Fsi.FullName
+        #act:
+        loc 'Loc1'
+        #assert:
+        $wd = Get-Location
+        $wd.Path | Should -Be $testLoc1Fsi.FullName
+
     }
 }
