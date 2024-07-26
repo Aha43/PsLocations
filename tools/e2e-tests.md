@@ -22,9 +22,9 @@ Written with manual end to end testing in mind but the pester tests should cover
 - [x] 7 cd .. (move to TestArea)
 - [x] 8 **loc '0'**
   - [x] 8.1 Working directory should now be 'Loc1'
-- [ ] 9 cd .. (move to TestArea)
-- [ ] 10 **loc 'Loc1'**
-  - [ ] 10.1 Working directory should now be 'Loc1'
+- [x] 9 cd .. (move to TestArea)
+- [x] 10 **loc 'Loc1'**
+  - [x] 10.1 Working directory should now be 'Loc1'
 - [ ] 11 **loc rename . 'Loc1-renamed'**
 - [ ] 12 **loc list**
   - [ ] 12.1 => Same as 6.1 but 6.1.2 shouls assert 'Loc1-renamed'
