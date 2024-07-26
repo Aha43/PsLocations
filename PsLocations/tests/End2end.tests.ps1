@@ -68,9 +68,11 @@ Describe "PsLocations end to end tests" {
         $testLoc1Fsi = New-Item -ItemType Directory -Path $Loc1Dir
         Set-Location -Path $Loc1Dir
         #act:
-        loc add . 'Location 1'
+        $retVal = loc add . 'Location 1'
         $locationList = loc l o
         #assert:
+        $retVal.Error | Should -Be $null
+        $retVal.Ok | Should -Be $true
         $locationList | Should -Not -BeNullOrEmpty
         $locationList.Count | Should -Be 1
         $locationList[0].Name | Should -Be $testLoc1Fsi.Name
@@ -85,8 +87,10 @@ Describe "PsLocations end to end tests" {
         $wd = Get-Location
         $wd.Path | Should -Not -Be $testLoc1Fsi.FullName
         #act:
-        loc 0
+        $retVal = loc 0
         #assert:
+        $retVal.Error | Should -Be $null
+        $retVal.Ok | Should -Be $true
         $wd = Get-Location
         $wd.Path | Should -Be $testLoc1Fsi.FullName
 
@@ -95,8 +99,10 @@ Describe "PsLocations end to end tests" {
         $wd = Get-Location
         $wd.Path | Should -Not -Be $testLoc1Fsi.FullName
         #act:
-        loc 'Loc1'
+        $retVal = loc 'Loc1'
         #assert:
+        $retVal.Error | Should -Be $null
+        $retVal.Ok | Should -Be $true
         $wd = Get-Location
         $wd.Path | Should -Be $testLoc1Fsi.FullName
 
@@ -120,8 +126,10 @@ Describe "PsLocations end to end tests" {
         $wd = Get-Location
         $wd.Path | Should -Not -Be $testLoc1Fsi.FullName
         #act:
-        loc 'Loc1_renamed'
+        $retVal = loc 'Loc1_renamed'
         #assert:
+        $retVal.Error | Should -Be $null
+        $retVal.Ok | Should -Be $true
         $wd = Get-Location
         $wd.Path | Should -Be $testLoc1Fsi.FullName
 
