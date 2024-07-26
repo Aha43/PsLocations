@@ -70,7 +70,7 @@ Describe "PsLocations end to end tests" {
         Set-Location -Path $Loc1Dir
         #act:
         loc add . 'Location 1'
-        $locationList = loc show
+        $locationList = loc l o
         #assert:
         $locationList | Should -Not -BeNullOrEmpty
         $locationList.Count | Should -Be 1
@@ -103,7 +103,7 @@ Describe "PsLocations end to end tests" {
 
         #act:
         $retVal = loc rename . 'Loc1_renamed'
-        $locationList = loc show
+        $locationList = loc l o
         #assert:
         $retVal.Error | Should -Be $null
         $retVal.Ok | Should -Be $true
@@ -128,7 +128,7 @@ Describe "PsLocations end to end tests" {
 
         #act:
         $retVal = loc edit . 'Location 1 edited 1'
-        $locationList = loc show
+        $locationList = loc l o
         #assert:
         $retVal.Error | Should -Be $null
         $retVal.Ok | Should -Be $true
@@ -143,7 +143,7 @@ Describe "PsLocations end to end tests" {
 
         #act:
         $retVal = loc edit 'Loc1_renamed' 'Location 1 edited 2'
-        $locationList = loc show
+        $locationList = loc l o
         #assert:
         $retVal.Error | Should -Be $null
         $retVal.Ok | Should -Be $true
@@ -155,5 +155,9 @@ Describe "PsLocations end to end tests" {
         $locationList[0].MachineNames.Count | Should -Be 1
         $locationList[0].MachineNames[0] | Should -Be $computer
         $locationList[0].Exist | Should -Be $true
+
+        #act:
+        loc note . 'Loc 1 Note 1'
+
     }
 }

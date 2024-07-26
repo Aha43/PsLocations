@@ -20,12 +20,21 @@ function AddLocationNote {
 
     $noteFile = GetNextNoteFile -name $name
     if (-not $noteFile) {
-        return
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = "Location '$name' does not exist: Did not find notes directory"
+            Timestamp = $null
+            Location = $name
+            File = $null
+            Content = $note
+        }
     }
 
     $note | Out-File -FilePath $noteFile
 
     return [PSCustomObject]@{
+        Ok = $true
+        Error = $null
         Timestamp = [System.IO.Path]::GetFileNameWithoutExtension($noteFile)
         Location = $name
         File = $noteFile
@@ -33,17 +42,38 @@ function AddLocationNote {
     }
 }
 
-function ShowNotes {
+function ListNotes {
     param(
         [string]$name
     )
 
+    $data = ShowNotes -name $name
+    if ($data.Ok) {
+        return $data.Notes
+    }
+    else {
+        Write-Host $data.Error -ForegroundColor Red
+        return $null
+    }
+}
+
+function GetNotes {
+    param(
+        [string]$name
+    )
+
+    $noteList = @()
+
     $notesDir = GetNotesDir -name $name
     if (-not $notesDir) {
-        return
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = "Location '$name' does not exist: Did not find notes directory"
+            Location = $name
+            Notes = $noteList
+        }
+        Write-Host $err -ForegroundColor Red
     }
-
-    $retVal = @()
 
     $notes = Get-ChildItem -Path $notesDir
     $notes | ForEach-Object {
@@ -55,8 +85,13 @@ function ShowNotes {
             Content = $noteContent
         }
 
-        $retVal += $note
+        $noteList += $note
     }
 
-    return $retVal
+    return [PSCustomObject]@{
+        Ok = $true
+        Error = $null
+        Location = $name
+        Notes = $noteList
+    }
 }

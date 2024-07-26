@@ -9,7 +9,7 @@ function TestLocation([string]$name) {
     return (Test-Path -Path $path)
 }
 
-function ShowLocations {
+function GetLocations {
     param (
         [switch]$PassThru
     )

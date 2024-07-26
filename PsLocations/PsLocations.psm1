@@ -15,6 +15,22 @@
 . $PSScriptRoot/Functions/CliImplementation/Remove.ps1
 . $PSScriptRoot/Functions/CliImplementation/Repair.ps1
 
+function objectoutput {
+    param(
+        [string[]]$arguments,
+        [int]$n
+    )
+    if ($arguments.Length -lt $n) {
+        return $false
+    }
+    elseif ($arguments[$n-1] -eq "o") {
+        return $true
+    }
+    else {
+        return $false
+    }
+}
+
 # cli
 function Loc {
     if (-not (TestLocationsSystemOk)) {
@@ -63,7 +79,12 @@ function Loc {
         }
 
         $name = $args[1]
-        ShowNotes -name $name
+        if (objectoutput -arguments $args -n 3) {
+            GetNotes -name $name
+        }
+        else {
+            ListNotes -name $name
+        }
     }
     elseif ($action -eq "update") {
         if ($args.Length -lt 2) {
@@ -95,11 +116,12 @@ function Loc {
         EditDescription -name $name -description $description
     }
     elseif ($action -eq "list" -or $action -eq "ls" -or $action -eq "l") {
-        ShowLocations
-    }
-    elseif ($action -eq "show") {
-        $l = (ShowLocations -PassThru)
-        return $l
+        if (objectoutput -arguments $args -n 2) {
+            GetLocations -PassThru
+        }
+        else {
+            GetLocations
+        }
     }
     elseif ($action -eq "remove") {
         if ($args.Length -lt 2) {
