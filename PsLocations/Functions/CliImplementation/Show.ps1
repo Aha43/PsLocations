@@ -13,9 +13,7 @@ function GetLocations {
     param (
         [switch]$PassThru
     )
-
     $debug = GetDebug
-    $writeUser = GetWriteUser
 
     $retVal = @()
 
@@ -24,9 +22,7 @@ function GetLocations {
     [int]$pos = 0
 
     if (-not $PassThru) {
-        if ($writeUser) {
             Write-Host
-        }
     }
 
     $locations | ForEach-Object {
@@ -63,21 +59,17 @@ function GetLocations {
         $retVal += $location
 
         if (-not $PassThru) {
-            if ($writeUser) {
-                Write-Host "$pos" -NoNewline -ForegroundColor Yellow
-                Write-Host " - $name" -NoNewline -ForegroundColor Cyan
-                Write-Host " - $description" -NoNewline -ForegroundColor Green
-                Write-Host " - $path" -NoNewline -ForegroundColor Cyan
-                Write-Host " - $machineNames" -ForegroundColor Yellow
-            }
+            Write-Host "$pos" -NoNewline -ForegroundColor Yellow
+            Write-Host " - $name" -NoNewline -ForegroundColor Cyan
+            Write-Host " - $description" -NoNewline -ForegroundColor Green
+            Write-Host " - $path" -NoNewline -ForegroundColor Cyan
+            Write-Host " - $machineNames" -ForegroundColor Yellow
         }
 
         $pos++
     }
     if (-not $PassThru) {
-        if ($writeUser) {
-            Write-Host
-        }
+        Write-Host
     }
 
     if ($PassThru) {

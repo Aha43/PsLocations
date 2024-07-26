@@ -24,12 +24,9 @@ function GetLocationDirectory {
 
 function LookupLocationDir {
     param (
-        [string]$nameOrPos,
-        [switch]$reportError
+        [string]$nameOrPos
     )
-
     $debug = GetDebug
-    $writeUser = GetWriteUser
 
     if ($nameOrPos -eq ".") {
         $loc = GetLocationWhereIAm
@@ -40,12 +37,12 @@ function LookupLocationDir {
             }
         }
         else {
-            if ($reportError) {
-                if ($writeUser) {
-                    Write-Host "You are not at any registered location" -ForegroundColor Red
-                }
+            return [PSCustomObject]@{
+                Ok = $false
+                Error = "You are not at any registered location"
+                LocationDir = $null
+                Name = $null
             }
-            return $null
         }
     }
 
@@ -53,12 +50,12 @@ function LookupLocationDir {
     if ($pos -gt -1) {
         $count = GetLocationCount
         if ($pos -ge $count) {
-            if ($reportError) {
-                if ($writeUser) {
-                    Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
-                }
+            return [PSCustomObject]@{
+                Ok = $false
+                Error = "Location '$nameOrPos' does not exist"
+                LocationDir = $null
+                Name = $null
             }
-            return $null
         }
 
         $nameOrPos = GetLocationNameAtPosition -position $pos
@@ -73,17 +70,19 @@ function LookupLocationDir {
             Write-Host "Get-LocationDirectoryGivenNameOrPos: Location directory '$locationDir' exists" -ForegroundColor Yellow
         }
         return [PSCustomObject]@{
+            Ok = $true
+            Error = $null
             LocationDir = $locationDir
             Name = $nameOrPos
         }
     }
     else {
-        if ($reportError) {
-            if ($writeUser) {
-                Write-Host "Location '$nameOrPos' does not exist" -ForegroundColor Red
-            }
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = "Location '$nameOrPos' does not exist: Did not find location directory"
+            LocationDir = $null
+            Name = $null
         }
-        return $null
     }
 }
 
@@ -113,14 +112,22 @@ function GetNotesDir {
         [string]$name
     )
 
-    $location = (LookupLocationDir -nameOrPos $name -reportError:$true)
-    if (-not $location) {
-        return $null
+    $location = (LookupLocationDir -nameOrPos $name)
+    if (-not $location.Ok) {
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = $location.Error
+            NotesDir = $null
+        }
     }
 
     $notesDir = Join-Path -Path $location.LocationDir -ChildPath "notes"
     if (-not (Test-Path -Path $notesDir)) {
         [void](New-Item -Path $notesDir -ItemType Directory)
     }
-    return $notesDir
+    return [PSCustomObject]@{
+        Ok = $true
+        Error = $null
+        NotesDir = $notesDir
+    }
 }

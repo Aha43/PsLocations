@@ -1,6 +1,5 @@
 function GetLocationWhereIAm {
     $debug = GetDebug
-    $writeHost = GetWriteUser
 
     $locationsDir = GetLocationsDirectory
     $locations = Get-ChildItem -Path $locationsDir
@@ -21,6 +20,8 @@ function GetLocationWhereIAm {
                 Write-Host "GetLocationWhereIAm: Location where I am is '$name'" -ForegroundColor Yellow
             }
             return [PSCustomObject]@{
+                Ok = $true
+                Error = $null
                 Location = $name
                 Description = $description
             }
@@ -30,13 +31,11 @@ function GetLocationWhereIAm {
     }
 
     if (-not $found) {
-        if ($writeHost) {
-            Write-Host
-            Write-Host "You are not at any registered location" -ForegroundColor Red
-            Write-Host "Use 'loc add <name> <description>' to add current working direction as a location" -ForegroundColor Green
-            Write-Host
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = "You are not at any registered location"
+            Location = $null
+            Description = $null
         }
-
-        return $null
     }
 }

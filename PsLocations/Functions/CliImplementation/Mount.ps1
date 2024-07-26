@@ -2,18 +2,16 @@ function MountLocation {
     param(
         [string]$name
     )
-
     $debug = GetDebug
-    $writeUser = GetWriteUser
 
     $pos = Convert-ToUnsignedInt -inputString $name
     if ($pos -gt -1) {
         $count = GetLocationCount
         if ($pos -ge $count) {
-            if ($writeUser) {
-                Write-Host "Location at position $pos does not exist" -ForegroundColor Red
+            return [PSCustomObject]@{
+                Ok = $false
+                Error = "Location at position $pos does not exist"
             }
-            return
         }
 
         $name = GetLocationNameAtPosition -position $pos
@@ -27,7 +25,10 @@ function MountLocation {
         if ($debug) {
             Write-Host "Mount-Location: Location '$name' not found by Get-LocationDirectoryGivenNameOrPos" -ForegroundColor Yellow
         }
-        return
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = "Location '$name' does not exist"
+        }
     }
 
     if (Test-Path -Path $locationDir) {
@@ -36,26 +37,32 @@ function MountLocation {
             Write-Host "Mount-Location: Checking path directory '$pathDirectory'" -ForegroundColor Yellow
         }
         if (-not (Test-Path -Path $pathDirectory)) {
-            if ($writeUser) {
-                Write-Host "Location '$name' does not have a path for this machine" -ForegroundColor Red
+            return [PSCustomObject]@{
+                Ok = $false
+                Error = "Location '$name' does not have a path for this machine"
             }
-            return
         }
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
 
         $path = Get-Content -Path $pathFile
         if (-not (Test-Path -Path $path)) {
-            if ($writeUser) {
-                Write-Host "Location '$name' does not physical exist ('$path' probably deleted)" -ForegroundColor Red
+            return [PSCustomObject]@{
+                Ok = $false
+                Error = "Location '$name' does not physical exist ('$path' probably deleted)"
             }
-            return
         }
         Set-Location -Path $path
         $host.UI.RawUI.WindowTitle = $name
+
+        return [PSCustomObject]@{
+            Ok = $true
+            Error = $null
+        }
     }
     else {
-        if ($writeUser) {
-            Write-Host "Location '$name' does not exist" -ForegroundColor Red
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = "Location '$name' does not exist"
         }
     }
 }

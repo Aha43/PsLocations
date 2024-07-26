@@ -3,9 +3,7 @@ function AddLocation {
         [string]$name,
         [string]$description
     )
-
     $debug = GetDebug
-    $writeUser = GetWriteUser
 
     $name = Get-LocationName -name $name
 
@@ -34,14 +32,19 @@ function AddLocation {
 
         $descFile = Join-Path -Path $locationDir -ChildPath "description.txt"
         $description | Out-File -FilePath $descFile
+
+        return [PSCustomObject]@{
+            Ok = $true
+            Error = $null
+        }
     }
     else {
         if ($debug) {
             Write-Host "'$locationDir' do exists" -ForegroundColor Yellow
         }
-        if ($writeUser) {
-            Write-Host "Location named '$name' already added" -ForegroundColor Red
-            Write-Host "Use 'loc update $name' to update the path or add for the machine you are on" -ForegroundColor Green
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = "Location '$name' already exists"
         }
     }
 }

@@ -3,13 +3,21 @@ function GetNextNoteFile {
         [string]$name
     )
     $notesDir = GetNotesDir -name $name
-    if (-not $notesDir) {
-        return $null
+    if (-not $notesDir.Ok) {
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = $notesDir.Error
+            File = $null
+        }
     }
 
     $timeStamp = Get-Timestamp
     $noteFile = Join-Path -Path $notesDir -ChildPath "$timeStamp.txt"
-    return $noteFile
+    return [PSCustomObject]@{
+        Ok = $true
+        Error = $null
+        File = $noteFile
+    }
 }
 
 function AddLocationNote {
@@ -18,11 +26,11 @@ function AddLocationNote {
         [string]$note
     )
 
-    $noteFile = GetNextNoteFile -name $name
-    if (-not $noteFile) {
+    $noteFileData = GetNextNoteFile -name $name
+    if (-not $noteFile.Ok) {
         return [PSCustomObject]@{
             Ok = $false
-            Error = "Location '$name' does not exist: Did not find notes directory"
+            Error = $noteFileData.Error
             Timestamp = $null
             Location = $name
             File = $null
@@ -30,14 +38,14 @@ function AddLocationNote {
         }
     }
 
-    $note | Out-File -FilePath $noteFile
+    $note | Out-File -FilePath $noteFileData.File
 
     return [PSCustomObject]@{
         Ok = $true
         Error = $null
         Timestamp = [System.IO.Path]::GetFileNameWithoutExtension($noteFile)
         Location = $name
-        File = $noteFile
+        File = $noteFileData.File
         Content = $note
     }
 }
@@ -65,10 +73,10 @@ function GetNotes {
     $noteList = @()
 
     $notesDir = GetNotesDir -name $name
-    if (-not $notesDir) {
+    if (-not $notesDir.Ok) {
         return [PSCustomObject]@{
             Ok = $false
-            Error = "Location '$name' does not exist: Did not find notes directory"
+            Error = $notesDir.Error
             Location = $name
             Notes = $noteList
         }

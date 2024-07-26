@@ -2,12 +2,14 @@ function RemoveTheLocation {
     param(
         [string]$name
     )
-
     $debug = GetDebug
 
     $location = (LookupLocationDir -nameOrPos $name -reportError:$true)
-    if (-not $location) {
-        return $false
+    if (-not $location.Ok) {
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = $location.Error
+        }
     }
 
     $pathDirectory = GetPathDirectory -name $location.Name
@@ -32,7 +34,10 @@ function RemoveTheLocation {
         RemoveDirSafely -debug $debug -function "Remove-Location" -dir $location.LocationDir
     }
 
-    return $true
+    return [PSCustomObject]@{
+        Ok = $true
+        Error = $null
+    }
 }
 
 function RemoveLocation {
@@ -58,8 +63,23 @@ function RemoveThisLocation {
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
         $locPath = Get-Content -Path $pathFile
         if ($path -eq $locPath) {
-            return RemoveTheLocation -name $name
+            $result = RemoveTheLocation -name $name
+            if ($result.Ok) {
+                return [PSCustomObject]@{
+                    Ok = $true
+                    Error = $null
+                }
+            }
+            else {
+                return [PSCustomObject]@{
+                    Ok = $false
+                    Error = $result.Error
+                }
+            }
         }
     }
-    return $false
+    return [PSCustomObject]@{
+        Ok = $false
+        Error = "No location found for path '$path'"
+    }
 }

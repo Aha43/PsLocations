@@ -16,10 +16,10 @@ function RenameLocation {
     }
 
     $location = (LookupLocationDir -nameOrPos $name -reportError:$true)
-    if (-not $location) {
+    if (-not $location.Ok) {
         return [PSCustomObject]@{
             Ok = $false
-            Error = "Location to rename '$name' does not exist: Lookup did not return a location"
+            Error = $location.Error
         }
     }
 
@@ -42,10 +42,9 @@ function RenameLocation {
         }
     }
     else {
-        $retVal = [PSCustomObject]@{
+        return [PSCustomObject]@{
             Ok = $false
             Error = "Location path '$location.LocationDir' does not exist"
         }
-        return $retVal
     }
 }

@@ -132,9 +132,6 @@ function Loc {
         $name = $args[1]
         RemoveLocation -name $name
     }
-    elseif ($action -eq "remove-this") {
-        RemoveThisLocation
-    }
     elseif ($action -eq "repair") {
         RepairLocations
     }

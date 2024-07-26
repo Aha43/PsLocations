@@ -7,10 +7,10 @@ function EditDescription {
     $debug = GetDebug
 
     $location = (LookupLocationDir -nameOrPos $name -reportError:$true)
-    if (-not $location) {
+    if (-not $location.Ok) {
         return [PSCustomObject]@{
             Ok = $false
-            Error = "Location to edit description '$name' does not exist: Lookup did not return a location"
+            Error = $location.Error
         }
     }
 

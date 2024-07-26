@@ -3,18 +3,19 @@ function UpdateLocationPath {
         [string]$name
     )
 
-    $writeUser = GetWriteUser
-
     if ($name -eq ".") {
-        if ($writeUser) {
-            Write-Host ". syntax not supported" -ForegroundColor Red
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = ". syntax not supported"
         }
-        return $false
     }
 
-    $location = (LookupLocationDir -nameOrPos $name -reportError:$true)
-    if (-not $location) {
-        return $false
+    $location = (LookupLocationDir -nameOrPos $name)
+    if (-not $location.Ok) {
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = $location.Error
+        }
     }
 
     if (Test-Path -Path $location.LocationDir) {
@@ -27,12 +28,15 @@ function UpdateLocationPath {
         $path = (get-location).Path
         $path | Out-File -FilePath $pathFile
 
-        return $true
+        return [PSCustomObject]@{
+            Ok = $true
+            Error = $null
+        }
     }
     else {
-        if ($writeUser) {
-            Write-Host "Location '$name' does not exist" -ForegroundColor Red
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = "Location '$name' does not exist"
         }
-        return $false
     }
 }

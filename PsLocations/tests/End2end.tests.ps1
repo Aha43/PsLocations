@@ -56,7 +56,6 @@ Describe "PsLocations end to end tests" {
         $statusData | Should -Not -BeNullOrEmpty
         $statusData.LocationCount | Should -Be 0
         $statusData.Debug | Should -Be 'False'
-        $statusData.WriteUser | Should -Be 'False'
         $statusData.Version | Should -Not -BeNullOrEmpty
         $statusData.Build | Should -Not -BeNullOrEmpty
         $statusData.ComputerName | Should -Not -BeNullOrEmpty

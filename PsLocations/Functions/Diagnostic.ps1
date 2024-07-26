@@ -18,7 +18,6 @@ function GetStatus {
         LocationsDirectory = GetLocationsDirectory
         LocationCount = GetLocationCount
         Debug = GetDebug
-        WriteUser = GetWriteUser
         Version = $manifest.ModuleVersion
         Build = $build
     }

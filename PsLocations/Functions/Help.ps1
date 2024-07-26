@@ -62,13 +62,6 @@ function GetLocRemoveHelp {
     Write-Host
 }
 
-function GetLocRemoveThisHelp {
-    Write-Host
-    Write-Host "Usage: loc remove-this" -ForegroundColor Green
-    Write-Host "Remove the location you are currently at (do not worry the physical directory not deleted)" -ForegroundColor Green
-    Write-Host
-}
-
 function GetLocRepairHelp {
     Write-Host
     Write-Host "Usage: loc repair" -ForegroundColor Green
@@ -109,7 +102,6 @@ function GetLocCliActions {
         "edit",
         "list",
         "remove",
-        "remove-this",
         "repair",
         "goto",
         "where",
@@ -161,9 +153,6 @@ function GetSubActionHelp(
         }
         "remove" {
             GetLocRemoveHelp
-        }
-        "remove-this" {
-            GetLocRemoveThisHelp
         }
         "repair" {
             GetLocRepairHelp
