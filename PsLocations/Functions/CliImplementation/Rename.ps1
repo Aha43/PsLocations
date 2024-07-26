@@ -4,22 +4,23 @@ function RenameLocation {
         [string]$newName
     )
 
-    $writeUser = GetWriteUser
-
     if ($newName -eq ".") {
         $newName = (Get-Location).Path | Split-Path -Leaf
     }
 
     if (-not (Test-ValidLocationName -identifier $newName)) {
-        if ($writeUser) {
-            Write-Host "Invalid new location name. Must start with a letter or underscore and contain only letters, numbers, and underscores" -ForegroundColor Red
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = "Invalid new location name. Must start with a letter or underscore and contain only letters, numbers, and underscores"
         }
-        return
     }
 
     $location = (LookupLocationDir -nameOrPos $name -reportError:$true)
     if (-not $location) {
-        return
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = "Location to rename '$name' does not exist: Lookup did not return a location"
+        }
     }
 
     $locationsDir = GetLocationsDirectory
@@ -27,18 +28,24 @@ function RenameLocation {
     $newLocationDir = Join-Path -Path $locationsDir -ChildPath $newName
 
     if (Test-Path -Path $newLocationDir) {
-        if ($writeUser) {
-            Write-Host "Location named '$newName' to rename to already exists" -ForegroundColor Red
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = "Location named '$newName' to rename to already exists"
         }
-        return
     }
 
     if (Test-Path -Path $location.LocationDir) {
         Move-Item -Path $location.LocationDir -Destination $newLocationDir
+        return [PSCustomObject]@{
+            Ok = $true
+            Error = $null
+        }
     }
     else {
-        if ($writeUser) {
-            Write-Host "Location to rename '$name' does not exist" -ForegroundColor Red
+        $retVal = [PSCustomObject]@{
+            Ok = $false
+            Error = "Location path '$location.LocationDir' does not exist"
         }
+        return $retVal
     }
 }
