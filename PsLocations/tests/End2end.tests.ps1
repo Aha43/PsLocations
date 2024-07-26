@@ -106,11 +106,52 @@ Describe "PsLocations end to end tests" {
         $locationList = loc show
         #assert:
         $retVal.Error | Should -Be $null
+        $retVal.Ok | Should -Be $true
         $locationList | Should -Not -BeNullOrEmpty
         $locationList.Count | Should -Be 1
         $locationList[0].Name | Should -Be 'Loc1_renamed'
         $locationList[0].Path | Should -Be $testLoc1Fsi.FullName
         $locationList[0].Description | Should -Be 'Location 1'
+        $locationList[0].MachineNames.Count | Should -Be 1
+        $locationList[0].MachineNames[0] | Should -Be $computer
+        $locationList[0].Exist | Should -Be $true
+
+        #arrange:
+        Set-Location -Path $e2eTestDir
+        $wd = Get-Location
+        $wd.Path | Should -Not -Be $testLoc1Fsi.FullName
+        #act:
+        loc 'Loc1_renamed'
+        #assert:
+        $wd = Get-Location
+        $wd.Path | Should -Be $testLoc1Fsi.FullName
+
+        #act:
+        $retVal = loc edit . 'Location 1 edited 1'
+        $locationList = loc show
+        #assert:
+        $retVal.Error | Should -Be $null
+        $retVal.Ok | Should -Be $true
+        $locationList | Should -Not -BeNullOrEmpty
+        $locationList.Count | Should -Be 1
+        $locationList[0].Name | Should -Be 'Loc1_renamed'
+        $locationList[0].Path | Should -Be $testLoc1Fsi.FullName
+        $locationList[0].Description | Should -Be 'Location 1 edited 1'
+        $locationList[0].MachineNames.Count | Should -Be 1
+        $locationList[0].MachineNames[0] | Should -Be $computer
+        $locationList[0].Exist | Should -Be $true
+
+        #act:
+        $retVal = loc edit 'Loc1_renamed' 'Location 1 edited 2'
+        $locationList = loc show
+        #assert:
+        $retVal.Error | Should -Be $null
+        $retVal.Ok | Should -Be $true
+        $locationList | Should -Not -BeNullOrEmpty
+        $locationList.Count | Should -Be 1
+        $locationList[0].Name | Should -Be 'Loc1_renamed'
+        $locationList[0].Path | Should -Be $testLoc1Fsi.FullName
+        $locationList[0].Description | Should -Be 'Location 1 edited 2'
         $locationList[0].MachineNames.Count | Should -Be 1
         $locationList[0].MachineNames[0] | Should -Be $computer
         $locationList[0].Exist | Should -Be $true

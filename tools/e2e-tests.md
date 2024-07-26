@@ -25,18 +25,18 @@ Written with manual end to end testing in mind but the pester tests should cover
 - [x] 9 cd .. (move to TestArea)
 - [x] 10 **loc 'Loc1'**
   - [x] 10.1 Working directory should now be 'Loc1'
-- [ ] 11 **loc rename . 'Loc1-renamed'**
-- [ ] 12 **loc list**
-  - [ ] 12.1 => Same as 6.1 but 6.1.2 shouls assert 'Loc1-renamed'
-- [ ] 13 cd .. (move to test area)
-- [ ] 14 **loc 'Loc1-renamed'**
-  - [ ] 14.1 Working directory should now be 'Loc1'
-- [ ] 15 **loc edit . 'Location 1 Edit 1'**
-- [ ] 16 **loc l**
-  - [ ] 16.1 => Same as 12.1 but 6.1.4 should assert 'Location 1 Edit 1'
-- [ ] 16 **loc edit 'Loc1-renamed' 'Location 1 Edit 2**
-- [ ] 17 **loc l**
-  - [ ] 17.1 => Same as 16.1 but 6.1.4 should assert 'Location 1 Edit 2'
+- [x] 11 **loc rename . 'Loc1_renamed'**
+- [x] 12 **loc list**
+  - [x] 12.1 => Same as 6.1 but 6.1.2 shouls assert 'Loc1_renamed'
+- [x] 13 cd .. (move to test area)
+- [x] 14 **loc 'Loc1_renamed'**
+  - [x] 14.1 Working directory should now be 'Loc1'
+- [x] 15 **loc edit . 'Location 1 Edit 1'**
+- [x] 16 **loc l**
+  - [x] 16.1 => Same as 12.1 but 6.1.4 should assert 'Location 1 Edit 1'
+- [x] 16 **loc edit 'Loc1_renamed' 'Location 1 Edit 2**
+- [x] 17 **loc l**
+  - [x] 17.1 => Same as 16.1 but 6.1.4 should assert 'Location 1 Edit 2'
 - [ ] 18 **loc note . 'Loc 1 Note 1'**
 - [ ] 19 **loc notes .**
   - [ ] 19.1 Should list one note
