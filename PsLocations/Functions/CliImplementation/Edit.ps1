@@ -5,11 +5,13 @@ function EditDescription {
     )
 
     $debug = GetDebug
-    $writeUser = GetWriteUser
 
     $location = (LookupLocationDir -nameOrPos $name -reportError:$true)
     if (-not $location) {
-        return
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = "Location to edit description '$name' does not exist: Lookup did not return a location"
+        }
     }
 
     if ($debug) {
@@ -20,10 +22,15 @@ function EditDescription {
     if (Test-Path -Path $location.LocationDir) {
         $descFile = Join-Path -Path $location.LocationDir -ChildPath "description.txt"
         $description | Out-File -FilePath $descFile
+        return [PSCustomObject]@{
+            Ok = $true
+            Error = $null
+        }
     }
     else {
-        if ($writeUser) {
-            Write-Host "Location '$name' does not exist" -ForegroundColor Red
+        return [PSCustomObject]@{
+            Ok = $false
+            Error = "Location path '$location.LocationDir' does not exist"
         }
     }
 }
