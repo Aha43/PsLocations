@@ -4,6 +4,7 @@
 ## Get latest from `dotnet new gitignore`
 
 testResults.xml
+E2e_Test_Directory
 
 # dotenv files
 .env

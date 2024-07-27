@@ -118,6 +118,7 @@ function GetNotesDir {
             Ok = $false
             Error = $location.Error
             NotesDir = $null
+            Name = $null
         }
     }
 
@@ -129,5 +130,6 @@ function GetNotesDir {
         Ok = $true
         Error = $null
         NotesDir = $notesDir
+        Name = $location.Name
     }
 }

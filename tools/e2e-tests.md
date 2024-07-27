@@ -37,12 +37,12 @@ Written with manual end to end testing in mind but the pester tests should cover
 - [x] 16 **loc edit 'Loc1_renamed' 'Location 1 Edit 2**
 - [x] 17 **loc l**
   - [x] 17.1 => Same as 16.1 but 6.1.4 should assert 'Location 1 Edit 2'
-- [ ] 18 **loc note . 'Loc 1 Note 1'**
-- [ ] 19 **loc notes .**
-  - [ ] 19.1 Should list one note
-  - [ ] 19.2 Notes content should be 'Loc 1 Note 1'
-- [ ] 20 **loc note 'Loc1-renamed' 'Loc 1 Note 2**
-- [ ] 21 **loc notes 'Loc1-renamed'**
+- [x] 18 **loc note . 'Loc 1 Note 1'**
+- [x] 19 **loc notes .**
+  - [x] 19.1 Should list one note
+  - [x] 19.2 Notes content should be 'Loc 1 Note 1'
+- [ ] 20 **loc note 'Loc1_renamed' 'Loc 1 Note 2**
+- [ ] 21 **loc notes 'Loc1_renamed'**
   - [ ] 21.1 Should list two notes
   - [ ] 21.2 Last note content should be 'Loc 1 Note 2'
 - [ ] 22 **loc rename . .**

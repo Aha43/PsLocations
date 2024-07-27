@@ -8,15 +8,24 @@ function GetNextNoteFile {
             Ok = $false
             Error = $notesDirData.Error
             File = $null
+            Name = $null
         }
     }
 
     $timeStamp = Get-Timestamp
     $noteFile = Join-Path -Path $notesDirData.NotesDir -ChildPath "$timeStamp.txt"
+    while (Test-Path -Path $noteFile) {
+        # wating for 1 second
+        Start-Sleep -Seconds 1
+        $timeStamp = Get-Timestamp
+        $noteFile = Join-Path -Path $notesDirData.NotesDir -ChildPath "$timeStamp.txt"
+        
+    }
     return [PSCustomObject]@{
         Ok = $true
         Error = $null
         File = $noteFile
+        Name = $notesDirData.Name
     }
 }
 
@@ -33,7 +42,7 @@ function AddLocationNote {
             Ok = $false
             Error = $noteFileData.Error
             Timestamp = $null
-            Location = $name
+            Location = $noteFileData.Name
             File = $null
             Content = $note
         }
@@ -44,8 +53,8 @@ function AddLocationNote {
     return [PSCustomObject]@{
         Ok = $true
         Error = $null
-        Timestamp = [System.IO.Path]::GetFileNameWithoutExtension($noteFile)
-        Location = $name
+        Timestamp = [System.IO.Path]::GetFileNameWithoutExtension($noteFileData.File)
+        Location = $noteFileData.Name
         File = $noteFileData.File
         Content = $note
     }
@@ -73,18 +82,18 @@ function GetNotes {
 
     $noteList = @()
 
-    $notesDir = GetNotesDir -name $name
-    if (-not $notesDir.Ok) {
+    $notesDirData = GetNotesDir -name $name
+    if (-not $notesDirData.Ok) {
         return [PSCustomObject]@{
             Ok = $false
-            Error = $notesDir.Error
-            Location = $name
+            Error = $notesDirData.Error
+            Location = $notesDirData.Name
             Notes = $noteList
         }
         Write-Host $err -ForegroundColor Red
     }
 
-    $notes = Get-ChildItem -Path $notesDir.NotesDir
+    $notes = Get-ChildItem -Path $notesDirData.NotesDir
     $notes | ForEach-Object {
         $fullName = $_.FullName
         $noteContent = Get-Content -Path $fullName
@@ -102,5 +111,6 @@ function GetNotes {
         Error = $null
         Location = $name
         Notes = $noteList
+        Name = $notesDirData.Name
     }
 }

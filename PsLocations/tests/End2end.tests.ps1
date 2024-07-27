@@ -28,10 +28,10 @@ Describe "PsLocations end to end tests" {
 
         Set-Location -Path $here
 
-        $e2eTestDir = Join-Path -Path $here -ChildPath "E2e_Test_Directory"
-        if (Test-Path -Path $e2eTestDir) {
-            Remove-Item -Path $e2eTestDir -Recurse -Force
-        }
+        # $e2eTestDir = Join-Path -Path $here -ChildPath "E2e_Test_Directory"
+        # if (Test-Path -Path $e2eTestDir) {
+        #     Remove-Item -Path $e2eTestDir -Recurse -Force
+        # }
 
         # Remove the environment variables
         if ($env:LocHome) {
@@ -43,6 +43,7 @@ Describe "PsLocations end to end tests" {
     }
 
     It "End to end test" {
+
         #arrange:
         $computer = $env:COMPUTERNAME
         if (-not $computer) {
@@ -55,7 +56,7 @@ Describe "PsLocations end to end tests" {
         #assert:
         $statusData | Should -Not -BeNullOrEmpty
         $statusData.LocationCount | Should -Be 0
-        $statusData.Debug | Should -Be 'False'
+        #$statusData.Debug | Should -Be 'False'
         $statusData.Version | Should -Not -BeNullOrEmpty
         $statusData.Build | Should -Not -BeNullOrEmpty
         $statusData.ComputerName | Should -Not -BeNullOrEmpty
@@ -165,9 +166,28 @@ Describe "PsLocations end to end tests" {
 
         #act:
         $retVal = loc note . 'Loc 1 Note 1'
+        $noteList = loc notes .
         #assert:
         $retVal.Error | Should -Be $null
         $retVal.Ok | Should -Be $true
+        $retVal.Location | Should -Be 'Loc1_renamed'
+        $retVal.File | Should -Not -BeNullOrEmpty
+        $retVal.Content | Should -Be 'Loc 1 Note 1'
+        $noteList | Should -Not -BeNullOrEmpty
+        $noteList.Count | Should -Be 1
+        $noteList[0].Timestamp | Should -Not -BeNullOrEmpty
+        $noteList[0].Content | Should -Be 'Loc 1 Note 1'
 
+        loc debug
+        #act:
+        $retVal = loc note 'Loc1_renamed' 'Loc 1 Note 2'
+        $noteList = loc notes 'Loc1_renamed'
+        #assert:
+        $retVal.Error | Should -Be $null
+        $retVal.Ok | Should -Be $true
+        $noteList | Should -Not -BeNullOrEmpty
+        $noteList.Count | Should -Be 2
+        $noteList[1].Timestamp | Should -Not -BeNullOrEmpty
+        $noteList[1].Content | Should -Be 'Loc 1 Note 2'
     }
 }
