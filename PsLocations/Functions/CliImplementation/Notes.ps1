@@ -19,7 +19,7 @@ function GetNextNoteFile {
         Start-Sleep -Seconds 1
         $timeStamp = Get-Timestamp
         $noteFile = Join-Path -Path $notesDirData.NotesDir -ChildPath "$timeStamp.txt"
-        
+
     }
     return [PSCustomObject]@{
         Ok = $true

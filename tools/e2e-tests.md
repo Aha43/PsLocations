@@ -4,14 +4,14 @@ Written with manual end to end testing in mind but the pester tests should cover
 
 - [x] 1 create test area directory TestArea 
 - [x] 2 create in test area a locations directory named TestLocations, set $env:LocHome to point to it 
-- [ ] 3 make a directory under TestAres called Loc1 and make it the current dir
-- [ ] 4 **loc status**
+- [x] 3 make a directory under TestAres called Loc1 and make it the current dir
+- [x] 4 **loc status**
   - [x] 4.1 Home should be as expected 
   - [x] 4.2 Machine should be as expected 
   - [x] 4.3 Location count should be 0 
-- [ ] 5 **create location: *loc add . 'Location 1'***
-- [ ] 6 **loc l**
-  - [ ] 6.1 One location should be listed
+- [x] 5 **create location: *loc add . 'Location 1'***
+- [x] 6 **loc l**
+  - [x] 6.1 One location should be listed
     - [x] 6.1.1 Position should be '0'
     - [x] 6.1.2 Name should be 'Loc1'
     - [x] 6.1.3 Path should end with 'TestArea/Loc1'
@@ -34,17 +34,20 @@ Written with manual end to end testing in mind but the pester tests should cover
 - [x] 15 **loc edit . 'Location 1 Edit 1'**
 - [x] 16 **loc l**
   - [x] 16.1 => Same as 12.1 but 6.1.4 should assert 'Location 1 Edit 1'
-- [x] 16 **loc edit 'Loc1_renamed' 'Location 1 Edit 2**
+- [x] 16 **loc edit 'Loc1_renamed' 'Location 1 Edit 2'**
 - [x] 17 **loc l**
   - [x] 17.1 => Same as 16.1 but 6.1.4 should assert 'Location 1 Edit 2'
 - [x] 18 **loc note . 'Loc 1 Note 1'**
 - [x] 19 **loc notes .**
   - [x] 19.1 Should list one note
   - [x] 19.2 Notes content should be 'Loc 1 Note 1'
-- [ ] 20 **loc note 'Loc1_renamed' 'Loc 1 Note 2**
-- [ ] 21 **loc notes 'Loc1_renamed'**
-  - [ ] 21.1 Should list two notes
-  - [ ] 21.2 Last note content should be 'Loc 1 Note 2'
-- [ ] 22 **loc rename . .**
-- [ ] 23 **loc l**
-  - [ ] 23.1 => Same as 17.1 but location name should be Loc1 again.
+- [x] 20 **loc note 'Loc1_renamed' 'Loc 1 Note 2**
+- [x] 21 **loc notes 'Loc1_renamed'**
+  - [x] 21.1 Should list two notes
+  - [x] 21.2 Last note content should be 'Loc 1 Note 2'
+- [x] 22 **loc rename . .**
+- [x] 23 **loc l**
+  - [x] 23.1 => Same as 17.1 but location name should be 'Loc1' again.
+- [ ] 24 **loc where**
+  - [ ] 24.1 The location informed about should be 'Loc1'
+  - [ ] 24.2 The description informed about should be 'Location 1 Edit 2'

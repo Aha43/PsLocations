@@ -32,6 +32,10 @@ function Get-MachineName {
         $retVal = $(hostname)
     }
 
+    if ($env:LOC_MACHINE_NAME) {
+        $retVal = $env:LOC_MACHINE_NAME
+    }
+
     if (-not (Test-ValidDirectoryName -DirectoryName $retVal)) {
         $errMsg = "Invalid computer name $retVal since can not be used as a directory name"
         Write-Host $errMsg -ForegroundColor Red
