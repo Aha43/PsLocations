@@ -7,21 +7,21 @@ function GetDebugHelp {
 
 function GetLocAddHelp {
     Write-Host
-    Write-Host "Usage: loc add <name> <description>" -ForegroundColor Green
+    Write-Host "Usage: loc add <name | .> <description>" -ForegroundColor Green
     Write-Host "Add the current working directory as a location with the given name and description" -ForegroundColor Green
     Write-Host
 }
 
 function GetLocNoteHelp {
     Write-Host
-    Write-Host "Usage: loc note <name | pos> <note>" -ForegroundColor Green
+    Write-Host "Usage: loc note <name | . | pos> <note>" -ForegroundColor Green
     Write-Host "Add a note to the location with the given name (or position in location list)" -ForegroundColor Green
     Write-Host
 }
 
 function GetLocNotesHelp {
     Write-Host
-    Write-Host "Usage: loc notes <name | pos>" -ForegroundColor Green
+    Write-Host "Usage: loc notes <name | . | pos>" -ForegroundColor Green
     Write-Host "Show notes for the location with the given name (or position in location list)" -ForegroundColor Green
     Write-Host
 }
@@ -35,14 +35,14 @@ function GetLocUpdateHelp {
 
 function GetLocRenameHelp {
     Write-Host
-    Write-Host "Usage: loc rename <name | pos> <new-name>" -ForegroundColor Green
+    Write-Host "Usage: loc rename <name | . | pos> <new-name>" -ForegroundColor Green
     Write-Host "Rename a location with the given name or pos (or position in location list) to the new name" -ForegroundColor Green
     Write-Host
 }
 
 function GetLocEditHelp {
     Write-Host
-    Write-Host "Usage: loc edit <name | pos> <description>" -ForegroundColor Green
+    Write-Host "Usage: loc edit <name | . | pos> <description>" -ForegroundColor Green
     Write-Host "Edit the description of a location with the given name (or position in location list)" -ForegroundColor Green
     Write-Host
 }
@@ -57,7 +57,7 @@ function GetLocListHelp {
 
 function GetLocRemoveHelp {
     Write-Host
-    Write-Host "Usage: loc remove <name | pos>" -ForegroundColor Green
+    Write-Host "Usage: loc remove <name | . | pos>" -ForegroundColor Green
     Write-Host "Remove a location with the given name (or position in location list)" -ForegroundColor Green
     Write-Host
 }
