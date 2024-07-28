@@ -9,6 +9,19 @@ function GetLocationWhereIAm {
     foreach ($location in $locations) {
         $name = $location.Name
         $machines = GetMachineNamesForLocation -name $name
+
+        $notes = GetNotes -name $name
+        if (-not $notes.Ok) {
+            return [PSCustomObject]@{
+                Ok = $false
+                Error = $notes.Error
+                Location = $null
+                Description = $null
+                Machines = $null
+                Notes = 0
+            }
+        }
+
         $pathDirectory = GetPathDirectory -name $name
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
         $locPath = Get-Content -Path $pathFile
@@ -26,6 +39,7 @@ function GetLocationWhereIAm {
                 Location = $name
                 Description = $description
                 Machines = $machines
+                Notes = $notes.Notes.Count
             }
 
             break;
