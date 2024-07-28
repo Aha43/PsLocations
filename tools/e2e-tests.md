@@ -48,6 +48,6 @@ Written with manual end to end testing in mind but the pester tests should cover
 - [x] 22 **loc rename . .**
 - [x] 23 **loc l**
   - [x] 23.1 => Same as 17.1 but location name should be 'Loc1' again.
-- [ ] 24 **loc where**
-  - [ ] 24.1 The location informed about should be 'Loc1'
-  - [ ] 24.2 The description informed about should be 'Location 1 Edit 2'
+- [x] 24 **loc where**
+  - [x] 24.1 The location informed about should be 'Loc1'
+  - [x] 24.2 The description informed about should be 'Location 1 Edit 2'
