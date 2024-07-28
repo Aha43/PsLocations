@@ -8,6 +8,7 @@ function GetLocationWhereIAm {
 
     foreach ($location in $locations) {
         $name = $location.Name
+        $machines = GetMachineNamesForLocation -name $name
         $pathDirectory = GetPathDirectory -name $name
         $pathFile = Join-Path -Path $pathDirectory -ChildPath "path.txt"
         $locPath = Get-Content -Path $pathFile
@@ -24,6 +25,7 @@ function GetLocationWhereIAm {
                 Error = $null
                 Location = $name
                 Description = $description
+                Machines = $machines
             }
 
             break;
@@ -36,6 +38,7 @@ function GetLocationWhereIAm {
             Error = "You are not at any registered location"
             Location = $null
             Description = $null
+            Machines = $null
         }
     }
 }
