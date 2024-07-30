@@ -133,7 +133,7 @@ function Loc {
         RemoveLocation -name $name
     }
     elseif ($action -eq "repair") {
-        RepairLocations
+        return RepairLocations
     }
     elseif ($action -eq "goto" -or $action -eq "go") {
         if ($args.Length -lt 2) {

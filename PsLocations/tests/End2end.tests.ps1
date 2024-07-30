@@ -347,8 +347,6 @@ Describe "PsLocations end to end tests" {
         #assert:
         $retVal.Error | Should -BeNullOrEmpty
         $retVal.Ok | Should -Be $true
-        $retVal.Error | Should -Be $null
-        $retVal.Ok | Should -Be $true
         $locationList | Should -Not -BeNullOrEmpty
         $locationList.Count | Should -Be 2
         $locationList[1].Name | Should -Be 'Loc2'
@@ -366,13 +364,44 @@ Describe "PsLocations end to end tests" {
         $retVal.Location | Should -Be 'Loc2'
         $retVal.Description | Should -Be 'Location 2 edited 2'
 
+        #act:
+        Set-Location -Path $e2eTestDir
+        Remove-Item -Path 'Loc2'
+        $locationList = loc l o
+        #assert:
+        $retVal.Error | Should -BeNullOrEmpty
+        $retVal.Ok | Should -Be $true
+        $locationList | Should -Not -BeNullOrEmpty
+        $locationList.Count | Should -Be 2
+        $locationList[1].Name | Should -Be 'Loc2'
+        $locationList[1].Path | Should -Be '!'
+        $locationList[1].Description | Should -Be 'Location 2 edited 2'
+        $locationList[1].MachineNames.Count | Should -Be 1
+        $locationList[1].MachineNames[0] | Should -Be $computer
+        $locationList[1].Exist | Should -Be $false
+
+        #act:
+        $retVal = loc repair
+        $locationList = loc l o
+        #assert:
+        $retVal.Error | Should -BeNullOrEmpty
+        $retVal.Ok | Should -Be $true
+        $locationList | Should -Not -BeNullOrEmpty
+        $locationList.Count | Should -Be 1
+        $locationList[0].Name | Should -Be 'Loc1'
+        $locationList[0].Path | Should -Be $testLoc1Fsi.FullName
+        $locationList[0].Description | Should -Be 'Location 1 edited 2'
+        $locationList[0].MachineNames.Count | Should -Be 1
+        $locationList[0].MachineNames[0] | Should -Be $computer
+        $locationList[0].Exist | Should -Be $true
+
         #arrange:
         $env:LOC_MACHINE_NAME = 'TestMachine' # Simulate being on another machine
         #act:
         $statusData = loc status
         #assert:
         $statusData | Should -Not -BeNullOrEmpty
-        $statusData.LocationCount | Should -Be 2
+        $statusData.LocationCount | Should -Be 1
         $statusData.Version | Should -Not -BeNullOrEmpty
         $statusData.Build | Should -Not -BeNullOrEmpty
         $statusData.ComputerName | Should -Not -BeNullOrEmpty
@@ -392,7 +421,7 @@ Describe "PsLocations end to end tests" {
         $retVal.Error | Should -Be $null
         $retVal.Ok | Should -Be $true
         $locationList | Should -Not -BeNullOrEmpty
-        $locationList.Count | Should -Be 2
+        $locationList.Count | Should -Be 1
         $locationList[0].Name | Should -Be 'Loc1'
         $locationList[0].Path | Should -Be $testLoc1Machine2Fsi.FullName
         $locationList[0].Description | Should -Be 'Location 1 edited 2'
