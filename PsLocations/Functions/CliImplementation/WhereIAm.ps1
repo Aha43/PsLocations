@@ -1,7 +1,7 @@
 function GetLocationWhereIAm {
     $debug = GetDebug
 
-    $locationsDir = GetLocationsDirectory
+    $locationsDir = GetDataDirectory
     $locations = Get-ChildItem -Path $locationsDir
     $path = (get-location).Path
     [bool]$found = $false

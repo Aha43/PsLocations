@@ -17,7 +17,7 @@ function GetLocations {
 
     $retVal = @()
 
-    $locationsDir = GetLocationsDirectory
+    $locationsDir = GetDataDirectory
     $locations = Get-ChildItem -Path $locationsDir
     [int]$pos = 0
 

@@ -55,7 +55,7 @@ function RemoveLocation {
 
 function RemoveThisLocation {
     $path = (Get-Location).Path
-    $locationsDir = GetLocationsDirectory
+    $locationsDir = GetDataDirectory
     $locations = Get-ChildItem -Path $locationsDir
     foreach ($location in $locations) {
         $name = $location.Name

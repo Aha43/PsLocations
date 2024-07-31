@@ -171,7 +171,7 @@ function GetLocationNameAtPosition {
         [int]$position
     )
 
-    $locationsDir = GetLocationsDirectory
+    $locationsDir = GetDataDirectory
     $locations = Get-ChildItem -Path $locationsDir
     if ($locations.Length -gt 0) {
         $index = 0
@@ -186,7 +186,7 @@ function GetLocationNameAtPosition {
 }
 
 function GetLocationCount {
-    $locationsDir = GetLocationsDirectory
+    $locationsDir = GetDataDirectory
     $locations = Get-ChildItem -Path $locationsDir
     return $locations.Length
 }

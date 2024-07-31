@@ -1,4 +1,5 @@
-function GetLocationsDirectory {
+
+function GetLocationHomeDirectory {
     $retVal = Join-Path -Path $HOME -ChildPath ".locations"
 
     if ($env:LocHome) {
@@ -12,12 +13,21 @@ function GetLocationsDirectory {
     return $retVal
 }
 
+function GetDataDirectory {
+    $locationDir = GetLocationHomeDirectory
+    $dataDir = Join-Path -Path $locationDir -ChildPath "data"
+    if (-not (Test-Path -Path $dataDir)) {
+        [void](New-Item -Path $dataDir -ItemType Directory)
+    }
+    return $dataDir
+}
+
 function GetLocationDirectory {
     param (
         [string]$name
     )
 
-    $locationsDir = GetLocationsDirectory
+    $locationsDir = GetDataDirectory
     $locationDir = Join-Path -Path $locationsDir -ChildPath $name
     return $locationDir
 }

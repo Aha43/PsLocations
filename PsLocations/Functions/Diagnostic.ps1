@@ -15,7 +15,7 @@ function GetStatus {
 
     return [PSCustomObject]@{
         ComputerName = Get-MachineName
-        LocationsDirectory = GetLocationsDirectory
+        LocationHomeDirectory = GetLocationHomeDirectory
         LocationCount = GetLocationCount
         Debug = GetDebug
         Version = $manifest.ModuleVersion

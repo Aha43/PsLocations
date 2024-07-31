@@ -14,9 +14,9 @@ Describe "PsLocations end to end tests" {
 
         New-Item -ItemType Directory -Path $e2eTestDir
 
-        $testLocationsDir = Join-Path -Path $e2eTestDir -ChildPath "TestLocations"
+        $testLocationHomeDir = Join-Path -Path $e2eTestDir -ChildPath "TestLocations"
 
-        $env:LocHome = $testLocationsDir
+        $env:LocHome = $testLocationHomeDir
         $env:LocWriteUser = 'False'
     }
 
@@ -55,8 +55,8 @@ Describe "PsLocations end to end tests" {
         $statusData.Build | Should -Not -BeNullOrEmpty
         $statusData.ComputerName | Should -Not -BeNullOrEmpty
         $statusData.ComputerName | Should -Be $computer
-        $statusData.LocationsDirectory | Should -Not -BeNullOrEmpty
-        $statusData.LocationsDirectory | Should -Be $testLocationsDir
+        $statusData.LocationHomeDirectory | Should -Not -BeNullOrEmpty
+        $statusData.LocationHomeDirectory | Should -Be $testLocationHomeDir
 
         #covers 5 and 6 in the e2e-tests.md document
         #arrange:
@@ -406,8 +406,8 @@ Describe "PsLocations end to end tests" {
         $statusData.Build | Should -Not -BeNullOrEmpty
         $statusData.ComputerName | Should -Not -BeNullOrEmpty
         $statusData.ComputerName | Should -Be 'TestMachine'
-        $statusData.LocationsDirectory | Should -Not -BeNullOrEmpty
-        $statusData.LocationsDirectory | Should -Be $testLocationsDir
+        $statusData.LocationHomeDirectory | Should -Not -BeNullOrEmpty
+        $statusData.LocationHomeDirectory | Should -Be $testLocationHomeDir
 
         #covers 5 and 6 in the e2e-tests.md document
         #arrange:
