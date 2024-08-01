@@ -15,6 +15,8 @@
 . $PSScriptRoot/Functions/CliImplementation/Remove.ps1
 . $PSScriptRoot/Functions/CliImplementation/Repair.ps1
 
+. $PSScriptRoot/Functions/LocHome.ps1
+
 function objectoutput {
     param(
         [string[]]$arguments,

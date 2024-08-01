@@ -13,6 +13,15 @@ function GetLocationHomeDirectory {
     return $retVal
 }
 
+function GetMetaDirectory {
+    $locationDir = GetLocationHomeDirectory
+    $metaDir = Join-Path -Path $locationDir -ChildPath "meta"
+    if (-not (Test-Path -Path $metaDir)) {
+        [void](New-Item -Path $metaDir -ItemType Directory)
+    }
+    return $metaDir
+}
+
 function GetDataDirectory {
     $locationDir = GetLocationHomeDirectory
     $dataDir = Join-Path -Path $locationDir -ChildPath "data"
